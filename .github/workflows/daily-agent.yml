@@ -1,0 +1,57 @@
+name: Daily Market Agent
+
+on:
+  schedule:
+    # സമയം UTC-യിലാണ്. 12:43 UTC = വൈകിട്ട് 6:13 IST, തിങ്കൾ–വെള്ളി
+    # (GM World 5:30 PM-ന് പുതുക്കിയ ശേഷം; NSE bhavcopy-യും ഈ സമയത്ത് വന്നിരിക്കും)
+    - cron: "43 12 * * 1-5"
+  workflow_dispatch: # Actions ടാബിൽ നിന്ന് കൈകൊണ്ട് ഓടിക്കാൻ
+
+permissions:
+  contents: write # റിപ്പോർട്ടും ഹിസ്റ്ററിയും repo-യിൽ സേവ് ചെയ്യാൻ
+
+concurrency:
+  group: market-agent
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40 # GM World-നായി 20 മിനിറ്റ് വരെ കാത്തിരിക്കാം
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Run agent
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          REPORT_LANGUAGE: ${{ vars.REPORT_LANGUAGE }}
+          AI_PROVIDERS: ${{ vars.AI_PROVIDERS }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
+          GROQ_SEARCH_MODEL: ${{ vars.GROQ_SEARCH_MODEL }}
+          NEWS_SEARCH: ${{ vars.NEWS_SEARCH }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          GMWORLD_URL: ${{ vars.GMWORLD_URL }}
+          GMWORLD_WAIT_MIN: ${{ vars.GMWORLD_WAIT_MIN }}
+        run: python agent.py
+
+      - name: Save report and history
+        if: always()
+        run: |
+          git config user.name "market-agent"
+          git config user.email "market-agent@users.noreply.github.com"
+          git add docs data
+          git diff --cached --quiet || git commit -m "Report $(TZ=Asia/Kolkata date +%F)"
+          git pull --rebase --quiet || true
+          git push
