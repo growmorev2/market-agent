@@ -20,7 +20,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from lib import ai, breadth, chartink, events, notify, sectors, site, tracker, weekly
+from lib import ai, breadth, chartink, events, notify, pdf, sectors, site, tracker, weekly
 
 ROOT = Path(__file__).parent
 HISTORY = ROOT / "data" / "history"
@@ -266,14 +266,21 @@ def site_base():
     return base
 
 
-def deliver(message, no_send):
+def make_pdf(html_path, name):
+    """SEND_PDF=off ആണെങ്കിൽ PDF ഇല്ല. PDF റിപ്പോർട്ടുകൾ repo-യിൽ സേവ് ചെയ്യില്ല (out/ ഫോൾഡർ)."""
+    if (os.environ.get("SEND_PDF") or "on").strip().lower() == "off":
+        return None
+    return pdf.render(html_path, ROOT / "out" / name)
+
+
+def deliver(message, no_send, pdf_path=None):
     if no_send:
-        print("  (--no-send) മെസേജ്:\n" + message)
+        print("  (--no-send) മെസേജ്:\n" + message + (f"\n  PDF: {pdf_path}" if pdf_path else ""))
         return 0
     failed = False
     for label, fn in (("Telegram", notify.send_telegram), ("Discord", notify.send_discord)):
         try:
-            print(f"  {label}: {fn(message)}")
+            print(f"  {label}: {fn(message, pdf_path)}")
         except Exception as e:  # noqa: BLE001
             failed = True
             print(f"  {label}: പരാജയം — {e}")
@@ -367,7 +374,8 @@ def run_daily(args, lang, today):
     if base:
         msg += f"\n\n🔗 മുഴുവൻ ലിസ്റ്റ്: {base}/reports/{date_str}.html"
     msg += f"\n\n— {ai_label} · ഇത് സാമ്പത്തിക ഉപദേശമല്ല"
-    return deliver(msg, args.no_send)
+    pdf_path = make_pdf(ROOT / "docs" / "reports" / f"{date_str}.html", f"Market-Report-{date_str}.pdf")
+    return deliver(msg, args.no_send, pdf_path)
 
 
 def run_weekly(args, lang, today):
@@ -405,7 +413,8 @@ def run_weekly(args, lang, today):
     if base:
         msg += f"\n\n🔗 വിശദമായി: {base}/weekly/{end}.html"
     msg += f"\n\n— {ai_label} · ഇത് സാമ്പത്തിക ഉപദേശമല്ല"
-    return deliver(msg, args.no_send)
+    pdf_path = make_pdf(ROOT / "docs" / "weekly" / f"{end}.html", f"Weekly-Wrap-{end}.pdf")
+    return deliver(msg, args.no_send, pdf_path)
 
 
 def main():

@@ -40,6 +40,7 @@ a{color:var(--accent)}
 ul.reports{list-style:none;padding:0}ul.reports li{padding:10px 0;border-bottom:1px solid var(--line)}
 .err{color:var(--down)}
 @media (max-width:560px){.col-wide{display:none}}
+@media print{body{background:#fff}main{max-width:none;padding:0}.table-wrap{overflow:visible}tr,h2,h3,.sig{break-inside:avoid;break-after:avoid-page}a[href^="../index"]{display:none}}
 """
 
 
