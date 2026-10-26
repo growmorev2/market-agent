@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 40 # GM World-നായി 20 മിനിറ്റ് വരെ കാത്തിരിക്കാം
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # മുഴുവൻ ഹിസ്റ്ററി — സേവ് ചെയ്യുമ്പോൾ പ്രശ്നം വരാതിരിക്കാൻ
 
       - uses: actions/setup-python@v5
         with:
@@ -51,7 +53,14 @@ jobs:
         run: |
           git config user.name "market-agent"
           git config user.email "market-agent@users.noreply.github.com"
-          git add docs data
-          git diff --cached --quiet || git commit -m "Report $(TZ=Asia/Kolkata date +%F)"
-          git pull --rebase --quiet || true
-          git push
+          git add -A docs data
+          if git diff --cached --quiet; then echo "സേവ് ചെയ്യാൻ മാറ്റങ്ങളില്ല"; exit 0; fi
+          git commit -m "Report $(TZ=Asia/Kolkata date +%F)"
+          # repo-യിൽ ഇതിനിടെ മാറ്റം വന്നാൽ (ഉദാ: നിങ്ങൾ ഫയൽ upload ചെയ്താൽ) ആദ്യം അത് എടുത്ത് വീണ്ടും ശ്രമിക്കും
+          for i in 1 2 3; do
+            if git pull --rebase -X theirs origin main && git push origin HEAD:main; then exit 0; fi
+            echo "ശ്രമം $i പരാജയപ്പെട്ടു, വീണ്ടും…"
+            git rebase --abort 2>/dev/null || true
+            sleep 10
+          done
+          exit 1
