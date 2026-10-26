@@ -16,7 +16,8 @@
       "name": "ROE/EPS IMPROVING",
       "slug": "eps-improving-4",
       "about": "Fundamental scan: net profit up year-on-year for 3 straight quarters, latest quarter profit +20% and sales +10% YoY, mcap > 500 Cr. A stock entering usually follows a new quarterly result",
-      "clause": "( {cash} (  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax and  2 quarter ago net profit/reported profit after tax >  5 quarters ago net profit/reported profit after tax and  3 quarter ago net profit/reported profit after tax >  6 quarters ago net profit/reported profit after tax and  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax *  1.2 and  quarterly net sales >  4 quarters ago net sales *  1.1 and  market cap >  500 ) )"
+      "clause": "( {cash} (  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax and  2 quarter ago net profit/reported profit after tax >  5 quarters ago net profit/reported profit after tax and  3 quarter ago net profit/reported profit after tax >  6 quarters ago net profit/reported profit after tax and  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax *  1.2 and  quarterly net sales >  4 quarters ago net sales *  1.1 and  market cap >  500 ) )",
+      "max_show": 50
     },
     {
       "name": "GM Universe",

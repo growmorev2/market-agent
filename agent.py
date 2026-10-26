@@ -30,7 +30,10 @@ RULES = """Rules:
 - Use only the data given (and news you actually find, when you have a search tool). Do not invent prices, news, results or facts.
 - Never tell the trader to buy or sell anything. Describe and highlight; decisions are theirs.
 - Sector "Unknown" means the sector could not be looked up; do not treat it as a real sector.
-- Use short bullet points ("- ") under short headings ("## "). Keep stock symbols and sector names in English."""
+- Use short bullet points ("- ") under short headings ("## "). Write the headings in the report language;
+  keep stock symbols and sector names in English.
+- Call a stock "new" only if it is listed under "New today". If yesterday is "unknown (first run)",
+  say this is the first run and that new-entry comparison starts from the next report."""
 
 SYSTEM_DAILY = """You are a market analyst assistant for an Indian (NSE) swing trader.
 You receive today's results from the trader's own Chartink scanners, with each stock's sector,
@@ -300,6 +303,10 @@ def run_daily(args, lang, today):
         results_map = json.loads((ROOT / "data" / "sample.json").read_text(encoding="utf-8")).get("results", {})
         ev_source = "sample"
     results = events.tag(scans, results_map, today.date())
+    # മുൻഗണന: സിഗ്നൽ സ്കാനറുകളിലും (max_show ഇല്ലാത്തവ) ഇന്ന് പുതിയവയിലും ഉള്ളവ
+    key = {x["symbol"] for s in scans if not s.get("max_show") for x in s["stocks"]}
+    key |= {sym for s in scans for sym in s.get("new", [])}
+    results_key = {k: v for k, v in results.items() if k in key}
     print(f"  റിസൾട്ട് കലണ്ടർ: {ev_source}; അടുത്ത 7 ദിവസം: {', '.join(results) or 'ഇല്ല'}")
 
     bdata, bfresh, sig = None, False, None
@@ -329,7 +336,8 @@ def run_daily(args, lang, today):
 
     print("[3/5] AI വിശകലനം")
     report, ai_label = ask_ai(SYSTEM_DAILY.format(lang=lang), DRIVERS_DAILY.format(lang=lang),
-                              daily_prompt(date_str, scans, sector_rows, results, ev_source != "none",
+                              daily_prompt(date_str, scans, sector_rows, dict(list(results_key.items())[:15]),
+                                           ev_source != "none",
                                            breadth.prompt_text(bdata, bfresh) if bdata else ""),
                               daily_fallback(scans), args.no_ai)
     print(f"  ഉപയോഗിച്ചത്: {ai_label}")
@@ -348,7 +356,12 @@ def run_daily(args, lang, today):
     if line:
         msg += f"🏭 സെക്ടർ: {line}\n"
     if results:
-        msg += "⚠️ റിസൾട്ട് (7 ദിവസം): " + ", ".join(f"{k} {events.short(v)}" for k, v in results.items()) + "\n"
+        shown = list(results_key.items())[:8]
+        extra = len(results) - len(shown)
+        line_r = ", ".join(f"{k} {events.short(v)}" for k, v in shown)
+        if extra > 0:
+            line_r += (" · " if line_r else "") + f"+{extra} എണ്ണം വലിയ ലിസ്റ്റുകളിൽ (വെബ്‌പേജ് കാണുക)"
+        msg += "⚠️ റിസൾട്ട് (7 ദിവസം): " + line_r + "\n"
     msg += f"\n{report}"
     base = site_base()
     if base:
