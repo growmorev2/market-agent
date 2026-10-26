@@ -28,7 +28,9 @@ jobs:
           python-version: "3.12"
 
       - name: Install
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium # PDF-ന്
 
       - name: Run agent
         env:
@@ -44,6 +46,7 @@ jobs:
           GROQ_SEARCH_MODEL: ${{ vars.GROQ_SEARCH_MODEL }}
           NEWS_SEARCH: ${{ vars.NEWS_SEARCH }}
           SITE_URL: ${{ vars.SITE_URL }}
+          SEND_PDF: ${{ vars.SEND_PDF }}
           GMWORLD_URL: ${{ vars.GMWORLD_URL }}
           GMWORLD_WAIT_MIN: ${{ vars.GMWORLD_WAIT_MIN }}
         run: python agent.py
