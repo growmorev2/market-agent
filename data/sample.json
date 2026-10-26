@@ -1,0 +1,114 @@
+{
+ "_note": "പരീക്ഷണത്തിനുള്ള സാങ്കൽപ്പിക ഡാറ്റ (python agent.py --sample --no-ai --no-send). യഥാർത്ഥ സ്റ്റോക്കുകളോ വിലകളോ അല്ല.",
+ "scans": [
+  {
+   "name": "HOLYGRAIL (GM Signal)",
+   "slug": "gm-signal",
+   "about": "GM signal scan",
+   "error": null,
+   "stocks": [
+    {
+     "symbol": "ALPHA",
+     "name": "Alpha Industries",
+     "sector": "Capital Goods",
+     "close": 512.4,
+     "change": 4.2,
+     "volume": 1250000
+    },
+    {
+     "symbol": "BETA",
+     "name": "Beta Pharma",
+     "sector": "Healthcare",
+     "close": 1890.0,
+     "change": 2.1,
+     "volume": 310000
+    },
+    {
+     "symbol": "GAMMA",
+     "name": "Gamma Tech",
+     "sector": "Information Technology",
+     "close": 77.35,
+     "change": -0.6,
+     "volume": 5400000
+    },
+    {
+     "symbol": "OMEGA",
+     "name": "Omega Engineering",
+     "sector": "Capital Goods",
+     "close": 1204.0,
+     "change": 3.4,
+     "volume": 640000
+    }
+   ]
+  },
+  {
+   "name": "MULTIBAGGER (Momentum)",
+   "slug": "copy-momentum-portfolio-original-scan-by-hitesh-1319",
+   "about": "Momentum scan",
+   "error": null,
+   "stocks": [
+    {
+     "symbol": "ALPHA",
+     "name": "Alpha Industries",
+     "sector": "Capital Goods",
+     "close": 512.4,
+     "change": 4.2,
+     "volume": 1250000
+    },
+    {
+     "symbol": "DELTA",
+     "name": "Delta Capital",
+     "sector": "Financial Services",
+     "close": 233.1,
+     "change": 9.8,
+     "volume": 2100000
+    },
+    {
+     "symbol": "SIGMA",
+     "name": "Sigma Cables",
+     "sector": "Capital Goods",
+     "close": 88.6,
+     "change": 5.1,
+     "volume": 3300000
+    },
+    {
+     "symbol": "ZETA",
+     "name": "Zeta Micro",
+     "close": 41.2,
+     "change": 1.3,
+     "volume": 900000
+    }
+   ]
+  }
+ ],
+ "previous": {
+  "scans": [
+   {
+    "slug": "gm-signal",
+    "stocks": [
+     {
+      "symbol": "BETA"
+     },
+     {
+      "symbol": "GAMMA"
+     }
+    ]
+   },
+   {
+    "slug": "copy-momentum-portfolio-original-scan-by-hitesh-1319",
+    "stocks": [
+     {
+      "symbol": "ALPHA"
+     },
+     {
+      "symbol": "ZETA"
+     }
+    ]
+   }
+  ]
+ },
+ "results": {
+  "DELTA": "2026-10-29",
+  "GAMMA": "2026-11-20"
+ }
+}
