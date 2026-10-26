@@ -1,0 +1,55 @@
+name: Weekly Wrap-up
+
+on:
+  schedule:
+    # 03:43 UTC = ശനിയാഴ്ച രാവിലെ 9:13 IST
+    - cron: "43 3 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: market-agent # ദിവസേനയുള്ളതുമായി ഒരേ സമയം ഓടാതിരിക്കാൻ
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Run weekly wrap-up
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          REPORT_LANGUAGE: ${{ vars.REPORT_LANGUAGE }}
+          AI_PROVIDERS: ${{ vars.AI_PROVIDERS }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
+          GROQ_SEARCH_MODEL: ${{ vars.GROQ_SEARCH_MODEL }}
+          NEWS_SEARCH: ${{ vars.NEWS_SEARCH }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          GMWORLD_URL: ${{ vars.GMWORLD_URL }}
+        run: python agent.py --weekly
+
+      - name: Save weekly page
+        if: always()
+        run: |
+          git config user.name "market-agent"
+          git config user.email "market-agent@users.noreply.github.com"
+          git add docs
+          git diff --cached --quiet || git commit -m "Weekly wrap $(TZ=Asia/Kolkata date +%F)"
+          git pull --rebase --quiet || true
+          git push
