@@ -30,3 +30,28 @@ def render(html_path, pdf_path):
     except Exception as e:  # noqa: BLE001
         print(f"  PDF ഉണ്ടാക്കാനായില്ല: {str(e)[:150]}")
         return None
+
+
+def render_chart(data, png_path):
+    """ബ്രെഡ്ത്ത് ഗ്രാഫുകൾ PNG ചിത്രമാക്കും (Telegram-ന്). പരാജയപ്പെട്ടാൽ None."""
+    try:
+        from playwright.sync_api import sync_playwright
+        from lib import charts
+    except ImportError:
+        return None
+    png_path = Path(png_path)
+    png_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = png_path.with_suffix(".html")
+    tmp.write_text(charts.standalone_html(data), encoding="utf-8")
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page(viewport={"width": 700, "height": 600}, device_scale_factor=2)
+            page.goto(tmp.resolve().as_uri(), wait_until="networkidle", timeout=60000)
+            page.evaluate("document.fonts.ready")
+            page.locator("#c").screenshot(path=str(png_path))
+            browser.close()
+        return png_path
+    except Exception as e:  # noqa: BLE001
+        print(f"  ഗ്രാഫ് ചിത്രം ഉണ്ടാക്കാനായില്ല: {str(e)[:150]}")
+        return None

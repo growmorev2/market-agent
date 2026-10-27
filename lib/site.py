@@ -9,6 +9,8 @@ import html
 import re
 from pathlib import Path
 
+from lib.report import nice_date
+
 CSS = """
 :root{--bg:#f6f7f9;--card:#fff;--text:#1d2330;--muted:#667085;--line:#e4e7ec;--accent:#0f766e;--up:#15803d;--down:#b91c1c;--new:#b45309;--bar:#99d5cc}
 @media (prefers-color-scheme:dark){:root{--bg:#0f1218;--card:#171b23;--text:#e6e8ec;--muted:#98a2b3;--line:#2a303b;--accent:#2dd4bf;--up:#4ade80;--down:#f87171;--new:#fbbf24;--bar:#1f5f57}}
@@ -28,6 +30,7 @@ td.wrap{white-space:normal}
 td:first-child .badge{margin-top:2px}
 td:first-child{white-space:normal;min-width:90px}
 .up{color:var(--up)}.down{color:var(--down)}
+.charts{display:grid;gap:10px;margin:12px 0}.charts svg{display:block;border:1px solid var(--line);border-radius:10px}
 .compact th,.compact td{padding:7px 4px;font-size:.85rem}
 .sig{font-size:1.15rem;font-weight:700;margin:0 0 4px}
 .chip{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin:3px 4px 3px 0;font-size:.85rem}
@@ -163,9 +166,11 @@ def _breadth_card(info, sessions=5):
     fmt = lambda rs: _e(", ".join(f"{r['sector']} {r['now']} ({r['change']:+d})" for r in rs)) or '<span class="muted">ഇല്ല</span>'
     notes = "".join(f'<p class="muted">• {_e(n)}</p>' for n in sig["notes"])
     stale = "" if fresh else f'<p class="err">ഇന്നത്തെ GM World ഡാറ്റ വന്നില്ല — {_e(data["asOf"])}-ലേതാണ് കാണിക്കുന്നത്.</p>'
+    from lib import charts as C
+    graphs = f'<div class="charts">{C.breadth_lines(data)}{C.nhnl_bars(data)}</div>'
     return (f'<div class="card"><h2>മാർക്കറ്റ് അവസ്ഥ</h2>{stale}'
             f'<p class="sig">{sig["emoji"]} {_e(sig["label"])} <span class="muted">· {_e(sig["trend"])}</span></p>{notes}'
-            f'<p class="muted">GM World · {_e(data["asOf"])}</p>{chips}'
+            f'<p class="muted">GM World · {_e(data["asOf"])}</p>{chips}{graphs}'
             + '<div class="compact">' + _table('<th>Date</th><th class="num">20</th><th class="num">50</th><th class="num">200</th><th class="num">Hom</th><th class="num">NH-NL</th>', rows) + "</div>"
             + "<h3>സെക്ടർ മൊമെന്റം (Landry, 5 സെഷനിലെ മാറ്റം)</h3>"
             + f"<p><strong>മുന്നിൽ:</strong> {fmt(mv['leaders'])}</p>"
@@ -233,7 +238,31 @@ def _write_index(out):
     (out / "index.html").write_text(_page("Market Agent", body), encoding="utf-8")
 
 
-def build(out_dir, date_str, report_md, scans, sector_rows, ai_label, breadth_info=None):
+def _summary_card(rep):
+    if not rep:
+        return ""
+    out = ""
+    if rep.get("summary"):
+        out += f'<div class="card"><h2>💡 ചുരുക്കം</h2><p>{_e(rep["summary"])}</p></div>'
+    rows = rep.get("rows") or []
+    if rows:
+        trs = []
+        for r in rows:
+            warn = f'<span class="badge warn">RESULT {_short(r["results"])}</span>' if r.get("results") else ""
+            trs.append(f'<tr><td><strong>{_e(r["symbol"])}</strong>{warn}<div class="muted">{_e(" · ".join(r["scanners"]))}</div></td>'
+                       f'<td class="col-wide">{_e(r["sector"])}</td><td class="num">{_fmt(r["close"])}</td>{_chg(r["change"])}'
+                       f'<td class="wrap">{_e(r["reason"] or "—")}</td></tr>')
+        out += ('<div class="card"><h2>⭐ ശ്രദ്ധിക്കേണ്ടവ</h2>'
+                '<p class="muted">ഒന്നിലധികം സ്കാനറിൽ ഉള്ളവ, ഇന്ന് പുതുതായി വന്നവ, ഏറ്റവും കൂടുതൽ നീങ്ങിയവ — കാരണം വാർത്തയിൽ നിന്ന്</p>'
+                + _table('<th>Stock</th><th class="col-wide">Sector</th><th class="num">Close</th><th class="num">%</th><th>കാരണം</th>', trs)
+                + "</div>")
+    if rep.get("sectors"):
+        items = "".join(f"<li><strong>{_e(k)}</strong> – {_e(v)}</li>" for k, v in rep["sectors"].items())
+        out += f'<div class="card"><h2>🏭 സെക്ടർ കാരണങ്ങൾ</h2><ul>{items}</ul></div>'
+    return out
+
+
+def build(out_dir, date_str, report_md, scans, sector_rows, ai_label, breadth_info=None, rep=None):
     out = Path(out_dir)
     (out / "reports").mkdir(parents=True, exist_ok=True)
     sections = "".join(
@@ -244,11 +273,12 @@ def build(out_dir, date_str, report_md, scans, sector_rows, ai_label, breadth_in
     )
     body = (
         '<p><a href="../index.html">← എല്ലാ റിപ്പോർട്ടുകളും</a></p>'
-        f"<h1>മാർക്കറ്റ് റിപ്പോർട്ട് — {_e(date_str)}</h1>"
+        f"<h1>മാർക്കറ്റ് റിപ്പോർട്ട്</h1><p class=\"muted\">{_e(nice_date(date_str))}</p>"
         f'<p class="muted">വിശകലനം: {_e(ai_label)} · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</p>'
-        f'<div class="card">{md_to_html(report_md)}</div>'
-        f"{_breadth_card(breadth_info)}"
-        f"{_sector_card(sector_rows)}"
+        + (f'<div class="card">{md_to_html(report_md)}</div>' if report_md else "")
+        + _breadth_card(breadth_info)
+        + _summary_card(rep)
+        + f"{_sector_card(sector_rows)}"
         f"<h2>സ്കാനർ റിസൾട്ടുകൾ</h2>{sections}"
     )
     (out / "reports" / f"{date_str}.html").write_text(_page(f"Report {date_str}", body), encoding="utf-8")

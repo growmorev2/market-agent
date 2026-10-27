@@ -28,15 +28,21 @@ def split_text(text, limit):
     return [c for c in chunks if c.strip()]
 
 
-def send_telegram(text, pdf=None):
+def send_telegram(text, pdf=None, photo=None):
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
     chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     if not (token and chat):
         return "ഒഴിവാക്കി (secret ഇല്ല)"
+    if photo:
+        with open(photo, "rb") as f:
+            r = requests.post(f"https://api.telegram.org/bot{token}/sendPhoto",
+                              data={"chat_id": chat}, files={"photo": (os.path.basename(photo), f, "image/png")}, timeout=60)
+        if r.status_code != 200:
+            print(f"  Telegram ഗ്രാഫ് പോയില്ല: HTTP {r.status_code}")
     for part in split_text(text, 4000):
         r = requests.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
-            json={"chat_id": chat, "text": part, "disable_web_page_preview": True},
+            json={"chat_id": chat, "text": part, "parse_mode": "HTML", "disable_web_page_preview": True},
             timeout=30,
         )
         if r.status_code != 200:
@@ -53,10 +59,15 @@ def send_telegram(text, pdf=None):
     return "അയച്ചു"
 
 
-def send_discord(text, pdf=None):
+def send_discord(text, pdf=None, photo=None):
     hook = os.environ.get("DISCORD_WEBHOOK_URL", "").strip()
     if not hook:
         return "ഒഴിവാക്കി (secret ഇല്ല)"
+    from lib.report import to_discord
+    text = to_discord(text)
+    if photo:
+        with open(photo, "rb") as f:
+            requests.post(hook, files={"file": (os.path.basename(photo), f, "image/png")}, timeout=60)
     for part in split_text(text, 1900):
         r = requests.post(hook, json={"content": part}, timeout=30)
         if r.status_code == 429:

@@ -117,6 +117,13 @@ def message_line(sig, fresh=True):
     return s
 
 
+SECTOR_NAMES = {"i.t": "IT", "fmcg": "FMCG", "telecom-service": "Telecom Services"}
+
+
+def nice_sector(k):
+    return SECTOR_NAMES.get(k, k.title().replace("&", "&").replace(" And ", " & "))
+
+
 def sector_moves(data, back=5, top=5):
     """Landry Momentum by sector: ഇന്നത്തെ മൂല്യം, `back` സെഷൻ മുമ്പത്തേതിൽ നിന്നുള്ള മാറ്റം."""
     rows = []
@@ -124,7 +131,7 @@ def sector_moves(data, back=5, top=5):
         if k in ("n/a", "indices") or not v:
             continue
         before = v[-1 - back] if len(v) > back else v[0]
-        rows.append({"sector": k, "now": v[-1], "change": v[-1] - before})
+        rows.append({"sector": nice_sector(k), "now": v[-1], "change": v[-1] - before})
     leaders = sorted(rows, key=lambda r: -r["now"])[:top]
     gainers = sorted((r for r in rows if r["change"] > 0), key=lambda r: -r["change"])[:top]
     losers = sorted((r for r in rows if r["change"] < 0), key=lambda r: r["change"])[:top]
