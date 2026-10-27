@@ -43,7 +43,8 @@ a{color:var(--accent)}
 ul.reports{list-style:none;padding:0}ul.reports li{padding:10px 0;border-bottom:1px solid var(--line)}
 .err{color:var(--down)}
 @media (max-width:560px){.col-wide{display:none}}
-@media print{body{background:#fff}main{max-width:none;padding:0}.table-wrap{overflow:visible}tr,h2,h3,.sig{break-inside:avoid;break-after:avoid-page}a[href^="../index"]{display:none}}
+@media print{body{background:#fff}main{max-width:none;padding:0}.table-wrap{overflow:visible}tr{break-inside:avoid}h2,h3{break-after:avoid}.charts svg{break-inside:avoid}.card{margin:8px 0}.extra,.print-hide{display:none}.print-note{display:block!important}a[href^="../index"]{display:none}}
+.print-note{display:none}
 """
 
 
@@ -120,16 +121,18 @@ def _scan_table(scan):
     rows = []
     ordered = sorted(scan["stocks"], key=lambda x: (x["symbol"] not in new, -(x["change"] or 0)))
     limit = scan.get("max_show") or len(ordered)
-    for s in ordered[:limit]:
+    for i, s in enumerate(ordered[:limit]):
         badge = '<span class="badge">NEW</span>' if s["symbol"] in new else ""
         if s.get("results"):
             badge += f'<span class="badge warn">RESULT {_short(s["results"])}</span>'
         rows.append(
-            f'<tr><td title="{_e(s.get("name") or "")}"><strong>{_e(s["symbol"])}</strong>{badge}</td>'
+            f'<tr{" class=extra" if i >= 20 else ""}><td title="{_e(s.get("name") or "")}"><strong>{_e(s["symbol"])}</strong>{badge}</td>'
             f'<td class="col-wide">{_e(s.get("sector", ""))}</td>'
             f'<td class="num">{_fmt(s["close"])}</td>{_chg(s["change"])}</tr>'
         )
     more = ""
+    if len(ordered) > 20:
+        more += f'<p class="muted print-note">PDF-ൽ ആദ്യ 20 മാത്രം · മുഴുവൻ ലിസ്റ്റ് വെബ്‌സൈറ്റിൽ ({len(ordered)} സ്റ്റോക്ക്)</p>'
     if len(ordered) > limit:
         more = f'<p class="muted">+ {len(ordered) - limit} സ്റ്റോക്കുകൾ കൂടി (പുതിയവയും ഏറ്റവും കൂടുതൽ ഉയർന്നവയും മാത്രം കാണിക്കുന്നു)</p>'
     return _table('<th>Symbol</th><th class="col-wide">Sector</th><th class="num">Close</th><th class="num">Change</th>', rows) + more
@@ -142,11 +145,11 @@ def _sector_card(rows):
     body = [
         f'<tr><td class="wrap">{_e(r["sector"])}</td>{_bar_cell(r["count"], mx)}'
         f'<td class="num">{r["new"] or ""}</td>'
-        f'<td class="col-wide wrap muted">{_e(", ".join(r["stocks"][:8]))}{" …" if len(r["stocks"]) > 8 else ""}</td></tr>'
+        f'<td class="col-wide wrap muted print-hide">{_e(", ".join(r["stocks"][:8]))}{" …" if len(r["stocks"]) > 8 else ""}</td></tr>'
         for r in rows
     ]
     return ('<div class="card"><h2>സെക്ടർ തിരിച്ച്</h2>'
-            + _table('<th>Sector</th><th style="min-width:64px">Stocks</th><th class="num">New</th><th class="col-wide">Symbols</th>', body)
+            + _table('<th>Sector</th><th style="min-width:64px">Stocks</th><th class="num">New</th><th class="col-wide print-hide">Symbols</th>', body)
             + "</div>")
 
 
@@ -238,12 +241,16 @@ def _write_index(out):
     (out / "index.html").write_text(_page("Market Agent", body), encoding="utf-8")
 
 
+def _summary_only(rep):
+    if not rep or not rep.get("summary"):
+        return ""
+    return f'<div class="card"><h2>💡 ചുരുക്കം</h2><p>{_e(rep["summary"])}</p></div>'
+
+
 def _summary_card(rep):
     if not rep:
         return ""
     out = ""
-    if rep.get("summary"):
-        out += f'<div class="card"><h2>💡 ചുരുക്കം</h2><p>{_e(rep["summary"])}</p></div>'
     rows = rep.get("rows") or []
     if rows:
         trs = []
@@ -276,6 +283,7 @@ def build(out_dir, date_str, report_md, scans, sector_rows, ai_label, breadth_in
         f"<h1>മാർക്കറ്റ് റിപ്പോർട്ട്</h1><p class=\"muted\">{_e(nice_date(date_str))}</p>"
         f'<p class="muted">വിശകലനം: {_e(ai_label)} · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</p>'
         + (f'<div class="card">{md_to_html(report_md)}</div>' if report_md else "")
+        + _summary_only(rep)
         + _breadth_card(breadth_info)
         + _summary_card(rep)
         + f"{_sector_card(sector_rows)}"
