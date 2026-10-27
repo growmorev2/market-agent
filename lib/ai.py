@@ -20,7 +20,7 @@ def _env(name, default):
     return (os.environ.get(name) or "").strip() or default
 
 
-GEMINI_DEFAULTS = "gemini-flash-latest,gemini-flash-lite-latest,gemini-2.5-flash,gemini-2.5-flash-lite"
+GEMINI_DEFAULTS = "gemini-3.8-flash,gemini-flash-latest,gemini-3.5-flash,gemini-3.5-flash-lite,gemini-flash-lite-latest"
 
 
 def _gemini(system, prompt, search=False):
@@ -54,9 +54,11 @@ def _gemini_one(key, model, system, prompt, search):
     }
     if search:
         body["tools"] = [{"google_search": {}}]
+    # പുതിയ "AQ." key-കൾ header-ൽ അയച്ചാൽ പ്രവർത്തിക്കില്ല; ?key= ആയി അയക്കുന്നു (പഴയ AIza key-കൾക്കും ഇത് ശരി)
     r = requests.post(
         f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-        headers={"x-goog-api-key": key, "Content-Type": "application/json"},
+        params={"key": key},
+        headers={"Content-Type": "application/json"},
         json=body,
         timeout=180,
     )
