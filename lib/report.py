@@ -105,6 +105,11 @@ def telegram_daily(date_str, sig, fresh, scans, rows, sector_rows, bmoves, resul
         L.append(line)
     L.append("")
 
+    for s in scans:
+        if s.get("ranked") and s["stocks"] and not s.get("error"):
+            L += ranked_section(s)
+            L.append("")
+
     if rows:
         L.append("⭐ <b>ശ്രദ്ധിക്കേണ്ടവ</b>")
         for r in rows[:6]:
@@ -150,6 +155,29 @@ def telegram_daily(date_str, sig, fresh, scans, rows, sector_rows, bmoves, resul
         L.append(f'🔗 <a href="{e(link)}">മുഴുവൻ റിപ്പോർട്ട്</a> · 📄 PDF താഴെ')
     L.append(f"<i>{e(ai_label)} · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</i>")
     return "\n".join(L)
+
+
+def ranked_section(s, show=10):
+    new = set(s.get("new", []))
+    top = sorted(s["stocks"], key=lambda x: x["rank"])
+    out = [f"🚀 <b>{e(short_name(s))} · Top {len(top)}</b>"]
+    rows = []
+    for x in top[:show]:
+        sc = f"{x['score']:.1f}" if x.get("score") is not None else "—"
+        mark = "🆕" if x["symbol"] in new else ""
+        mv = ""
+        if x.get("rank_up"):
+            mv = f" ↑{x['rank_up']}" if x["rank_up"] > 0 else f" ↓{-x['rank_up']}"
+        rows.append(f"<code>{x['rank']:>2}. {e(x['symbol'][:12].ljust(12))} {sc:>6}</code>{mark}{e(mv)}")
+    out += rows
+    if len(top) > show:
+        out.append(f"<i>… #{show + 1}–{len(top)} വെബ്‌സൈറ്റിൽ</i>")
+    window = len(s.get("ranks") or {}) or 100
+    climbers = sorted((x for x in top[show:] if (x.get("rank_up") or 0) >= 5), key=lambda x: -x["rank_up"])[:4]
+    if climbers:
+        bits = [f"{x['symbol']} #{x['prev_rank'] or str(window) + '+'}→#{x['rank']}" for x in climbers]
+        out.append(f"📈 #{show + 1}–{len(top)}-ൽ മുന്നേറിയവ: " + e(", ".join(bits)))
+    return out
 
 
 def md_to_telegram(md):

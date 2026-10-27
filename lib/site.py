@@ -29,6 +29,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 td.wrap{white-space:normal}
 td:first-child .badge{margin-top:2px}
 td:first-child{white-space:normal;min-width:90px}
+.ranked td:first-child{min-width:0;width:2em}.ranked th,.ranked td{padding:7px 4px;font-size:.88rem}.ranked .badge{margin-left:3px;padding:0 3px;font-size:.65rem}
 .up{color:var(--up)}.down{color:var(--down)}
 .charts{display:grid;gap:10px;margin:12px 0}.charts svg{display:block;border:1px solid var(--line);border-radius:10px}
 .compact th,.compact td{padding:7px 4px;font-size:.85rem}
@@ -118,6 +119,8 @@ def _scan_table(scan):
     if not scan["stocks"]:
         return '<p class="muted">ഇന്ന് ഈ സ്കാനറിൽ സ്റ്റോക്കുകൾ ഇല്ല.</p>'
     new = set(scan.get("new", []))
+    if scan.get("ranked"):
+        return _ranked_table(scan, new)
     rows = []
     ordered = sorted(scan["stocks"], key=lambda x: (x["symbol"] not in new, -(x["change"] or 0)))
     limit = scan.get("max_show") or len(ordered)
@@ -136,6 +139,27 @@ def _scan_table(scan):
     if len(ordered) > limit:
         more = f'<p class="muted">+ {len(ordered) - limit} സ്റ്റോക്കുകൾ കൂടി (പുതിയവയും ഏറ്റവും കൂടുതൽ ഉയർന്നവയും മാത്രം കാണിക്കുന്നു)</p>'
     return _table('<th>Symbol</th><th class="col-wide">Sector</th><th class="num">Close</th><th class="num">Change</th>', rows) + more
+
+
+def _ranked_table(scan, new):
+    rows = []
+    for x in sorted(scan["stocks"], key=lambda x: x["rank"]):
+        badge = '<span class="badge">NEW</span>' if x["symbol"] in new else ""
+        up = x.get("rank_up")
+        if up is None:
+            mv = '<td class="num muted">—</td>'
+        elif up > 0:
+            mv = f'<td class="num up">↑{up}</td>'
+        elif up < 0:
+            mv = f'<td class="num down">↓{-up}</td>'
+        else:
+            mv = '<td class="num muted">=</td>'
+        rows.append(f'<tr><td class="num">{x["rank"]}</td><td><strong>{_e(x["symbol"])}</strong>{badge}</td>'
+                    f'<td class="col-wide">{_e(x.get("sector", ""))}</td>'
+                    f'<td class="num"><strong>{_fmt(x.get("score"), 1)}</strong></td>{mv}'
+                    f'<td class="num col-wide">{_fmt(x["close"])}</td>{_chg(x["change"])}</tr>')
+    return '<div class="ranked">' + _table('<th class="num">#</th><th>Symbol</th><th class="col-wide">Sector</th><th class="num">Score</th>'
+                  '<th class="num">റാങ്ക്</th><th class="num col-wide">Close</th><th class="num">%</th>', rows) + "</div>"
 
 
 def _sector_card(rows):

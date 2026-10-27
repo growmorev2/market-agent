@@ -80,9 +80,12 @@ def run_scan(session, scan):
         raise RuntimeError(
             "scan clause കണ്ടെത്താനായില്ല. scans.json-ൽ ഈ സ്കാനറിന് \"clause\" നേരിട്ട് ചേർക്കുക."
         )
+    data = {"scan_clause": clause}
+    if scan.get("columns"):
+        data["column_clause"] = scan["columns"]
     res = session.post(
         f"{BASE}/screener/process",
-        data={"scan_clause": clause},
+        data=data,
         headers={"X-CSRF-TOKEN": token, "X-Requested-With": "XMLHttpRequest", "Referer": url},
         timeout=60,
     )
@@ -93,11 +96,26 @@ def run_scan(session, scan):
         sym = row.get("nsecode") or row.get("bsecode")
         if not sym:
             continue
-        stocks.append({
+        item = {
             "symbol": str(sym),
             "name": row.get("name", ""),
-            "close": _num(row.get("close")),
-            "change": _num(row.get("per_chg")),
-            "volume": _num(row.get("volume")),
-        })
+            "close": _num(row.get("close", row.get("scan-column-default-close"))),
+            "change": _num(row.get("per_chg", row.get("scan-column-default-percent-change"))),
+            "volume": _num(row.get("volume", row.get("scan-column-default-volume"))),
+        }
+        if scan.get("score_col"):
+            item["score"] = _num(row.get(scan["score_col"]))
+        stocks.append(item)
+    if scan.get("score_col"):
+        return rank(stocks, scan)
     return stocks
+
+
+def rank(stocks, scan):
+    """സ്കോർ അനുസരിച്ച് ഉയർന്നതിൽ നിന്ന് റാങ്ക് ചെയ്യും. stocks = Top N മാത്രം;
+    rank_window വരെയുള്ള റാങ്കുകൾ scan["_ranks"]-ൽ (നാളെ റാങ്ക് മാറ്റം കണക്കാക്കാൻ)."""
+    good = sorted((x for x in stocks if x.get("score") is not None), key=lambda x: -x["score"])
+    for i, x in enumerate(good, 1):
+        x["rank"] = i
+    scan["_ranks"] = {x["symbol"]: x["rank"] for x in good[: scan.get("rank_window", 100)]}
+    return good[: scan.get("top", 20)]
