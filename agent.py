@@ -108,6 +108,9 @@ def collect(scans_cfg, sample):
             entry["max_show"] = cfg["max_show"]
         try:
             entry["stocks"] = chartink.run_scan(session, cfg)
+            if cfg.get("score_col"):
+                entry["ranked"] = True
+                entry["ranks"] = cfg.pop("_ranks", {})
         except Exception as e:  # noqa: BLE001
             entry["error"] = str(e)[:300]
         print(f"  {cfg['name']}: {len(entry['stocks'])} stocks" + (f"  (പിശക്: {entry['error']})" if entry["error"] else ""))
@@ -117,10 +120,20 @@ def collect(scans_cfg, sample):
 
 def mark_new(scans, previous):
     prev = {s["slug"]: {x["symbol"] for x in s["stocks"]} for s in (previous or {}).get("scans", [])}
+    prev_ranks = {s["slug"]: s.get("ranks") or {} for s in (previous or {}).get("scans", [])}
     for s in scans:
         before = prev.get(s["slug"])
         s["prev_count"] = len(before) if before is not None else None
         s["new"] = [] if before is None else sorted(x["symbol"] for x in s["stocks"] if x["symbol"] not in before)
+        if s.get("ranked"):
+            old = prev_ranks.get(s["slug"])
+            window = len(s.get("ranks") or {}) or 100
+            for x in s["stocks"]:
+                if old is None:
+                    x["prev_rank"] = None
+                else:
+                    x["prev_rank"] = old.get(x["symbol"])  # None = കഴിഞ്ഞ ദിവസം window-ന് പുറത്ത്
+                    x["rank_up"] = (old.get(x["symbol"]) or window + 1) - x["rank"]
 
 
 def daily_prompt(date_str, scans, sector_rows, results=None, results_known=True, breadth_text=""):
@@ -138,9 +151,21 @@ def daily_prompt(date_str, scans, sector_rows, results=None, results_known=True,
         lines.append(f"Count today: {len(s['stocks'])}; yesterday: {prev}")
         new = s["new"]
         lines.append(f"New today ({len(new)}): " + (", ".join(new[:30]) + (f" … +{len(new) - 30} more" if len(new) > 30 else "") if new else "none"))
-        for x in sorted(s["stocks"], key=lambda x: -(x["change"] or 0))[:40]:
+        order = (sorted(s["stocks"], key=lambda x: x["rank"]) if s.get("ranked")
+                 else sorted(s["stocks"], key=lambda x: -(x["change"] or 0)))
+        for x in order[:40]:
             res = f" | RESULTS {x['results']}" if x.get("results") and not s.get("max_show") else ""
-            lines.append(f"- {x['symbol']} | {x.get('sector')} | close {x['close']} | change {x['change']}% | vol {x['volume']}{res}")
+            rk = ""
+            if s.get("ranked"):
+                pr = x.get("prev_rank")
+                if "rank_up" not in x:
+                    yday = "unknown"
+                elif pr:
+                    yday = f"#{pr}"
+                else:
+                    yday = f"outside top {len(s.get('ranks') or {}) or 100}"
+                rk = f" | rank #{x['rank']} (yesterday {yday}) | score {x.get('score')}"
+            lines.append(f"- {x['symbol']} | {x.get('sector')} | close {x['close']} | change {x['change']}% | vol {x['volume']}{res}{rk}")
     multi = sorted(k for k, v in counts.items() if v > 1)
     lines.append("\nIn more than one scanner: " + (", ".join(multi) if multi else "none"))
     lines.append("\n## Sector summary (unique stocks across all scanners)")

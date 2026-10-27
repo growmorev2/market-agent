@@ -13,6 +13,17 @@
       "clause": "( {cash} (  weekly close >  1 week ago max( 52 ,  weekly close ) and  1 week ago close <  2 weeks ago max( 52 ,  weekly close ) and  2 weeks ago close <  3 weeks ago max( 52 ,  weekly close ) and  3 weeks ago close <  4 weeks ago max( 52 ,  weekly close ) and  4 weeks ago close <  5 weeks ago max( 52 ,  weekly close ) and  5 weeks ago close <  6 weeks ago max( 52 ,  weekly close ) and  market cap >=  500 and  weekly sma(  weekly close *  weekly volume , 4 ) >  250000000 ) )"
     },
     {
+      "name": "Top MSWING",
+      "slug": "top-mswing",
+      "about": "Ranking by the trader's Homma MSWING score (custom indicator ^12017), highest first, among liquid stocks with mcap >= 500 Cr. Only the top N are kept; 'new' means newly entered the top N. Rank and score are given per stock.",
+      "clause": "( {166311} not(  1 > 0 ) ) and( {cash} (  market cap >=  500 and  daily sma(  daily volume , 10 ) >=  1000 and  daily sma(  daily volume , 10 ) *  daily sma(  daily close , 10 ) >=  10000000 and  daily ^12017('output'='val')^ >  1 ) )",
+      "columns": " Daily Close as 'scan-column-default-close',  Daily \"close - 1 candle ago close / 1 candle ago close * 100\" as 'scan-column-default-percent-change',  Daily Volume as 'scan-column-default-volume',  Daily ^12017('output'='val')^ as 'scan-column-_3d483'",
+      "score_col": "scan-column-_3d483",
+      "top": 20,
+      "rank_window": 100,
+      "max_show": 20
+    },
+    {
       "name": "ROE/EPS IMPROVING",
       "slug": "eps-improving-4",
       "about": "Fundamental scan: net profit up year-on-year for 3 straight quarters, latest quarter profit +20% and sales +10% YoY, mcap > 500 Cr. A stock entering usually follows a new quarterly result",
