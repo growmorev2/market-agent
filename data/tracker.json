@@ -55,6 +55,171 @@
    "closes": [],
    "done": false,
    "regime": null
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "CANTABIL",
+   "sector": "Unknown",
+   "date": "2026-10-27",
+   "entry": 249.09,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "INDHOTEL",
+   "sector": "Consumer Services",
+   "date": "2026-10-27",
+   "entry": 792.2,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "SBC",
+   "sector": "Unknown",
+   "date": "2026-10-27",
+   "entry": 64.62,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "SHREEJISPG",
+   "sector": "Services",
+   "date": "2026-10-27",
+   "entry": 820.0,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "ATHERENERG",
+   "sector": "Automobile and Auto Components",
+   "date": "2026-10-27",
+   "entry": 1636.0,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "HAL",
+   "sector": "Capital Goods",
+   "date": "2026-10-27",
+   "entry": 4862.7,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "INDIANB",
+   "sector": "Financial Services",
+   "date": "2026-10-27",
+   "entry": 836.05,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "ITCHOTELS",
+   "sector": "Consumer Services",
+   "date": "2026-10-27",
+   "entry": 170.91,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "LAURUSLABS",
+   "sector": "Healthcare",
+   "date": "2026-10-27",
+   "entry": 2076.4,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "MEESHO",
+   "sector": "Consumer Services",
+   "date": "2026-10-27",
+   "entry": 223.28,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "PARACABLES",
+   "sector": "Unknown",
+   "date": "2026-10-27",
+   "entry": 64.26,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SONACOMS",
+   "sector": "Automobile and Auto Components",
+   "date": "2026-10-27",
+   "entry": 831.3,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "STOVEKRAFT",
+   "sector": "Unknown",
+   "date": "2026-10-27",
+   "entry": 815.0,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "TARIL",
+   "sector": "Capital Goods",
+   "date": "2026-10-27",
+   "entry": 304.85,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "TFCILTD",
+   "sector": "Unknown",
+   "date": "2026-10-27",
+   "entry": 154.58,
+   "closes": [],
+   "done": false,
+   "regime": null
   }
  ]
 }
