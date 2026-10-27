@@ -20,7 +20,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from lib import ai, breadth, chartink, events, notify, pdf, sectors, site, tracker, weekly
+from lib import ai, breadth, chartink, events, notify, pdf, report, sectors, site, tracker, weekly
 
 ROOT = Path(__file__).parent
 HISTORY = ROOT / "data" / "history"
@@ -30,42 +30,31 @@ RULES = """Rules:
 - Use only the data given (and news you actually find, when you have a search tool). Do not invent prices, news, results or facts.
 - Never tell the trader to buy or sell anything. Describe and highlight; decisions are theirs.
 - Sector "Unknown" means the sector could not be looked up; do not treat it as a real sector.
-- Use short bullet points ("- ") under short headings ("## "). Write the headings in the report language;
-  keep stock symbols and sector names in English.
+- Keep stock symbols and sector names in English.
 - Call a stock "new" only if it is listed under "New today". If yesterday is "unknown (first run)",
-  say this is the first run and that new-entry comparison starts from the next report."""
+  this is the first run and new-entry comparison starts from the next report."""
+
+FORMAT_WEEKLY = """
+- Use short bullet points ("- ") under short headings ("## "). Write the headings in the report language."""
 
 SYSTEM_DAILY = """You are a market analyst assistant for an Indian (NSE) swing trader.
-You receive today's results from the trader's own Chartink scanners, with each stock's sector,
+You receive today's results from the trader's own Chartink scanners (with each stock's sector)
 and the market breadth from the trader's own GM World dashboard.
-Write a short, clear daily report in {lang}.
-Structure:
-0. Market condition: one line with the given condition and trend, then 1-2 lines on what the
-   breadth numbers show (short/medium/long term, new highs vs lows). Relate today's scanner
-   results to it (e.g. many fresh signals while breadth is weak, or the reverse). Descriptive only.
-1. Overview (2-3 lines)
-2. New stocks today per scanner and what stands out
-3. Stocks appearing in more than one scanner
-4. Sector view: which sectors dominate today, where the new entries are concentrated,
-   any sector that is clearly building (several stocks at once), and how this lines up with
-   the sector momentum from the breadth dashboard (rising / falling sectors)
-5. Anything unusual (very big moves, a scanner suddenly empty or much larger than yesterday)
-6. If any stock has quarterly results within the next 7 days (see "Results coming"), list them
-   with the date as a gap-risk note. Skip this section if there are none.
-Under 450 words.
+The report layout is built by code. Your job is only the short summary and the reasons.
+Return ONLY one JSON object and nothing else, in exactly this shape:
+{{"summary": "...", "reasons": {{"SYMBOL": "..."}}, "sectors": {{"Sector name": "..."}}}}
+- summary: 2-3 short, plain sentences in {lang}. What the breadth says about the market, what
+  today's scans show, and how the two relate. Descriptive only. No lists, no headings, no symbols
+  like # or *.
+- reasons: keys are the stocks under "Explain these stocks"; value is ONE short line in {lang}.
+- sectors: keys are the sectors under "Explain these sectors"; value is ONE short line in {lang}.
 """ + RULES
 
 DRIVERS_DAILY = """
-You have a web search tool. Add a section "## Why it moved" (heading in {lang}):
-- For each stock under "Explain these stocks" and each sector under "Explain these sectors",
-  search recent news (last few days; Indian market sources) and give the most likely driver
-  in ONE short line, e.g. "- DELTA: Q2 profit beat estimates".
-- Only state a reason you actually found in the news. If nothing clear, write that no clear
-  news was found. Never guess or make up a reason.
-- Give the reason only: no links, no URLs, no source names.
-- If the data says "Results dates: unknown", also check whether any stock under
-  "Explain these stocks" has quarterly results scheduled within the next 7 days, and add
-  it to section 6 only if you actually find the date.
+You have a web search tool. Fill "reasons" and "sectors" from recent news you actually find
+(last few days; Indian market sources): the most likely driver of the move, in ONE short line in
+{lang}. If nothing clear, write "വ്യക്തമായ വാർത്തയില്ല". Never guess or make up a reason.
+No links, no URLs, no source names.
 """
 
 DRIVERS_WEEKLY = """
@@ -77,6 +66,7 @@ Give the reason only: no links, no URLs, no source names.
 
 NO_DRIVERS = """
 Do not explain why stocks or sectors moved; you have no news access today.
+If the output format has "reasons" and "sectors" fields, return them as empty objects.
 """
 
 SYSTEM_WEEKLY = """You are a market analyst assistant for an Indian (NSE) swing trader.
@@ -96,7 +86,7 @@ Structure:
    too early to judge.
 6. Things to keep an eye on next week (descriptive observations only, not advice)
 Under 500 words.
-""" + RULES
+""" + RULES + FORMAT_WEEKLY
 
 
 # ---------- ദിവസേന ----------
@@ -149,7 +139,7 @@ def daily_prompt(date_str, scans, sector_rows, results=None, results_known=True,
         new = s["new"]
         lines.append(f"New today ({len(new)}): " + (", ".join(new[:30]) + (f" … +{len(new) - 30} more" if len(new) > 30 else "") if new else "none"))
         for x in sorted(s["stocks"], key=lambda x: -(x["change"] or 0))[:40]:
-            res = f" | RESULTS {x['results']}" if x.get("results") else ""
+            res = f" | RESULTS {x['results']}" if x.get("results") and not s.get("max_show") else ""
             lines.append(f"- {x['symbol']} | {x.get('sector')} | close {x['close']} | change {x['change']}% | vol {x['volume']}{res}")
     multi = sorted(k for k, v in counts.items() if v > 1)
     lines.append("\nIn more than one scanner: " + (", ".join(multi) if multi else "none"))
@@ -167,12 +157,21 @@ def daily_prompt(date_str, scans, sector_rows, results=None, results_known=True,
 
 
 def notable(scans, sector_rows, multi, max_stocks=10):
-    """വാർത്ത തിരയേണ്ട സ്റ്റോക്കുകൾ: രണ്ടിലധികം സ്കാനറിൽ ഉള്ളവ, പുതിയവ, ഏറ്റവും കൂടുതൽ നീങ്ങിയവ."""
-    picked = list(multi)
-    for s in scans:
+    """ശ്രദ്ധിക്കേണ്ട സ്റ്റോക്കുകൾ, മുൻഗണനാ ക്രമത്തിൽ:
+    1) സിഗ്നൽ സ്കാനറുകളിൽ (HOLYGRAIL, MULTIBAGGER…) ഇന്ന് പുതിയവ  2) സിഗ്നൽ സ്കാനറുകളിലെ ബാക്കി
+    3) വലിയ ലിസ്റ്റുകളിൽ (max_show ഉള്ളവ) പുതിയവ  4) ഒന്നിലധികം സ്കാനറിൽ  5) ഏറ്റവും കൂടുതൽ നീങ്ങിയവ"""
+    signal = [s for s in scans if not s.get("max_show")]
+    broad = [s for s in scans if s.get("max_show")]
+    picked = []
+    for s in signal:
         picked += s.get("new", [])
+    for s in signal:
+        picked += [x["symbol"] for x in sorted(s["stocks"], key=lambda x: -(x["change"] or 0))]
+    for s in broad:
+        picked += s.get("new", [])[:4]
+    picked += list(multi)
     movers = sorted((x for s in scans for x in s["stocks"]), key=lambda x: -abs(x["change"] or 0))
-    picked += [x["symbol"] for x in movers[:5]]
+    picked += [x["symbol"] for x in movers[:3]]
     seen, out = set(), []
     for sym in picked:
         if sym not in seen:
@@ -188,13 +187,7 @@ def sector_line(rows, top=5):
 
 
 def daily_fallback(scans):
-    out = ["AI ഇന്ന് ലഭ്യമായില്ല — റോ ഡാറ്റ മാത്രം:"]
-    for s in scans:
-        if s["error"]:
-            out.append(f"- {s['name']}: പിശക്")
-        else:
-            out.append(f"- {s['name']}: {len(s['stocks'])} സ്റ്റോക്ക്, പുതിയത്: {', '.join(s['new']) or 'ഇല്ല'}")
-    return "\n".join(out)
+    return ""  # AI ഇല്ലെങ്കിൽ ചുരുക്കം ഒഴിവാക്കും; ബാക്കി റിപ്പോർട്ട് കോഡ് തന്നെ ഉണ്ടാക്കുന്നു
 
 
 # ---------- ആഴ്ച ----------
@@ -273,14 +266,20 @@ def make_pdf(html_path, name):
     return pdf.render(html_path, ROOT / "out" / name)
 
 
-def deliver(message, no_send, pdf_path=None):
+def make_chart(bdata, name):
+    if not bdata or (os.environ.get("SEND_CHART") or "on").strip().lower() == "off":
+        return None
+    return pdf.render_chart(bdata, ROOT / "out" / name)
+
+
+def deliver(message, no_send, pdf_path=None, photo=None):
     if no_send:
-        print("  (--no-send) മെസേജ്:\n" + message + (f"\n  PDF: {pdf_path}" if pdf_path else ""))
+        print("  (--no-send) മെസേജ്:\n" + message + (f"\n  PDF: {pdf_path}" if pdf_path else "") + (f"\n  ഗ്രാഫ്: {photo}" if photo else ""))
         return 0
     failed = False
     for label, fn in (("Telegram", notify.send_telegram), ("Discord", notify.send_discord)):
         try:
-            print(f"  {label}: {fn(message, pdf_path)}")
+            print(f"  {label}: {fn(message, pdf_path, photo)}")
         except Exception as e:  # noqa: BLE001
             failed = True
             print(f"  {label}: പരാജയം — {e}")
@@ -342,40 +341,34 @@ def run_daily(args, lang, today):
         print(f"  ട്രാക്കർ: {added} പുതിയ എൻട്രി, ആകെ {len(state['entries'])}")
 
     print("[3/5] AI വിശകലനം")
-    report, ai_label = ask_ai(SYSTEM_DAILY.format(lang=lang), DRIVERS_DAILY.format(lang=lang),
-                              daily_prompt(date_str, scans, sector_rows, dict(list(results_key.items())[:15]),
-                                           ev_source != "none",
-                                           breadth.prompt_text(bdata, bfresh) if bdata else ""),
-                              daily_fallback(scans), args.no_ai)
-    print(f"  ഉപയോഗിച്ചത്: {ai_label}")
+    raw, ai_label = ask_ai(SYSTEM_DAILY.format(lang=lang), DRIVERS_DAILY.format(lang=lang),
+                           daily_prompt(date_str, scans, sector_rows, dict(list(results_key.items())[:15]),
+                                        ev_source != "none",
+                                        breadth.prompt_text(bdata, bfresh) if bdata else ""),
+                           daily_fallback(scans), args.no_ai)
+    ai_out = report.parse_ai(raw)
+    print(f"  ഉപയോഗിച്ചത്: {ai_label}; കാരണങ്ങൾ: {len(ai_out['reasons'])}")
+    counts = {}
+    for s in scans:
+        for x in s["stocks"]:
+            counts[x["symbol"]] = counts.get(x["symbol"], 0) + 1
+    note_syms, _ = notable(scans, sector_rows, sorted(k for k, v in counts.items() if v > 1))
+    rows = report.notable_rows(scans, note_syms, ai_out, results)
+    bmoves = breadth.sector_moves(bdata) if bdata else None
 
     print("[4/5] വെബ്‌പേജ്")
-    site.build(ROOT / "docs", date_str, report, scans, sector_rows, ai_label,
-               breadth_info=(bdata, bfresh) if bdata else None)
+    site.build(ROOT / "docs", date_str, None, scans, sector_rows, ai_label,
+               breadth_info=(bdata, bfresh) if bdata else None,
+               rep={"summary": ai_out["summary"], "rows": rows, "sectors": ai_out["sectors"]})
     if perf_rows:
         site.build_performance(ROOT / "docs", date_str, perf_rows)
 
     print("[5/5] അയക്കുന്നു")
-    msg = f"📊 മാർക്കറ്റ് റിപ്പോർട്ട് — {date_str}\n"
-    if sig:
-        msg += breadth.message_line(sig, bfresh) + "\n"
-    line = sector_line(sector_rows)
-    if line:
-        msg += f"🏭 സെക്ടർ: {line}\n"
-    if results:
-        shown = list(results_key.items())[:8]
-        extra = len(results) - len(shown)
-        line_r = ", ".join(f"{k} {events.short(v)}" for k, v in shown)
-        if extra > 0:
-            line_r += (" · " if line_r else "") + f"+{extra} എണ്ണം വലിയ ലിസ്റ്റുകളിൽ (വെബ്‌പേജ് കാണുക)"
-        msg += "⚠️ റിസൾട്ട് (7 ദിവസം): " + line_r + "\n"
-    msg += f"\n{report}"
     base = site_base()
-    if base:
-        msg += f"\n\n🔗 മുഴുവൻ ലിസ്റ്റ്: {base}/reports/{date_str}.html"
-    msg += f"\n\n— {ai_label} · ഇത് സാമ്പത്തിക ഉപദേശമല്ല"
+    msg = report.telegram_daily(date_str, sig, bfresh, scans, rows, sector_rows, bmoves, results_key, len(results),
+                                ai_out, ai_label, f"{base}/reports/{date_str}.html" if base else "")
     pdf_path = make_pdf(ROOT / "docs" / "reports" / f"{date_str}.html", f"Market-Report-{date_str}.pdf")
-    return deliver(msg, args.no_send, pdf_path)
+    return deliver(msg, args.no_send, pdf_path, make_chart(bdata, f"Breadth-{date_str}.png"))
 
 
 def run_weekly(args, lang, today):
@@ -396,25 +389,25 @@ def run_weekly(args, lang, today):
     except Exception as e:  # noqa: BLE001
         print(f"  GM World ലഭ്യമായില്ല: {e}")
     btext = breadth.prompt_text(bdata, True, sessions=max(5, len(agg["dates"]))) if bdata else ""
-    report, ai_label = ask_ai(SYSTEM_WEEKLY.format(lang=lang), DRIVERS_WEEKLY,
-                              weekly_prompt(agg, tracker.stats_text(perf_rows), btext), weekly_fallback(agg), args.no_ai)
+    text, ai_label = ask_ai(SYSTEM_WEEKLY.format(lang=lang), DRIVERS_WEEKLY,
+                            weekly_prompt(agg, tracker.stats_text(perf_rows), btext), weekly_fallback(agg), args.no_ai)
     print(f"  ഉപയോഗിച്ചത്: {ai_label}")
 
     print("[3/4] വെബ്‌പേജ്")
-    site.build_weekly(ROOT / "docs", end, report, agg, ai_label, perf_rows,
+    site.build_weekly(ROOT / "docs", end, text, agg, ai_label, perf_rows,
                       breadth_info=(bdata, True) if bdata else None)
 
     print("[4/4] അയക്കുന്നു")
-    msg = f"🗓️ ആഴ്ച റാപ്പപ്പ് — {agg['dates'][0]} മുതൽ {end} വരെ\n"
+    msg = f"🗓️ <b>ആഴ്ച റാപ്പപ്പ്</b> · {report.short_date(agg['dates'][0])} – {report.short_date(end)}\n{report.RULE}\n"
     if bdata:
-        msg += breadth.message_line(breadth.signal(bdata)) + "\n"
-    msg += f"\n{report}"
+        msg += report.e(breadth.message_line(breadth.signal(bdata))) + "\n\n"
+    msg += report.md_to_telegram(text)
     base = site_base()
     if base:
-        msg += f"\n\n🔗 വിശദമായി: {base}/weekly/{end}.html"
-    msg += f"\n\n— {ai_label} · ഇത് സാമ്പത്തിക ഉപദേശമല്ല"
+        msg += f'\n\n🔗 <a href="{base}/weekly/{end}.html">വിശദമായി</a> · 📄 PDF താഴെ'
+    msg += f"\n<i>{report.e(ai_label)} · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</i>"
     pdf_path = make_pdf(ROOT / "docs" / "weekly" / f"{end}.html", f"Weekly-Wrap-{end}.pdf")
-    return deliver(msg, args.no_send, pdf_path)
+    return deliver(msg, args.no_send, pdf_path, make_chart(bdata, f"Breadth-{end}.png"))
 
 
 def main():
