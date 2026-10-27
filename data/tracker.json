@@ -1,4 +1,60 @@
 {
  "last_price_date": "2026-10-26",
- "entries": []
+ "entries": [
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "ABREL",
+   "sector": "Realty",
+   "date": "2026-10-27",
+   "entry": 1077.5,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "APLAPOLLO",
+   "sector": "Capital Goods",
+   "date": "2026-10-27",
+   "entry": 2077.9,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "ERIS",
+   "sector": "Healthcare",
+   "date": "2026-10-27",
+   "entry": 1105.2,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "SUPREMEINF",
+   "sector": "Unknown",
+   "date": "2026-10-27",
+   "entry": 53.94,
+   "closes": [],
+   "done": false,
+   "regime": null
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "VIDHIING",
+   "sector": "Unknown",
+   "date": "2026-10-27",
+   "entry": 311.65,
+   "closes": [],
+   "done": false,
+   "regime": null
+  }
+ ]
 }
