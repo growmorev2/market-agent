@@ -1,0 +1,4238 @@
+{
+ "date": "2026-10-28",
+ "scans": [
+  {
+   "name": "HOLYGRAIL (GM Signal)",
+   "slug": "gm-signal",
+   "about": "GM Hollygrail long term: higher highs and rising OHLC 3 days, EMA20 > EMA60, RSI14 >= 60; results go to the 3️⃣HOLYGRAIL watchlist",
+   "stocks": [
+    {
+     "symbol": "SONACOMS",
+     "name": "Sona BLW Precision Forgings Ltd",
+     "close": 879.45,
+     "change": 3.24,
+     "volume": 6259436.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "SHREEJISPG",
+     "name": "Shreeji Shipping Global Ltd",
+     "close": 840.3,
+     "change": 0.16,
+     "volume": 1728514.0,
+     "sector": "Services"
+    },
+    {
+     "symbol": "INDHOTEL",
+     "name": "The Indian Hotels Company Limited",
+     "close": 805.2,
+     "change": -0.94,
+     "volume": 4047672.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "TIPSMUSIC",
+     "name": "Tips Music Ltd",
+     "close": 793.9,
+     "change": 7.05,
+     "volume": 1647467.0,
+     "sector": "Media Entertainment & Publication"
+    },
+    {
+     "symbol": "GCSL",
+     "name": "Gretex Corporate Services Ltd",
+     "close": 751.35,
+     "change": 0.49,
+     "volume": 249452.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "OMNI",
+     "name": "OMNI",
+     "close": 719.25,
+     "change": 5.48,
+     "volume": 1715245.0,
+     "sector": "Capital Goods",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "TANLA",
+     "name": "Tanla Solutions Limited",
+     "close": 598.7,
+     "change": 3.38,
+     "volume": 3558705.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "COHANCE",
+     "name": "Cohance Lifesciences Ltd",
+     "close": 476.05,
+     "change": -0.67,
+     "volume": 627122.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "SMSPHARMA",
+     "name": "Sms Pharmaceuticals Limited",
+     "close": 475.45,
+     "change": 7.37,
+     "volume": 777214.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "FSL",
+     "name": "Firstsource Solutions Limited",
+     "close": 307.95,
+     "change": 3.08,
+     "volume": 2308924.0,
+     "sector": "Services",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "CANTABIL",
+     "name": "Cantabil Retail India Limited",
+     "close": 260.06,
+     "change": 4.54,
+     "volume": 262642.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "LOTUSDEV",
+     "name": "Sri Lotus Developers & Realty Ltd",
+     "close": 245.93,
+     "change": 1.27,
+     "volume": 597751.0,
+     "sector": "Realty"
+    },
+    {
+     "symbol": "PPLPHARMA",
+     "name": "Piramal Pharma Ltd",
+     "close": 232.8,
+     "change": 17.15,
+     "volume": 118072228.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "KRISHANA",
+     "name": "Krishana Phoschem Ltd",
+     "close": 217.47,
+     "change": 2.47,
+     "volume": 704310.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ORIENTHOT",
+     "name": "Oriental Hotels Limited",
+     "close": 159.52,
+     "change": 1.01,
+     "volume": 1061709.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TFCILTD",
+     "name": "Tourism Finance Corporation Of India Limited",
+     "close": 156.94,
+     "change": 1.23,
+     "volume": 6645029.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "AJMERA",
+     "name": "Ajmera Realty & Infra India Limited",
+     "close": 133.8,
+     "change": 4.43,
+     "volume": 791064.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "CCAVENUE",
+     "name": "AvenuesAI Ltd",
+     "close": 125.63,
+     "change": 3.6,
+     "volume": 744779.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PASHUPATI",
+     "name": "Pashupati Cotspin Ltd",
+     "close": 121.58,
+     "change": 5.19,
+     "volume": 4750808.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SOUTHBANK",
+     "name": "The South Indian Bank Limited",
+     "close": 54.64,
+     "change": 0.61,
+     "volume": 12534687.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "UYFINCORP",
+     "name": "U. Y. Fincorp Ltd",
+     "close": 27.83,
+     "change": 4.98,
+     "volume": 721489.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    }
+   ],
+   "error": null,
+   "prev_count": 17,
+   "new": [
+    "AJMERA",
+    "FSL",
+    "LOTUSDEV",
+    "OMNI",
+    "ORIENTHOT",
+    "PPLPHARMA",
+    "SMSPHARMA",
+    "SOUTHBANK",
+    "TANLA",
+    "TFCILTD",
+    "UYFINCORP"
+   ]
+  },
+  {
+   "name": "MULTIBAGGER (Momentum)",
+   "slug": "copy-momentum-portfolio-original-scan-by-hitesh-1319",
+   "about": "Weekly close at a fresh 52-week high after 5 weeks below it, mcap >= 500 Cr, good liquidity; results go to the 4️⃣MULTIBAGGER watchlist",
+   "stocks": [
+    {
+     "symbol": "ACUTAAS",
+     "name": "Acutaas Chemicals Ltd",
+     "close": 3710.0,
+     "change": -2.2,
+     "volume": 2271934.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "63MOONS",
+     "name": "63 Moons Technologies Ltd",
+     "close": 932.5,
+     "change": 2.47,
+     "volume": 492683.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "WESTLIFE",
+     "name": "Westlife Foodworld Ltd",
+     "close": 595.75,
+     "change": -0.82,
+     "volume": 177153.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "PPLPHARMA",
+     "name": "Piramal Pharma Ltd",
+     "close": 232.8,
+     "change": 17.15,
+     "volume": 118072228.0,
+     "sector": "Healthcare"
+    }
+   ],
+   "error": null,
+   "prev_count": 5,
+   "new": [
+    "63MOONS",
+    "PPLPHARMA"
+   ]
+  },
+  {
+   "name": "Top MSWING",
+   "slug": "top-mswing",
+   "about": "Ranking by the trader's Homma MSWING score (custom indicator ^12017), highest first, among liquid stocks with mcap >= 500 Cr. Only the top N are kept; 'new' means newly entered the top N. Rank and score are given per stock.",
+   "stocks": [
+    {
+     "symbol": "CCAVENUE",
+     "name": "AvenuesAI Ltd",
+     "close": 125.63,
+     "change": 3.6,
+     "volume": 744779.0,
+     "score": 46.32,
+     "rank": 1,
+     "sector": "Unknown",
+     "prev_rank": 1,
+     "rank_up": 0
+    },
+    {
+     "symbol": "RAMBHAJO",
+     "name": "Advit Jewels Ltd",
+     "close": 364.1,
+     "change": 4.39,
+     "volume": 206521.0,
+     "score": 3.96,
+     "rank": 2,
+     "sector": "Unknown",
+     "prev_rank": 7,
+     "rank_up": 5,
+     "results": "2026-10-31"
+    },
+    {
+     "symbol": "PASHUPATI",
+     "name": "Pashupati Cotspin Ltd",
+     "close": 121.58,
+     "change": 5.19,
+     "volume": 4750808.0,
+     "score": 3.74,
+     "rank": 3,
+     "sector": "Unknown",
+     "prev_rank": 6,
+     "rank_up": 3
+    },
+    {
+     "symbol": "DPABHUSHAN",
+     "name": "D.P. Abhushan Ltd",
+     "close": 2048.5,
+     "change": -1.59,
+     "volume": 24416.0,
+     "score": 3.24,
+     "rank": 4,
+     "sector": "Unknown",
+     "prev_rank": 3,
+     "rank_up": -1
+    },
+    {
+     "symbol": "TBZ",
+     "name": "Tribhovandas Bhimji Zaveri Limited",
+     "close": 641.35,
+     "change": -5.0,
+     "volume": 117631.0,
+     "score": 3.19,
+     "rank": 5,
+     "sector": "Unknown",
+     "prev_rank": 2,
+     "rank_up": -3
+    },
+    {
+     "symbol": "SSWL",
+     "name": "Steel Strips Wheels Limited",
+     "close": 526.6,
+     "change": -0.43,
+     "volume": 1432716.0,
+     "score": 3.14,
+     "rank": 6,
+     "sector": "Unknown",
+     "prev_rank": 4,
+     "rank_up": -2
+    },
+    {
+     "symbol": "MMWL",
+     "name": "Media Matrix Worldwide Ltd",
+     "close": 21.16,
+     "change": -2.4,
+     "volume": 78044.0,
+     "score": 2.93,
+     "rank": 7,
+     "sector": "Unknown",
+     "prev_rank": 5,
+     "rank_up": -2
+    },
+    {
+     "symbol": "UYFINCORP",
+     "name": "U. Y. Fincorp Ltd",
+     "close": 27.83,
+     "change": 4.98,
+     "volume": 721489.0,
+     "score": 2.67,
+     "rank": 8,
+     "sector": "Unknown",
+     "prev_rank": null,
+     "rank_up": 59,
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "SBC",
+     "name": "SBC Exports Ltd",
+     "close": 65.48,
+     "change": -1.04,
+     "volume": 10897206.0,
+     "score": 2.51,
+     "rank": 9,
+     "sector": "Unknown",
+     "prev_rank": 9,
+     "rank_up": 0
+    },
+    {
+     "symbol": "ONWARDTEC",
+     "name": "Onward Technologies Limited",
+     "close": 384.8,
+     "change": -5.0,
+     "volume": 9099.0,
+     "score": 2.46,
+     "rank": 10,
+     "sector": "Unknown",
+     "prev_rank": 8,
+     "rank_up": -2
+    },
+    {
+     "symbol": "UNITEDPOLY",
+     "name": "United Polyfab Gujarat Ltd",
+     "close": 55.13,
+     "change": 3.26,
+     "volume": 2798171.0,
+     "score": 2.4,
+     "rank": 11,
+     "sector": "Unknown",
+     "prev_rank": 14,
+     "rank_up": 3
+    },
+    {
+     "symbol": "OMNI",
+     "name": "OMNI",
+     "close": 719.25,
+     "change": 5.48,
+     "volume": 1715245.0,
+     "score": 2.32,
+     "rank": 12,
+     "sector": "Capital Goods",
+     "prev_rank": 23,
+     "rank_up": 11,
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "LGHL",
+     "name": "Laxmi Goldorna House Ltd",
+     "close": 241.17,
+     "change": 1.55,
+     "volume": 49309.0,
+     "score": 2.3,
+     "rank": 13,
+     "sector": "Unknown",
+     "prev_rank": 17,
+     "rank_up": 4
+    },
+    {
+     "symbol": "SHREERAMA",
+     "name": "Shree Rama Multi-tech Limited",
+     "close": 57.78,
+     "change": 0.54,
+     "volume": 120545.0,
+     "score": 2.3,
+     "rank": 14,
+     "sector": "Unknown",
+     "prev_rank": 12,
+     "rank_up": -2,
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "PRADPME",
+     "name": "Pradeep Metals Ltd",
+     "close": 637.5,
+     "change": 0.39,
+     "volume": 15949.0,
+     "score": 2.25,
+     "rank": 15,
+     "sector": "Unknown",
+     "prev_rank": 15,
+     "rank_up": 0
+    },
+    {
+     "symbol": "OAL",
+     "name": "Oriental Aromatics Ltd",
+     "close": 622.7,
+     "change": -0.48,
+     "volume": 33489.0,
+     "score": 2.21,
+     "rank": 16,
+     "sector": "Unknown",
+     "prev_rank": 11,
+     "rank_up": -5,
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "SEJALLTD",
+     "name": "Sejal Glass Ltd",
+     "close": 877.25,
+     "change": 0.97,
+     "volume": 33827.0,
+     "score": 2.18,
+     "rank": 17,
+     "sector": "Unknown",
+     "prev_rank": 16,
+     "rank_up": -1
+    },
+    {
+     "symbol": "MAHASTEEL",
+     "name": "Mahamaya Steel Industries Limited",
+     "close": 1534.1,
+     "change": 0.7,
+     "volume": 10069.0,
+     "score": 2.14,
+     "rank": 18,
+     "sector": "Unknown",
+     "prev_rank": 13,
+     "rank_up": -5
+    },
+    {
+     "symbol": "PCJEWELLER",
+     "name": "Pc Jeweller Limited",
+     "close": 15.8,
+     "change": -5.11,
+     "volume": 629922125.0,
+     "score": 2.12,
+     "rank": 19,
+     "sector": "Consumer Durables",
+     "prev_rank": 10,
+     "rank_up": -9
+    },
+    {
+     "symbol": "SHRINGARMS",
+     "name": "Shringar House of Mangalsutra Ltd",
+     "close": 284.51,
+     "change": 2.84,
+     "volume": 951601.0,
+     "score": 2.07,
+     "rank": 20,
+     "sector": "Unknown",
+     "prev_rank": 18,
+     "rank_up": -2,
+     "results": "2026-11-04"
+    }
+   ],
+   "error": null,
+   "max_show": 20,
+   "ranked": true,
+   "ranks": {
+    "CCAVENUE": 1,
+    "RAMBHAJO": 2,
+    "PASHUPATI": 3,
+    "DPABHUSHAN": 4,
+    "TBZ": 5,
+    "SSWL": 6,
+    "MMWL": 7,
+    "UYFINCORP": 8,
+    "SBC": 9,
+    "ONWARDTEC": 10,
+    "UNITEDPOLY": 11,
+    "OMNI": 12,
+    "LGHL": 13,
+    "SHREERAMA": 14,
+    "PRADPME": 15,
+    "OAL": 16,
+    "SEJALLTD": 17,
+    "MAHASTEEL": 18,
+    "PCJEWELLER": 19,
+    "SHRINGARMS": 20,
+    "SPECTRUM": 21,
+    "LOTUSDEV": 22,
+    "LTTS": 23,
+    "PNGSREVA": 24,
+    "INDIAGLYCO": 25,
+    "SUNTV": 26,
+    "VALIANTORG": 27,
+    "GCSL": 28,
+    "ALICON": 29,
+    "IGIL": 30,
+    "KROSS": 31,
+    "SYMBIOTEC": 32,
+    "TIPSMUSIC": 33,
+    "BMWVENTLTD": 34,
+    "PVRINOX": 35,
+    "ORIENTHOT": 36,
+    "WSTCSTPAPR": 37,
+    "FSL": 38,
+    "MIDWESTLTD": 39,
+    "SHREEPUSHK": 40,
+    "TFCILTD": 41,
+    "RATNAVEER": 42,
+    "MOREPENLAB": 43,
+    "KAVDEFENCE": 44,
+    "TECHNOCRAF": 45,
+    "SHREEJISPG": 46,
+    "MGEL": 47,
+    "BBL": 48,
+    "KRISHANA": 49,
+    "MILKYMIST": 50,
+    "SAMBHV": 51,
+    "CUPID": 52,
+    "TANLA": 53,
+    "LOKESHMACH": 54,
+    "AXISCADES": 55,
+    "63MOONS": 56,
+    "HFCL": 57,
+    "HTEL": 58,
+    "PTCIL": 59,
+    "ACUTAAS": 60,
+    "BODALCHEM": 61,
+    "STLTECH": 62,
+    "XTRANET": 63,
+    "TCS": 64,
+    "CYIENT": 65,
+    "SOUTHBANK": 66
+   },
+   "prev_count": 20,
+   "new": [
+    "OMNI",
+    "UYFINCORP"
+   ]
+  },
+  {
+   "name": "ROE/EPS IMPROVING",
+   "slug": "eps-improving-4",
+   "about": "Fundamental scan: net profit up year-on-year for 3 straight quarters, latest quarter profit +20% and sales +10% YoY, mcap > 500 Cr. A stock entering usually follows a new quarterly result",
+   "stocks": [
+    {
+     "symbol": "POWERINDIA",
+     "name": "Hitachi Energy India Ltd",
+     "close": 28435.0,
+     "change": 0.14,
+     "volume": 125493.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "SOLARINDS",
+     "name": "Solar Industries India Limited",
+     "close": 19240.0,
+     "change": -0.16,
+     "volume": 113776.0,
+     "sector": "Chemicals",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "TVSHLTD",
+     "name": "TVS Holdings Ltd",
+     "close": 11849.0,
+     "change": 3.48,
+     "volume": 10936.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "CRAFTSMAN",
+     "name": "Craftsman Automation Ltd",
+     "close": 11014.0,
+     "change": 0.03,
+     "volume": 199734.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "BAJAJ-AUTO",
+     "name": "Bajaj Auto Limited",
+     "close": 10485.0,
+     "change": 0.91,
+     "volume": 967685.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "NAVINFLUOR",
+     "name": "Navin Fluorine International Limited",
+     "close": 8501.0,
+     "change": 2.99,
+     "volume": 333180.0,
+     "sector": "Chemicals",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "APOLLOHOSP",
+     "name": "Apollo Hospitals Enterprise Limited",
+     "close": 8137.0,
+     "change": 4.43,
+     "volume": 763970.0,
+     "sector": "Healthcare",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "EICHERMOT",
+     "name": "Eicher Motors Limited",
+     "close": 7300.0,
+     "change": 1.88,
+     "volume": 377246.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "KINGFA",
+     "name": "Kingfa Science & Technology (india) Limited",
+     "close": 6852.0,
+     "change": 0.46,
+     "volume": 5547.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "KOVAI",
+     "name": "Kovai Medical Center & Hospital Ltd",
+     "close": 5929.5,
+     "change": 1.15,
+     "volume": 3278.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "LUMAXIND",
+     "name": "Lumax Industries Limited",
+     "close": 5085.5,
+     "change": 0.68,
+     "volume": 9744.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "THANGAMAYL",
+     "name": "Thangamayil Jewellery Limited",
+     "close": 4680.5,
+     "change": -1.71,
+     "volume": 23335.0,
+     "sector": "Consumer Durables",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "NETWEB",
+     "name": "Netweb Technologies India Ltd",
+     "close": 4403.9,
+     "change": 1.21,
+     "volume": 1371558.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "TITAN",
+     "name": "Titan Company Limited",
+     "close": 4337.9,
+     "change": -0.64,
+     "volume": 527965.0,
+     "sector": "Consumer Durables"
+    },
+    {
+     "symbol": "SANSERA",
+     "name": "Sansera Engineering Ltd",
+     "close": 4310.0,
+     "change": 0.45,
+     "volume": 117320.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "BLUEDART",
+     "name": "Blue Dart Express Limited",
+     "close": 4271.8,
+     "change": -0.07,
+     "volume": 3324.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TVSMOTOR",
+     "name": "Tvs Motor Company Limited",
+     "close": 4239.9,
+     "change": 3.74,
+     "volume": 1342724.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "TVSSRICHAK",
+     "name": "Tvs Srichakra Limited",
+     "close": 4196.1,
+     "change": 2.17,
+     "volume": 9130.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "RADICO",
+     "name": "Radico Khaitan Limited",
+     "close": 4135.1,
+     "change": -3.61,
+     "volume": 763227.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "GVT&D",
+     "name": "GE Vernova T&D India Ltd",
+     "close": 4060.0,
+     "change": 2.01,
+     "volume": 833279.0,
+     "sector": "Capital Goods",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "KEI",
+     "name": "Kei Industries Limited",
+     "close": 3856.0,
+     "change": -0.37,
+     "volume": 260887.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "ACUTAAS",
+     "name": "Acutaas Chemicals Ltd",
+     "close": 3710.0,
+     "change": -2.2,
+     "volume": 2271934.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "BSE",
+     "name": "BSE (Bombay stock exchange) Ltd",
+     "close": 3485.0,
+     "change": 1.28,
+     "volume": 3042975.0,
+     "sector": "Financial Services",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "PRIVISCL",
+     "name": "Privi Speciality Chemicals Ltd",
+     "close": 3475.9,
+     "change": -1.55,
+     "volume": 85373.0,
+     "sector": "Chemicals",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "AJANTPHARM",
+     "name": "Ajanta Pharma Limited",
+     "close": 3459.8,
+     "change": 3.17,
+     "volume": 43733.0,
+     "sector": "Healthcare",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "ORISSAMINE",
+     "name": "The Orissa Minerals Development Company Limited",
+     "close": 3222.6,
+     "change": -2.59,
+     "volume": 5290.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MCX",
+     "name": "Multi Commodity Exchange Of India Limited",
+     "close": 3180.6,
+     "change": -0.19,
+     "volume": 1010327.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "BASF",
+     "name": "Basf India Limited",
+     "close": 3103.2,
+     "change": -0.76,
+     "volume": 11343.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "PRUDENT",
+     "name": "Prudent Corporate Advisory Services Ltd",
+     "close": 2964.8,
+     "change": 2.89,
+     "volume": 133173.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "STYLAMIND",
+     "name": "Stylam Industries Ltd",
+     "close": 2884.3,
+     "change": -10.02,
+     "volume": 395301.0,
+     "sector": "Consumer Durables"
+    },
+    {
+     "symbol": "M&M",
+     "name": "Mahindra & Mahindra Limited",
+     "close": 2869.9,
+     "change": 0.4,
+     "volume": 1387305.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "INDOTECH",
+     "name": "Indo Tech Transformers Limited",
+     "close": 2840.3,
+     "change": 0.34,
+     "volume": 31270.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ENRIN",
+     "name": "Siemens Energy India Ltd",
+     "close": 2840.0,
+     "change": -0.14,
+     "volume": 189854.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "NGLFINE",
+     "name": "NGL Fine Chem Ltd",
+     "close": 2610.6,
+     "change": -0.83,
+     "volume": 2655.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "CARTRADE",
+     "name": "Cartrade Tech Ltd",
+     "close": 2464.5,
+     "change": -12.64,
+     "volume": 4862612.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "MUTHOOTFIN",
+     "name": "Muthoot Finance Limited",
+     "close": 2392.7,
+     "change": -0.61,
+     "volume": 189274.0,
+     "sector": "Financial Services",
+     "results": "2026-10-31"
+    },
+    {
+     "symbol": "GLENMARK",
+     "name": "Glenmark Pharmaceuticals Limited",
+     "close": 2300.0,
+     "change": 1.51,
+     "volume": 455830.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "LAURUSLABS",
+     "name": "Laurus Labs Limited",
+     "close": 2181.9,
+     "change": 1.86,
+     "volume": 2200731.0,
+     "sector": "Healthcare",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "APLAPOLLO",
+     "name": "Apl Apollo Tubes Limited",
+     "close": 2165.3,
+     "change": -2.2,
+     "volume": 889278.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "DPABHUSHAN",
+     "name": "D.P. Abhushan Ltd",
+     "close": 2048.5,
+     "change": -1.59,
+     "volume": 24416.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SJS",
+     "name": "S J S Enterprises Ltd",
+     "close": 2046.8,
+     "change": 2.91,
+     "volume": 47864.0,
+     "sector": "Automobile and Auto Components",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "AVALON",
+     "name": "Avalon Technologies Ltd",
+     "close": 2046.5,
+     "change": -5.64,
+     "volume": 266968.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "LUMAXTECH",
+     "name": "Lumax Auto Technologies Limited",
+     "close": 2043.1,
+     "change": 6.95,
+     "volume": 553342.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "MACPOWER",
+     "name": "Macpower CNC Machines Ltd",
+     "close": 1938.7,
+     "change": 1.85,
+     "volume": 77350.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "IPCALAB",
+     "name": "Ipca Laboratories Limited",
+     "close": 1930.5,
+     "change": -2.54,
+     "volume": 175489.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "WOCKPHARMA",
+     "name": "Wockhardt Limited",
+     "close": 1913.4,
+     "change": 1.52,
+     "volume": 490596.0,
+     "sector": "Healthcare",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "PHOENIXLTD",
+     "name": "The Phoenix Mills Limited",
+     "close": 1899.3,
+     "change": -0.3,
+     "volume": 219809.0,
+     "sector": "Realty",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "EMCURE",
+     "name": "Emcure Pharmaceuticals Ltd",
+     "close": 1875.0,
+     "change": -0.01,
+     "volume": 62133.0,
+     "sector": "Healthcare",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "GRINDWELL",
+     "name": "Grindwell Norton Limited",
+     "close": 1851.2,
+     "change": 0.18,
+     "volume": 25666.0,
+     "sector": "Capital Goods",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "MANORAMA",
+     "name": "Manorama Industries Ltd",
+     "close": 1801.4,
+     "change": -1.52,
+     "volume": 71762.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "HAPPYFORGE",
+     "name": "Happy Forgings Ltd",
+     "close": 1784.6,
+     "change": -0.79,
+     "volume": 39617.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "LLOYDSME",
+     "name": "Lloyds Metals & Energy Ltd",
+     "close": 1774.8,
+     "change": 0.07,
+     "volume": 96591.0,
+     "sector": "Metals & Mining"
+    },
+    {
+     "symbol": "RPEL",
+     "name": "Raghav Productivity Enhancers Ltd",
+     "close": 1764.1,
+     "change": 1.24,
+     "volume": 46434.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SUNPHARMA",
+     "name": "Sun Pharmaceuticals Industries Limited",
+     "close": 1757.5,
+     "change": 0.36,
+     "volume": 1056767.0,
+     "sector": "Healthcare",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "NBIFIN",
+     "name": "N. B. I. Industrial Finance Company Limited",
+     "close": 1715.0,
+     "change": -0.5,
+     "volume": 113.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "IKS",
+     "name": "Inventurus Knowledge Solutions Ltd",
+     "close": 1692.8,
+     "change": -0.6,
+     "volume": 68357.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "PIXTRANS",
+     "name": "Pix Transmission Ltd",
+     "close": 1667.0,
+     "change": 0.14,
+     "volume": 5478.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "BHARTIHEXA",
+     "name": "Bharti Hexacom Ltd",
+     "close": 1665.4,
+     "change": -0.03,
+     "volume": 158582.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "ATHERENERG",
+     "name": "Ather Energy Ltd",
+     "close": 1650.0,
+     "change": -1.43,
+     "volume": 2645704.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "NPST",
+     "name": "Network People Services Technologies Ltd",
+     "close": 1646.4,
+     "change": -2.39,
+     "volume": 22315.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "AUROPHARMA",
+     "name": "Aurobindo Pharma Limited",
+     "close": 1644.8,
+     "change": 1.06,
+     "volume": 554485.0,
+     "sector": "Healthcare",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "PAYTM",
+     "name": "One 97 Communications Ltd",
+     "close": 1631.5,
+     "change": 1.87,
+     "volume": 3771383.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "TATVA",
+     "name": "Tatva Chintan Pharma Chem Ltd",
+     "close": 1627.8,
+     "change": 1.4,
+     "volume": 53151.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ENTERO",
+     "name": "Entero Healthcare Solutions Ltd",
+     "close": 1599.0,
+     "change": 1.32,
+     "volume": 95924.0,
+     "sector": "Consumer Services",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "AETHER",
+     "name": "Aether Industries Ltd",
+     "close": 1588.4,
+     "change": 3.32,
+     "volume": 333170.0,
+     "sector": "Chemicals",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "SYRMA",
+     "name": "Syrma SGS Technology Ltd",
+     "close": 1563.0,
+     "change": 2.86,
+     "volume": 2088980.0,
+     "sector": "Capital Goods",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "CHOLAFIN",
+     "name": "Cholamandalam Investment And Finance Company Limited",
+     "close": 1545.2,
+     "change": 5.19,
+     "volume": 3186838.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "CHENNPETRO",
+     "name": "Chennai Petroleum Corporation Limited",
+     "close": 1521.4,
+     "change": -3.33,
+     "volume": 1534079.0,
+     "sector": "Oil Gas & Consumable Fuels"
+    },
+    {
+     "symbol": "SAILIFE",
+     "name": "Sai Life Sciences Ltd",
+     "close": 1487.2,
+     "change": 0.07,
+     "volume": 375450.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "PVRINOX",
+     "name": "PVR Inox Ltd",
+     "close": 1445.3,
+     "change": -1.28,
+     "volume": 2597009.0,
+     "sector": "Media Entertainment & Publication"
+    },
+    {
+     "symbol": "VIJAYA",
+     "name": "Vijaya Diagnostic Centre Ltd",
+     "close": 1442.8,
+     "change": 0.01,
+     "volume": 37973.0,
+     "sector": "Healthcare",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "AFFLE",
+     "name": "Affle India Ltd",
+     "close": 1411.0,
+     "change": 4.15,
+     "volume": 203440.0,
+     "sector": "Information Technology",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "PIDILITIND",
+     "name": "Pidilite Industries Limited",
+     "close": 1389.6,
+     "change": -4.17,
+     "volume": 1205751.0,
+     "sector": "Chemicals"
+    },
+    {
+     "symbol": "ARMANFIN",
+     "name": "Arman Financial Services Limited",
+     "close": 1380.8,
+     "change": -0.45,
+     "volume": 38648.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "QPOWER",
+     "name": "Quality Power Electrical Equipments Ltd",
+     "close": 1360.7,
+     "change": 1.69,
+     "volume": 251428.0,
+     "sector": "Capital Goods",
+     "results": "2026-10-31"
+    },
+    {
+     "symbol": "VENUSREM",
+     "name": "Venus Remedies Limited",
+     "close": 1330.2,
+     "change": -4.22,
+     "volume": 116138.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SENORES",
+     "name": "Senores Pharmaceuticals Ltd",
+     "close": 1324.3,
+     "change": 1.01,
+     "volume": 186875.0,
+     "sector": "Healthcare",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "SUMMITSEC",
+     "name": "Summit Securities Limited",
+     "close": 1321.9,
+     "change": 1.14,
+     "volume": 1621.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "CHOLAHLDNG",
+     "name": "Cholamandalam Financial Holdings Ltd",
+     "close": 1304.1,
+     "change": 3.42,
+     "volume": 167943.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "JSWSTEEL",
+     "name": "Jsw Steel Limited",
+     "close": 1241.2,
+     "change": -0.92,
+     "volume": 1771449.0,
+     "sector": "Metals & Mining"
+    },
+    {
+     "symbol": "RML",
+     "name": "Rane (madras) Limited",
+     "close": 1224.7,
+     "change": 0.72,
+     "volume": 10984.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "KRN",
+     "name": "KRN Heat Exchanger and Refrigeration Ltd",
+     "close": 1178.9,
+     "change": 5.0,
+     "volume": 166395.0,
+     "sector": "Capital Goods",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "ERIS",
+     "name": "Eris Lifesciences Ltd",
+     "close": 1175.4,
+     "change": -1.92,
+     "volume": 64184.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "NESTLEIND",
+     "name": "Nestle India Limited",
+     "close": 1168.0,
+     "change": -1.06,
+     "volume": 1243976.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "KAJARIACER",
+     "name": "Kajaria Ceramics Limited",
+     "close": 1115.7,
+     "change": -2.49,
+     "volume": 377609.0,
+     "sector": "Consumer Durables"
+    },
+    {
+     "symbol": "IMFA",
+     "name": "Indian Metals & Ferro Alloys Limited",
+     "close": 1088.2,
+     "change": -0.37,
+     "volume": 59690.0,
+     "sector": "Metals & Mining",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "CARBORUNIV",
+     "name": "Carborundum Universal Limited",
+     "close": 1086.1,
+     "change": -1.06,
+     "volume": 61838.0,
+     "sector": "Capital Goods",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "STAR",
+     "name": "Strides Shasun Limited",
+     "close": 1085.6,
+     "change": -0.7,
+     "volume": 396045.0,
+     "sector": "Healthcare",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "CHEVIOT",
+     "name": "Cheviot Company Ltd",
+     "close": 1074.3,
+     "change": 0.49,
+     "volume": 210.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ANTELOPUS",
+     "name": "Antelopus Selan Energy Ltd",
+     "close": 1055.3,
+     "change": -3.29,
+     "volume": 196275.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ABREL",
+     "name": "Aditya Birla Real Estate Ltd",
+     "close": 1053.8,
+     "change": -2.47,
+     "volume": 252671.0,
+     "sector": "Realty"
+    },
+    {
+     "symbol": "DIAMONDYD",
+     "name": "Prataap Snacks Ltd",
+     "close": 1052.4,
+     "change": 0.06,
+     "volume": 5427.0,
+     "sector": "Unknown",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "IFBIND",
+     "name": "Ifb Industries Limited",
+     "close": 1041.6,
+     "change": -1.01,
+     "volume": 41381.0,
+     "sector": "Consumer Durables"
+    },
+    {
+     "symbol": "SBCL",
+     "name": "Shivalik Bimetal Controls Ltd",
+     "close": 1039.1,
+     "change": 3.17,
+     "volume": 379032.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "CREDITACC",
+     "name": "CreditAccess Grameen Ltd",
+     "close": 1022.2,
+     "change": 1.19,
+     "volume": 899170.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "HOMEFIRST",
+     "name": "Home First Finance Company India Ltd",
+     "close": 1014.4,
+     "change": -0.23,
+     "volume": 177193.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "SANDESH",
+     "name": "The Sandesh Limited",
+     "close": 989.9,
+     "change": 3.02,
+     "volume": 1498.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "SAKAR",
+     "name": "Sakar Healthcare Ltd",
+     "close": 989.0,
+     "change": 6.31,
+     "volume": 289601.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "POLICYBZR",
+     "name": "PB Fintech Ltd",
+     "close": 988.0,
+     "change": -2.02,
+     "volume": 1691303.0,
+     "sector": "Financial Services",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "CARYSIL",
+     "name": "Carysil Ltd",
+     "close": 977.9,
+     "change": -1.11,
+     "volume": 37946.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "DIVGIITTS",
+     "name": "Divgi Torqtransfer Systems Ltd",
+     "close": 957.6,
+     "change": 1.24,
+     "volume": 93894.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "SHILPAMED",
+     "name": "Shilpa Medicare Limited",
+     "close": 932.0,
+     "change": 3.02,
+     "volume": 573684.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "STLTECH",
+     "name": "Sterlite Technologies Limited",
+     "close": 879.4,
+     "change": -3.46,
+     "volume": 1431626.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "AUBANK",
+     "name": "AU Small Finance Bank Ltd",
+     "close": 879.1,
+     "change": 3.67,
+     "volume": 3892494.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "SEJALLTD",
+     "name": "Sejal Glass Ltd",
+     "close": 877.25,
+     "change": 0.97,
+     "volume": 33827.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "GANDHITUBE",
+     "name": "Gandhi Special Tubes Limited",
+     "close": 869.05,
+     "change": 2.51,
+     "volume": 4003.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "NINSYS",
+     "name": "NINtec Systems Ltd",
+     "close": 863.5,
+     "change": -1.32,
+     "volume": 7481.0,
+     "sector": "Unknown",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "SKYGOLD",
+     "name": "Sky Gold Ltd",
+     "close": 858.3,
+     "change": -8.22,
+     "volume": 7369024.0,
+     "sector": "Consumer Durables"
+    },
+    {
+     "symbol": "STOVEKRAFT",
+     "name": "Stove Kraft Ltd",
+     "close": 856.3,
+     "change": 1.86,
+     "volume": 150004.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "PREMIERENE",
+     "name": "Premier Energies Ltd",
+     "close": 845.2,
+     "change": -1.95,
+     "volume": 1043527.0,
+     "sector": "Capital Goods",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "ARIHANT",
+     "name": "Arihant Foundations & Housing Limited",
+     "close": 836.35,
+     "change": 0.5,
+     "volume": 383.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SHRIRAMFIN",
+     "name": "Shriram Finance Ltd",
+     "close": 832.55,
+     "change": 1.09,
+     "volume": 6278214.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "CGPOWER",
+     "name": "CG Power and Industrial Solutions Ltd",
+     "close": 832.3,
+     "change": -0.37,
+     "volume": 1120123.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "TINNARUBR",
+     "name": "Tinna Rubber & Infrastructure Ltd",
+     "close": 814.5,
+     "change": -1.06,
+     "volume": 50788.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "RPTECH",
+     "name": "Rashi Peripherals Ltd",
+     "close": 805.3,
+     "change": -1.01,
+     "volume": 116645.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "INDHOTEL",
+     "name": "The Indian Hotels Company Limited",
+     "close": 805.2,
+     "change": -0.94,
+     "volume": 4047672.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "TIPSMUSIC",
+     "name": "Tips Music Ltd",
+     "close": 793.9,
+     "change": 7.05,
+     "volume": 1647467.0,
+     "sector": "Media Entertainment & Publication"
+    },
+    {
+     "symbol": "TMB",
+     "name": "Tamilnad Mercantile Bank Ltd",
+     "close": 790.8,
+     "change": -1.96,
+     "volume": 228485.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "MARICO",
+     "name": "Marico Limited",
+     "close": 769.65,
+     "change": -0.84,
+     "volume": 832409.0,
+     "sector": "Fast Moving Consumer Goods",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "GLOBUSSPR",
+     "name": "Globus Spirits Limited",
+     "close": 739.25,
+     "change": 1.39,
+     "volume": 46257.0,
+     "sector": "Unknown",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "COSMOFIRST",
+     "name": "Cosmo First Ltd",
+     "close": 735.25,
+     "change": -0.58,
+     "volume": 21340.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "GRAPHITE",
+     "name": "Graphite India Limited",
+     "close": 735.15,
+     "change": -2.17,
+     "volume": 571539.0,
+     "sector": "Capital Goods",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "CHOICEIN",
+     "name": "Choice International Ltd",
+     "close": 732.4,
+     "change": 1.56,
+     "volume": 576479.0,
+     "sector": "Financial Services",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "MAYURUNIQ",
+     "name": "Mayur Uniquoters Ltd",
+     "close": 731.25,
+     "change": 1.5,
+     "volume": 26728.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "ARROWGREEN",
+     "name": "Arrow Greentech Limited",
+     "close": 718.75,
+     "change": -0.28,
+     "volume": 22984.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TDPOWERSYS",
+     "name": "Td Power Systems Limited",
+     "close": 718.65,
+     "change": 4.58,
+     "volume": 3300925.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "UNIPARTS",
+     "name": "Uniparts India Ltd",
+     "close": 718.6,
+     "change": 0.48,
+     "volume": 69272.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "PSPPROJECT",
+     "name": "PSP Projects Ltd",
+     "close": 712.35,
+     "change": -1.44,
+     "volume": 46748.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "IZMO",
+     "name": "Izmo Limited",
+     "close": 709.9,
+     "change": -1.03,
+     "volume": 61181.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "DEEPINDS",
+     "name": "Deep Industries Ltd",
+     "close": 677.95,
+     "change": 1.84,
+     "volume": 162917.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "SOTL",
+     "name": "Savita Oil Technologies Limited",
+     "close": 672.6,
+     "change": -4.76,
+     "volume": 255234.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PANACHE",
+     "name": "Panache Digilife Ltd",
+     "close": 660.0,
+     "change": 0.76,
+     "volume": 12919.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PRICOLLTD",
+     "name": "Pricol Ltd.",
+     "close": 645.35,
+     "change": -0.33,
+     "volume": 221375.0,
+     "sector": "Automobile and Auto Components",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "CENTURYPLY",
+     "name": "Century Plyboards (india) Limited",
+     "close": 642.35,
+     "change": -0.56,
+     "volume": 27344.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "MINDACORP",
+     "name": "Minda Corporation Limited",
+     "close": 629.75,
+     "change": 3.26,
+     "volume": 273856.0,
+     "sector": "Automobile and Auto Components",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "THELEELA",
+     "name": "Leela Palaces Hotels & Resorts Ltd",
+     "close": 605.2,
+     "change": 2.01,
+     "volume": 1005944.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "TANLA",
+     "name": "Tanla Solutions Limited",
+     "close": 598.7,
+     "change": 3.38,
+     "volume": 3558705.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "DOLPHIN",
+     "name": "Dolphin Offshore Enterprises (India) Ltd",
+     "close": 594.9,
+     "change": 0.94,
+     "volume": 16635.0,
+     "sector": "Unknown",
+     "results": "2026-10-31"
+    },
+    {
+     "symbol": "ASKAUTOLTD",
+     "name": "ASK Automotive Ltd",
+     "close": 587.15,
+     "change": 2.1,
+     "volume": 104579.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "GNA",
+     "name": "Gna Axles Limited",
+     "close": 569.2,
+     "change": -1.8,
+     "volume": 281230.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "HNDFDS",
+     "name": "Hindustan Foods Ltd",
+     "close": 553.15,
+     "change": -2.93,
+     "volume": 56605.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "GOODLUCK",
+     "name": "Goodluck India Limited",
+     "close": 551.4,
+     "change": -0.33,
+     "volume": 312407.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "METROPOLIS",
+     "name": "Metropolis Healthcare Ltd",
+     "close": 551.2,
+     "change": 0.13,
+     "volume": 206976.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "RAMRAT",
+     "name": "Ram Ratna Wires Ltd",
+     "close": 547.7,
+     "change": 1.17,
+     "volume": 64255.0,
+     "sector": "Unknown",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "IIFL",
+     "name": "IIFL Finance Ltd",
+     "close": 533.2,
+     "change": 1.07,
+     "volume": 845383.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "TTKPRESTIG",
+     "name": "Ttk Prestige Limited",
+     "close": 533.1,
+     "change": -1.37,
+     "volume": 15090.0,
+     "sector": "Consumer Durables"
+    },
+    {
+     "symbol": "HSCL",
+     "name": "Himadri Speciality Chemical Limited",
+     "close": 530.55,
+     "change": -2.02,
+     "volume": 1608526.0,
+     "sector": "Chemicals"
+    },
+    {
+     "symbol": "KALYANKJIL",
+     "name": "Kalyan Jewellers India Ltd",
+     "close": 510.0,
+     "change": 2.0,
+     "volume": 3969692.0,
+     "sector": "Consumer Durables"
+    },
+    {
+     "symbol": "HINDZINC",
+     "name": "Hindustan Zinc Limited",
+     "close": 506.8,
+     "change": 2.9,
+     "volume": 4259713.0,
+     "sector": "Metals & Mining"
+    },
+    {
+     "symbol": "APCOTEXIND",
+     "name": "Apcotex Industries Limited",
+     "close": 504.95,
+     "change": -2.93,
+     "volume": 453811.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "THYROCARE",
+     "name": "Thyrocare Technologies Limited",
+     "close": 494.5,
+     "change": 0.26,
+     "volume": 442891.0,
+     "sector": "Healthcare",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "AGARWALEYE",
+     "name": "Dr Agarwals Health Care Ltd",
+     "close": 475.15,
+     "change": -0.3,
+     "volume": 67398.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PANAMAPET",
+     "name": "Panama Petrochem Limited",
+     "close": 464.55,
+     "change": -7.13,
+     "volume": 403617.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "USHAMART",
+     "name": "Usha Martin Limited",
+     "close": 464.1,
+     "change": -3.17,
+     "volume": 305632.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "HONASA",
+     "name": "Honasa Consumer Ltd",
+     "close": 451.1,
+     "change": -0.18,
+     "volume": 159908.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "ASAL",
+     "name": "Automotive Stampings And Assemblies Limited",
+     "close": 448.55,
+     "change": -1.0,
+     "volume": 20695.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "AARTIIND",
+     "name": "Aarti Industries Limited",
+     "close": 437.3,
+     "change": 0.37,
+     "volume": 308351.0,
+     "sector": "Chemicals",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "ARIES",
+     "name": "Aries Agro Limited",
+     "close": 437.25,
+     "change": 4.99,
+     "volume": 6020.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MAHLOG",
+     "name": "Mahindra Logistics Ltd",
+     "close": 431.35,
+     "change": -0.66,
+     "volume": 677319.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "KKCL",
+     "name": "Kewal Kiran Clothing Limited",
+     "close": 420.25,
+     "change": 0.51,
+     "volume": 8807.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "APOLLO",
+     "name": "Apollo Micro Systems Ltd",
+     "close": 414.9,
+     "change": -2.47,
+     "volume": 12124150.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "ATULAUTO",
+     "name": "Atul Auto Limited",
+     "close": 412.25,
+     "change": 1.38,
+     "volume": 56417.0,
+     "sector": "Unknown",
+     "results": "2026-10-31"
+    },
+    {
+     "symbol": "SRM",
+     "name": "SRM Contractors Ltd",
+     "close": 408.55,
+     "change": 7.74,
+     "volume": 141832.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PRECWIRE",
+     "name": "Precision Wires India Limited",
+     "close": 405.2,
+     "change": 0.62,
+     "volume": 285738.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "POONAWALLA",
+     "name": "Poonawalla Fincorp Ltd",
+     "close": 403.25,
+     "change": 0.11,
+     "volume": 477161.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "NAZARA",
+     "name": "Nazara Technologies Ltd",
+     "close": 400.0,
+     "change": -0.32,
+     "volume": 903435.0,
+     "sector": "Media Entertainment & Publication"
+    },
+    {
+     "symbol": "JNKINDIA",
+     "name": "JNK India Ltd",
+     "close": 398.85,
+     "change": 2.94,
+     "volume": 83586.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "BORORENEW",
+     "name": "Borosil Renewables Ltd",
+     "close": 394.75,
+     "change": -0.16,
+     "volume": 263719.0,
+     "sector": "Capital Goods",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "POCL",
+     "name": "Pondy Oxides & Chemicals Ltd",
+     "close": 392.2,
+     "change": 0.63,
+     "volume": 173860.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "BFINVEST",
+     "name": "Bf Investment Limited",
+     "close": 391.6,
+     "change": -0.47,
+     "volume": 5828.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SETL",
+     "name": "Standard Enginnering Technology Ltd",
+     "close": 386.65,
+     "change": 4.95,
+     "volume": 1502942.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "LOKESHMACH",
+     "name": "Lokesh Machines Limited",
+     "close": 383.25,
+     "change": -0.29,
+     "volume": 84402.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "BAJAJCON",
+     "name": "Bajaj Consumer Care Ltd",
+     "close": 381.3,
+     "change": -1.35,
+     "volume": 285463.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "MODISONLTD",
+     "name": "Modison Ltd",
+     "close": 370.25,
+     "change": -4.99,
+     "volume": 120932.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PATANJALI",
+     "name": "Patanjali Foods Ltd",
+     "close": 369.6,
+     "change": 6.22,
+     "volume": 14122998.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "ORIENTBELL",
+     "name": "Orient Bell Limited",
+     "close": 361.85,
+     "change": -1.46,
+     "volume": 5695.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "KRISHIVAL",
+     "name": "Empyrean Cashews Ltd",
+     "close": 358.9,
+     "change": 1.73,
+     "volume": 36091.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "ABCAPITAL",
+     "name": "Aditya Birla Capital Ltd",
+     "close": 356.0,
+     "change": 0.69,
+     "volume": 1097349.0,
+     "sector": "Financial Services",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "GUJTHEM",
+     "name": "Gujarat Themis Biosyn Ltd",
+     "close": 355.55,
+     "change": 0.84,
+     "volume": 164067.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "EXIDEIND",
+     "name": "Exide Industries Limited",
+     "close": 353.85,
+     "change": 4.61,
+     "volume": 5221241.0,
+     "sector": "Automobile and Auto Components",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "KARURVYSYA",
+     "name": "Karur Vysya Bank Limited",
+     "close": 350.2,
+     "change": -0.11,
+     "volume": 2242449.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "RBLBANK",
+     "name": "Rbl Bank Limited",
+     "close": 349.95,
+     "change": 0.4,
+     "volume": 1690398.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "FEDERALBNK",
+     "name": "The Federal Bank  Limited",
+     "close": 346.0,
+     "change": 1.29,
+     "volume": 5919741.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "EMUDHRA",
+     "name": "eMudhra Ltd",
+     "close": 345.95,
+     "change": 2.55,
+     "volume": 560504.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "RATNAVEER",
+     "name": "Ratnaveer Precision Engineering Ltd",
+     "close": 345.1,
+     "change": -0.62,
+     "volume": 2424371.0,
+     "sector": "Unknown",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "NYKAA",
+     "name": "FSN E-Commerce Ventures Ltd",
+     "close": 342.5,
+     "change": 0.91,
+     "volume": 5020992.0,
+     "sector": "Consumer Services",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "KIOCL",
+     "name": "Kiocl Limited",
+     "close": 336.95,
+     "change": 4.16,
+     "volume": 116519.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "VSSL",
+     "name": "Vardhman Special Steels Limited",
+     "close": 328.7,
+     "change": -9.72,
+     "volume": 378652.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ETERNAL",
+     "name": "Eternal Ltd",
+     "close": 326.0,
+     "change": -1.51,
+     "volume": 21735164.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "QUESS",
+     "name": "Quess Corp Limited",
+     "close": 325.5,
+     "change": 0.66,
+     "volume": 156565.0,
+     "sector": "Services",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "DIACABS",
+     "name": "Diamond Power Infrastructure Ltd",
+     "close": 325.4,
+     "change": -2.78,
+     "volume": 358816.0,
+     "sector": "Capital Goods",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "CUPID",
+     "name": "Cupid Limited",
+     "close": 314.55,
+     "change": -0.65,
+     "volume": 10735425.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "SURAKSHA",
+     "name": "Suraksha Diagnostic Ltd",
+     "close": 311.7,
+     "change": 0.14,
+     "volume": 32699.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "VIDHIING",
+     "name": "Vidhi Specialty Food Ingredients",
+     "close": 306.4,
+     "change": 0.57,
+     "volume": 15319.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MAZDA",
+     "name": "Mazda Limited",
+     "close": 293.2,
+     "change": 6.23,
+     "volume": 130340.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ANGELONE",
+     "name": "Angel One Ltd",
+     "close": 292.45,
+     "change": 1.12,
+     "volume": 3191687.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "GENUSPOWER",
+     "name": "Genus Power Infrastructures Limited",
+     "close": 271.2,
+     "change": 1.25,
+     "volume": 731715.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "MENONBE",
+     "name": "Menon Bearings Limited",
+     "close": 268.8,
+     "change": -1.75,
+     "volume": 27278.0,
+     "sector": "Unknown",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "M&MFIN",
+     "name": "Mahindra & Mahindra Financial Services Limited",
+     "close": 263.0,
+     "change": 0.82,
+     "volume": 3618715.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "GANDHAR",
+     "name": "Gandhar Oil Refinery (India) Ltd",
+     "close": 260.65,
+     "change": -17.23,
+     "volume": 8200916.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MASFIN",
+     "name": "MAS Financial Services Ltd",
+     "close": 260.15,
+     "change": 3.38,
+     "volume": 147113.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SREEL",
+     "name": "Sreeleathers Limited",
+     "close": 260.0,
+     "change": 0.95,
+     "volume": 1840.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "NORTHARC",
+     "name": "Northern ARC Capital Ltd",
+     "close": 255.05,
+     "change": 3.24,
+     "volume": 632638.0,
+     "sector": "Financial Services",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "CAPITALSFB",
+     "name": "Capital Small Finance Bank Ltd",
+     "close": 252.5,
+     "change": -2.06,
+     "volume": 38147.0,
+     "sector": "Unknown",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "LTF",
+     "name": "L&T Finance Ltd",
+     "close": 246.5,
+     "change": 2.37,
+     "volume": 4142873.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "IRMENERGY",
+     "name": "IRM Energy Ltd",
+     "close": 245.45,
+     "change": 0.82,
+     "volume": 30831.0,
+     "sector": "Unknown",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "GOPAL",
+     "name": "Gopal Snacks Ltd",
+     "close": 245.15,
+     "change": 0.51,
+     "volume": 49162.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "SCI",
+     "name": "Shipping Corporation Of India Limited",
+     "close": 244.5,
+     "change": 0.08,
+     "volume": 1804864.0,
+     "sector": "Services",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "HFCL",
+     "name": "HFCL Ltd",
+     "close": 242.81,
+     "change": -2.92,
+     "volume": 4798237.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "AWFIS",
+     "name": "AWFIS Space Solutions Ltd",
+     "close": 239.66,
+     "change": 0.28,
+     "volume": 241329.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "SIGNPOST",
+     "name": "Signpost India Ltd",
+     "close": 237.7,
+     "change": 3.3,
+     "volume": 29435.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "CGCL",
+     "name": "Capri Global Capital Limited",
+     "close": 231.66,
+     "change": -1.11,
+     "volume": 8983683.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "VIYASH",
+     "name": "Viyash Scientific Ltd",
+     "close": 227.0,
+     "change": 5.65,
+     "volume": 4573599.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "KRISHANA",
+     "name": "Krishana Phoschem Ltd",
+     "close": 217.47,
+     "change": 2.47,
+     "volume": 704310.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "CUB",
+     "name": "City Union Bank Limited",
+     "close": 215.0,
+     "change": 0.88,
+     "volume": 10338150.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "BORANA",
+     "name": "Borana Weaves Ltd",
+     "close": 214.2,
+     "change": -1.45,
+     "volume": 28495.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "AURUM",
+     "name": "Aurum Proptech Ltd",
+     "close": 213.49,
+     "change": -0.03,
+     "volume": 57139.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "RAIN",
+     "name": "Rain Industries Limited",
+     "close": 209.1,
+     "change": 3.44,
+     "volume": 4059294.0,
+     "sector": "Chemicals"
+    },
+    {
+     "symbol": "BHAGCHEM",
+     "name": "Bhagiradha Chemicals & Industries Ltd",
+     "close": 205.93,
+     "change": 2.46,
+     "volume": 39860.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "AFSL",
+     "name": "Abans Financial Services Ltd",
+     "close": 201.07,
+     "change": -0.01,
+     "volume": 5442.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "VLSFINANCE",
+     "name": "Vls Finance Limited",
+     "close": 200.83,
+     "change": 2.62,
+     "volume": 9320.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PURVA",
+     "name": "Puravankara Projects Limited",
+     "close": 194.11,
+     "change": 2.85,
+     "volume": 87545.0,
+     "sector": "Realty",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "DCBBANK",
+     "name": "Dcb Bank Limited",
+     "close": 191.73,
+     "change": -1.63,
+     "volume": 464957.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "WALCHANNAG",
+     "name": "Walchandnagar Industries Limited",
+     "close": 187.75,
+     "change": 0.64,
+     "volume": 380826.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "SWIGGY",
+     "name": "Swiggy Ltd",
+     "close": 183.5,
+     "change": -2.88,
+     "volume": 13278526.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "BECTORFOOD",
+     "name": "Mrs Bectors Food Specialities Ltd",
+     "close": 181.83,
+     "change": -2.04,
+     "volume": 555154.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "MVGJL",
+     "name": "Manoj Vaibhav Gems N Jewellers Ltd",
+     "close": 181.26,
+     "change": -5.0,
+     "volume": 216719.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "KANORICHEM",
+     "name": "Kanoria Chemicals & Industries Limited",
+     "close": 178.52,
+     "change": -1.18,
+     "volume": 18291.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SHAREINDIA",
+     "name": "Share India Securities Ltd",
+     "close": 176.62,
+     "change": -0.04,
+     "volume": 335597.0,
+     "sector": "Financial Services",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "MRPL",
+     "name": "Mangalore Refinery And Petrochemicals Limited",
+     "close": 172.9,
+     "change": -8.73,
+     "volume": 26322403.0,
+     "sector": "Oil Gas & Consumable Fuels"
+    },
+    {
+     "symbol": "RBZJEWEL",
+     "name": "RBZ Jewellers Ltd",
+     "close": 171.2,
+     "change": -2.44,
+     "volume": 64061.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "HINDWAREAP",
+     "name": "Hindware Home Innovation Ltd",
+     "close": 171.02,
+     "change": 3.62,
+     "volume": 63812.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "IKIO",
+     "name": "IKIO Lighting Ltd",
+     "close": 165.82,
+     "change": -0.18,
+     "volume": 68051.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TIMETECHNO",
+     "name": "Time Technoplast Limited",
+     "close": 161.91,
+     "change": -1.6,
+     "volume": 1655472.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "NRL",
+     "name": "Nupur Recyclers Ltd",
+     "close": 158.0,
+     "change": 0.64,
+     "volume": 55223.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TFCILTD",
+     "name": "Tourism Finance Corporation Of India Limited",
+     "close": 156.94,
+     "change": 1.23,
+     "volume": 6645029.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "VINCOFE",
+     "name": "Vintage Coffee & Beverages Ltd",
+     "close": 152.46,
+     "change": -1.8,
+     "volume": 435814.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "BLUSPRING",
+     "name": "Bluspring Enterprises Ltd",
+     "close": 152.15,
+     "change": -1.37,
+     "volume": 234036.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SAMHI",
+     "name": "Samhi Hotels Ltd",
+     "close": 151.84,
+     "change": 1.58,
+     "volume": 181615.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "FEDFINA",
+     "name": "Fedbank Financial Services Ltd",
+     "close": 148.19,
+     "change": -1.26,
+     "volume": 777167.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "MANBA",
+     "name": "Manba Finance Ltd",
+     "close": 143.48,
+     "change": 0.94,
+     "volume": 165495.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ARIS",
+     "name": "Arisinfra Solutions Ltd",
+     "close": 141.45,
+     "change": 0.38,
+     "volume": 1263991.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "MUTHOOTMF",
+     "name": "Muthoot Microfin Ltd",
+     "close": 140.95,
+     "change": -1.0,
+     "volume": 350258.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "GARUDA",
+     "name": "Garuda Construction and Engineering Ltd",
+     "close": 140.39,
+     "change": -0.69,
+     "volume": 227006.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "IXIGO",
+     "name": "Le Travenues Technology Ltd",
+     "close": 139.88,
+     "change": -1.69,
+     "volume": 635400.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "PARADEEP",
+     "name": "Paradeep Phosphates Ltd",
+     "close": 138.19,
+     "change": -0.56,
+     "volume": 862505.0,
+     "sector": "Chemicals",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "BANKINDIA",
+     "name": "Bank Of India Ltd",
+     "close": 132.9,
+     "change": 0.67,
+     "volume": 5656399.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "SPMLINFRA",
+     "name": "Spml Infra Limited",
+     "close": 132.79,
+     "change": -0.01,
+     "volume": 141972.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "CCAVENUE",
+     "name": "AvenuesAI Ltd",
+     "close": 125.63,
+     "change": 3.6,
+     "volume": 744779.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MOREPENLAB",
+     "name": "Morepen Laboratories Limited",
+     "close": 125.58,
+     "change": -4.99,
+     "volume": 5115994.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SHALBY",
+     "name": "Shalby Ltd",
+     "close": 122.71,
+     "change": 3.4,
+     "volume": 60904.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "SILVERTUC",
+     "name": "Silver Touch Technologies Ltd",
+     "close": 122.65,
+     "change": -4.13,
+     "volume": 265367.0,
+     "sector": "Unknown",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "PROSTARM",
+     "name": "Prostarm Info Systems Ltd",
+     "close": 121.68,
+     "change": 2.54,
+     "volume": 189775.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "EMAMIPAP",
+     "name": "Emami Paper Mills Ltd",
+     "close": 115.01,
+     "change": 0.63,
+     "volume": 21754.0,
+     "sector": "Unknown",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "BEPL",
+     "name": "Bhansali Engineering Polymers Limited",
+     "close": 110.05,
+     "change": -0.43,
+     "volume": 515972.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MANAKSTEEL",
+     "name": "Manaksia Steels Limited",
+     "close": 106.95,
+     "change": 3.78,
+     "volume": 23213.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MUNJALAU",
+     "name": "Munjal Auto Industries Limited",
+     "close": 97.07,
+     "change": 2.63,
+     "volume": 3090637.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PVSL",
+     "name": "Popular Vehicles & Services Ltd",
+     "close": 93.95,
+     "change": -3.5,
+     "volume": 34893.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SBFC",
+     "name": "SBFC Finance Ltd",
+     "close": 90.49,
+     "change": 9.63,
+     "volume": 13888705.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "PREMIERPOL",
+     "name": "Premier Polyfilm Limited",
+     "close": 90.41,
+     "change": -1.03,
+     "volume": 117524.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "LLOYDSENGG",
+     "name": "Lloyds Engineering Works Ltd",
+     "close": 83.82,
+     "change": -0.02,
+     "volume": 4776326.0,
+     "sector": "Capital Goods",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "MAHABANK",
+     "name": "Bank Of Maharashtra Ltd",
+     "close": 79.95,
+     "change": -0.06,
+     "volume": 10187951.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "PAISALO",
+     "name": "Paisalo Digital Ltd",
+     "close": 78.97,
+     "change": 1.06,
+     "volume": 3590419.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "SICALLOG",
+     "name": "Sical Logistics Ltd",
+     "close": 77.97,
+     "change": 1.14,
+     "volume": 6828.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "NAVKARCORP",
+     "name": "Navkar Corporation Limited",
+     "close": 77.09,
+     "change": 1.23,
+     "volume": 327881.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "UGROCAP",
+     "name": "Ugro Capital Ltd",
+     "close": 75.08,
+     "change": 1.5,
+     "volume": 124210.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MANALIPETC",
+     "name": "Manali Petrochemicals Limited",
+     "close": 73.0,
+     "change": -2.0,
+     "volume": 826988.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PASUPTAC",
+     "name": "Pasupati Acrylon Ltd",
+     "close": 70.25,
+     "change": -2.61,
+     "volume": 175732.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "SBC",
+     "name": "SBC Exports Ltd",
+     "close": 65.48,
+     "change": -1.04,
+     "volume": 10897206.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "BANSALWIRE",
+     "name": "Bansal Wire Industries Ltd",
+     "close": 58.5,
+     "change": -1.68,
+     "volume": 144192.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "UNITEDPOLY",
+     "name": "United Polyfab Gujarat Ltd",
+     "close": 55.13,
+     "change": 3.26,
+     "volume": 2798171.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SOUTHBANK",
+     "name": "The South Indian Bank Limited",
+     "close": 54.64,
+     "change": 0.61,
+     "volume": 12534687.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "UJJIVANSFB",
+     "name": "Ujjivan Small Finance Bank Ltd",
+     "close": 54.5,
+     "change": -1.68,
+     "volume": 14248198.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "SUPREMEINF",
+     "name": "Supreme Infrastructure India Limited",
+     "close": 54.27,
+     "change": -1.42,
+     "volume": 199718.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TEMBO",
+     "name": "Tembo Global Industries Ltd",
+     "close": 53.35,
+     "change": 0.34,
+     "volume": 508780.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "GFLLIMITED",
+     "name": "GFL Ltd",
+     "close": 52.19,
+     "change": -0.99,
+     "volume": 111319.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "RAJESHEXPO",
+     "name": "Rajesh Exports Limited",
+     "close": 50.81,
+     "change": 1.3,
+     "volume": 184168.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ESAFSFB",
+     "name": "ESAF Small Finance Bank Ltd",
+     "close": 40.9,
+     "change": 4.66,
+     "volume": 669232.0,
+     "sector": "Unknown",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "IBULLSLTD",
+     "name": "Indiabulls Limited",
+     "close": 31.88,
+     "change": -1.21,
+     "volume": 12985811.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "IOB",
+     "name": "Indian Overseas Bank Ltd",
+     "close": 29.02,
+     "change": -0.55,
+     "volume": 2940307.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "UYFINCORP",
+     "name": "U. Y. Fincorp Ltd",
+     "close": 27.83,
+     "change": 4.98,
+     "volume": 721489.0,
+     "sector": "Unknown",
+     "results": "2026-11-02"
+    },
+    {
+     "symbol": "HMAAGRO",
+     "name": "HMA Agro Industries Ltd",
+     "close": 24.01,
+     "change": 1.69,
+     "volume": 348582.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "UCOBANK",
+     "name": "Uco Bank Ltd",
+     "close": 22.1,
+     "change": -1.16,
+     "volume": 2736038.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "PSB",
+     "name": "Punjab & Sind Bank",
+     "close": 18.72,
+     "change": -4.49,
+     "volume": 5421643.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "YESBANK",
+     "name": "Yes Bank Limited",
+     "close": 15.61,
+     "change": -1.82,
+     "volume": 96512252.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "MOTISONS",
+     "name": "Motisons Jewellers Ltd",
+     "close": 15.07,
+     "change": -0.2,
+     "volume": 35561502.0,
+     "sector": "Unknown"
+    }
+   ],
+   "error": null,
+   "max_show": 50,
+   "prev_count": 285,
+   "new": [
+    "ANTELOPUS",
+    "BAJAJ-AUTO",
+    "MANBA",
+    "NAZARA",
+    "UYFINCORP"
+   ]
+  },
+  {
+   "name": "GM Universe",
+   "slug": "gm-universe",
+   "about": "Momentum universe: 20/50-day momentum score positive and above its 9-EMA, weighted RSI(9) >= 45, mcap > 200 Cr, high liquidity. Broad list; size of the list itself reflects market momentum",
+   "stocks": [
+    {
+     "symbol": "BOSCHLTD",
+     "name": "Bosch Limited",
+     "close": 47625.0,
+     "change": 4.44,
+     "volume": 25372.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "PTCIL",
+     "name": "PTC Industries Ltd",
+     "close": 24005.0,
+     "change": -0.21,
+     "volume": 8674.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "SHREECEM",
+     "name": "Shree Cements Limited",
+     "close": 23020.0,
+     "change": -1.2,
+     "volume": 12219.0,
+     "sector": "Construction Materials"
+    },
+    {
+     "symbol": "SOLARINDS",
+     "name": "Solar Industries India Limited",
+     "close": 19240.0,
+     "change": -0.16,
+     "volume": 113776.0,
+     "sector": "Chemicals",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "ULTRACEMCO",
+     "name": "Ultratech Cement Limited",
+     "close": 11104.0,
+     "change": -0.41,
+     "volume": 213720.0,
+     "sector": "Construction Materials"
+    },
+    {
+     "symbol": "CRAFTSMAN",
+     "name": "Craftsman Automation Ltd",
+     "close": 11014.0,
+     "change": 0.03,
+     "volume": 199734.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "DIVISLAB",
+     "name": "Divi's Laboratories Limited",
+     "close": 9558.5,
+     "change": 0.56,
+     "volume": 745043.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "EICHERMOT",
+     "name": "Eicher Motors Limited",
+     "close": 7300.0,
+     "change": 1.88,
+     "volume": 377246.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "GILLETTE",
+     "name": "Gillette India Limited",
+     "close": 7268.0,
+     "change": -0.68,
+     "volume": 13639.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "GRWRHITECH",
+     "name": "Garware Hi Tech Films Ltd",
+     "close": 7140.0,
+     "change": -0.28,
+     "volume": 26856.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "PERSISTENT",
+     "name": "Persistent Systems Limited",
+     "close": 5848.0,
+     "change": 0.27,
+     "volume": 370086.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "HAL",
+     "name": "Hindustan Aeronautics Ltd",
+     "close": 4850.0,
+     "change": -0.1,
+     "volume": 443033.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "TVSMOTOR",
+     "name": "Tvs Motor Company Limited",
+     "close": 4239.9,
+     "change": 3.74,
+     "volume": 1342724.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "LTM",
+     "name": "LTIMindtree Ltd",
+     "close": 4104.0,
+     "change": 1.09,
+     "volume": 459122.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "LTTS",
+     "name": "L&t Technology Services Limited",
+     "close": 4088.1,
+     "change": -2.06,
+     "volume": 215095.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "TATAELXSI",
+     "name": "Tata Elxsi Limited",
+     "close": 3755.0,
+     "change": 0.85,
+     "volume": 249486.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "ACUTAAS",
+     "name": "Acutaas Chemicals Ltd",
+     "close": 3710.0,
+     "change": -2.2,
+     "volume": 2271934.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "KPL",
+     "name": "Kwality Pharmaceuticals Ltd",
+     "close": 3696.7,
+     "change": 2.7,
+     "volume": 36441.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "BSE",
+     "name": "BSE (Bombay stock exchange) Ltd",
+     "close": 3485.0,
+     "change": 1.28,
+     "volume": 3042975.0,
+     "sector": "Financial Services",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "GLAND",
+     "name": "Gland Pharma Ltd",
+     "close": 3049.0,
+     "change": 3.0,
+     "volume": 282542.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "TRENT",
+     "name": "Trent Limited",
+     "close": 2913.9,
+     "change": 3.31,
+     "volume": 841288.0,
+     "sector": "Consumer Services",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "VINDHYATEL",
+     "name": "Vindhya Telelinks Limited",
+     "close": 2700.9,
+     "change": 1.4,
+     "volume": 37539.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "MPHASIS",
+     "name": "Mphasis Limited",
+     "close": 2518.0,
+     "change": -3.83,
+     "volume": 486745.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "BBL",
+     "name": "Bharat Bijlee Limited",
+     "close": 2509.8,
+     "change": -2.94,
+     "volume": 116718.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TCS",
+     "name": "Tata Consultancy Services Limited",
+     "close": 2460.0,
+     "change": -1.48,
+     "volume": 2540047.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "ANANDRATHI",
+     "name": "Anand Rathi Wealth Ltd",
+     "close": 2264.6,
+     "change": 0.25,
+     "volume": 368628.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "LAURUSLABS",
+     "name": "Laurus Labs Limited",
+     "close": 2181.9,
+     "change": 1.86,
+     "volume": 2200731.0,
+     "sector": "Healthcare",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "LUMAXTECH",
+     "name": "Lumax Auto Technologies Limited",
+     "close": 2043.1,
+     "change": 6.95,
+     "volume": 553342.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "AXISCADES",
+     "name": "AXISCADES Technologies Ltd",
+     "close": 2014.6,
+     "change": 2.62,
+     "volume": 114815.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "COFORGE",
+     "name": "Coforge (Niit Tech) Ltd",
+     "close": 1961.9,
+     "change": -1.76,
+     "volume": 2200011.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "BHARTIARTL",
+     "name": "Bharti Airtel Limited",
+     "close": 1948.1,
+     "change": -1.55,
+     "volume": 14502415.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "IPCALAB",
+     "name": "Ipca Laboratories Limited",
+     "close": 1930.5,
+     "change": -2.54,
+     "volume": 175489.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "ECLERX",
+     "name": "Eclerx Services Limited",
+     "close": 1866.2,
+     "change": -1.61,
+     "volume": 100288.0,
+     "sector": "Services"
+    },
+    {
+     "symbol": "SASKEN",
+     "name": "Sasken Communication Technologies Limited",
+     "close": 1847.5,
+     "change": -2.99,
+     "volume": 39581.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TECHM",
+     "name": "Tech Mahindra Limited",
+     "close": 1776.6,
+     "change": -1.92,
+     "volume": 2803837.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "RPEL",
+     "name": "Raghav Productivity Enhancers Ltd",
+     "close": 1764.1,
+     "change": 1.24,
+     "volume": 46434.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ADANIPORTS",
+     "name": "Adani Ports And Special Economic Zone Limited",
+     "close": 1761.3,
+     "change": 0.39,
+     "volume": 2491139.0,
+     "sector": "Services"
+    },
+    {
+     "symbol": "NUVAMA",
+     "name": "Nuvama Wealth Management Ltd",
+     "close": 1744.7,
+     "change": 3.19,
+     "volume": 277034.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "TATACOMM",
+     "name": "Tata Communications Limited",
+     "close": 1681.0,
+     "change": -1.9,
+     "volume": 133941.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "BHARTIHEXA",
+     "name": "Bharti Hexacom Ltd",
+     "close": 1665.4,
+     "change": -0.03,
+     "volume": 158582.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "ATHERENERG",
+     "name": "Ather Energy Ltd",
+     "close": 1650.0,
+     "change": -1.43,
+     "volume": 2645704.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "UNIMECH",
+     "name": "Unimech Aerospace and Manufacturing Ltd",
+     "close": 1638.1,
+     "change": -3.16,
+     "volume": 799886.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "BLUESTARCO",
+     "name": "Blue Star Limited",
+     "close": 1598.0,
+     "change": 4.72,
+     "volume": 748349.0,
+     "sector": "Consumer Durables",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "CHENNPETRO",
+     "name": "Chennai Petroleum Corporation Limited",
+     "close": 1521.4,
+     "change": -3.33,
+     "volume": 1534079.0,
+     "sector": "Oil Gas & Consumable Fuels"
+    },
+    {
+     "symbol": "GABRIEL",
+     "name": "Gabriel India Limited",
+     "close": 1449.0,
+     "change": -0.05,
+     "volume": 143960.0,
+     "sector": "Automobile and Auto Components",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "PVRINOX",
+     "name": "PVR Inox Ltd",
+     "close": 1445.3,
+     "change": -1.28,
+     "volume": 2597009.0,
+     "sector": "Media Entertainment & Publication"
+    },
+    {
+     "symbol": "HCLTECH",
+     "name": "Hcl Technologies Limited",
+     "close": 1400.5,
+     "change": -1.37,
+     "volume": 1872518.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "ICICIBANK",
+     "name": "Icici Bank Limited",
+     "close": 1377.6,
+     "change": -0.67,
+     "volume": 9519327.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "DRREDDY",
+     "name": "Dr. Reddy's Laboratories Limited",
+     "close": 1335.4,
+     "change": 1.94,
+     "volume": 2839063.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "ADANIGREEN",
+     "name": "Adani Green Energy Ltd",
+     "close": 1269.0,
+     "change": -1.55,
+     "volume": 1357380.0,
+     "sector": "Power"
+    },
+    {
+     "symbol": "AXISBANK",
+     "name": "Axis Bank Limited",
+     "close": 1220.0,
+     "change": 1.19,
+     "volume": 3784282.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "KRISHNADEF",
+     "name": "Krishna Defence & Allied Industries Ltd",
+     "close": 1151.4,
+     "change": -1.8,
+     "volume": 62877.0,
+     "sector": "Unknown",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "SHYAMMETL",
+     "name": "Shyam Metalics & Energy Ltd",
+     "close": 1144.7,
+     "change": -0.79,
+     "volume": 47791.0,
+     "sector": "Capital Goods",
+     "results": "2026-10-31"
+    },
+    {
+     "symbol": "INFY",
+     "name": "Infosys Limited",
+     "close": 1123.15,
+     "change": -3.43,
+     "volume": 15636449.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "PNBHOUSING",
+     "name": "Pnb Housing Finance Limited",
+     "close": 1122.0,
+     "change": 3.89,
+     "volume": 566607.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "TATACONSUM",
+     "name": "TATA Consumer Products Ltd",
+     "close": 1000.2,
+     "change": 0.02,
+     "volume": 3141717.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "63MOONS",
+     "name": "63 Moons Technologies Ltd",
+     "close": 932.5,
+     "change": 2.47,
+     "volume": 492683.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "SONACOMS",
+     "name": "Sona BLW Precision Forgings Ltd",
+     "close": 879.45,
+     "change": 3.24,
+     "volume": 6259436.0,
+     "sector": "Automobile and Auto Components"
+    },
+    {
+     "symbol": "STLTECH",
+     "name": "Sterlite Technologies Limited",
+     "close": 879.4,
+     "change": -3.46,
+     "volume": 1431626.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "SEJALLTD",
+     "name": "Sejal Glass Ltd",
+     "close": 877.25,
+     "change": 0.97,
+     "volume": 33827.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "STOVEKRAFT",
+     "name": "Stove Kraft Ltd",
+     "close": 856.3,
+     "change": 1.86,
+     "volume": 150004.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "INDIANB",
+     "name": "Indian Bank Ltd",
+     "close": 839.8,
+     "change": -0.02,
+     "volume": 878071.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "WSTCSTPAPR",
+     "name": "West Coast Paper Mills Limited",
+     "close": 816.05,
+     "change": 0.02,
+     "volume": 145820.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "HBLENGINE",
+     "name": "HBL Engineering Ltd",
+     "close": 809.95,
+     "change": 2.79,
+     "volume": 1658744.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "INDHOTEL",
+     "name": "The Indian Hotels Company Limited",
+     "close": 805.2,
+     "change": -0.94,
+     "volume": 4047672.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "SGMART",
+     "name": "SG Mart Ltd",
+     "close": 802.95,
+     "change": 0.44,
+     "volume": 1552124.0,
+     "sector": "Metals & Mining"
+    },
+    {
+     "symbol": "TIPSMUSIC",
+     "name": "Tips Music Ltd",
+     "close": 793.9,
+     "change": 7.05,
+     "volume": 1647467.0,
+     "sector": "Media Entertainment & Publication"
+    },
+    {
+     "symbol": "FRACTAL",
+     "name": "Fractal Analytics Ltd",
+     "close": 754.25,
+     "change": -0.28,
+     "volume": 298166.0,
+     "sector": "Information Technology",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "EBGNG",
+     "name": "GNG Electronics Ltd",
+     "close": 723.25,
+     "change": 0.44,
+     "volume": 282728.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "OMNI",
+     "name": "OMNI",
+     "close": 719.25,
+     "change": 5.48,
+     "volume": 1715245.0,
+     "sector": "Capital Goods",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "LENSKART",
+     "name": "Lenskart Solutions Ltd",
+     "close": 689.7,
+     "change": 3.06,
+     "volume": 8738982.0,
+     "sector": "Consumer Services",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "DLF",
+     "name": "Dlf Limited",
+     "close": 666.3,
+     "change": -0.7,
+     "volume": 1678187.0,
+     "sector": "Realty"
+    },
+    {
+     "symbol": "BATAINDIA",
+     "name": "Bata India Limited",
+     "close": 660.8,
+     "change": -0.24,
+     "volume": 225653.0,
+     "sector": "Consumer Durables",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "SGFIN",
+     "name": "SG Finserve Ltd",
+     "close": 651.35,
+     "change": -0.15,
+     "volume": 123240.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PNGSREVA",
+     "name": "PNGS Reva Diamond Jewellery Limited",
+     "close": 651.1,
+     "change": 11.57,
+     "volume": 7369883.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "NITINSPIN",
+     "name": "Nitin Spinners Limited",
+     "close": 639.0,
+     "change": 3.72,
+     "volume": 166519.0,
+     "sector": "Unknown",
+     "results": "2026-10-31"
+    },
+    {
+     "symbol": "OAL",
+     "name": "Oriental Aromatics Ltd",
+     "close": 622.7,
+     "change": -0.48,
+     "volume": 33489.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "THELEELA",
+     "name": "Leela Palaces Hotels & Resorts Ltd",
+     "close": 605.2,
+     "change": 2.01,
+     "volume": 1005944.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "TANLA",
+     "name": "Tanla Solutions Limited",
+     "close": 598.7,
+     "change": 3.38,
+     "volume": 3558705.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "WESTLIFE",
+     "name": "Westlife Foodworld Ltd",
+     "close": 595.75,
+     "change": -0.82,
+     "volume": 177153.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "KPITTECH",
+     "name": "KPIT Technologies Ltd",
+     "close": 552.5,
+     "change": 3.87,
+     "volume": 7309935.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "SSWL",
+     "name": "Steel Strips Wheels Limited",
+     "close": 526.6,
+     "change": -0.43,
+     "volume": 1432716.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SAREGAMA",
+     "name": "Saregama India Limited",
+     "close": 523.95,
+     "change": 2.84,
+     "volume": 980934.0,
+     "sector": "Media Entertainment & Publication",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "TECHNOCRAF",
+     "name": "Technocraft Ventures Ltd",
+     "close": 483.25,
+     "change": 0.48,
+     "volume": 428705.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "COHANCE",
+     "name": "Cohance Lifesciences Ltd",
+     "close": 476.05,
+     "change": -0.67,
+     "volume": 627122.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "SMSPHARMA",
+     "name": "Sms Pharmaceuticals Limited",
+     "close": 475.45,
+     "change": 7.37,
+     "volume": 777214.0,
+     "sector": "Unknown",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "KOTAKBANK",
+     "name": "Kotak Mahindra Bank Limited",
+     "close": 440.0,
+     "change": -0.57,
+     "volume": 16835584.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "MAHLOG",
+     "name": "Mahindra Logistics Ltd",
+     "close": 431.35,
+     "change": -0.66,
+     "volume": 677319.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SIRCA",
+     "name": "Sirca Paints India Ltd",
+     "close": 413.5,
+     "change": 0.6,
+     "volume": 1290919.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SYNGENE",
+     "name": "Syngene International Limited",
+     "close": 410.85,
+     "change": 12.19,
+     "volume": 32965479.0,
+     "sector": "Healthcare"
+    },
+    {
+     "symbol": "IGIL",
+     "name": "International Gemmological Institute (India) Ltd",
+     "close": 398.45,
+     "change": 1.5,
+     "volume": 1247480.0,
+     "sector": "Services"
+    },
+    {
+     "symbol": "FDC",
+     "name": "Fdc Limited",
+     "close": 376.55,
+     "change": 6.43,
+     "volume": 1855891.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "INDUSTOWER",
+     "name": "Indus Towers Ltd (Bharti Infratel)",
+     "close": 373.0,
+     "change": -3.19,
+     "volume": 7683510.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "RAMBHAJO",
+     "name": "Advit Jewels Ltd",
+     "close": 364.1,
+     "change": 4.39,
+     "volume": 206521.0,
+     "sector": "Unknown",
+     "results": "2026-10-31"
+    },
+    {
+     "symbol": "KARURVYSYA",
+     "name": "Karur Vysya Bank Limited",
+     "close": 350.2,
+     "change": -0.11,
+     "volume": 2242449.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "HINDPETRO",
+     "name": "Hindustan Petroleum Corporation Limited",
+     "close": 347.15,
+     "change": -1.94,
+     "volume": 3345980.0,
+     "sector": "Oil Gas & Consumable Fuels"
+    },
+    {
+     "symbol": "IIFLCAPS",
+     "name": "IIFL Capital Services Ltd",
+     "close": 346.2,
+     "change": 1.24,
+     "volume": 410973.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "FEDERALBNK",
+     "name": "The Federal Bank  Limited",
+     "close": 346.0,
+     "change": 1.29,
+     "volume": 5919741.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "NYKAA",
+     "name": "FSN E-Commerce Ventures Ltd",
+     "close": 342.5,
+     "change": 0.91,
+     "volume": 5020992.0,
+     "sector": "Consumer Services",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "NUVOCO",
+     "name": "Nuvoco Vistas Corporation Ltd",
+     "close": 334.05,
+     "change": -1.69,
+     "volume": 202036.0,
+     "sector": "Construction Materials"
+    },
+    {
+     "symbol": "INDIAGLYCO",
+     "name": "India Glycols Limited",
+     "close": 331.45,
+     "change": -0.18,
+     "volume": 1177960.0,
+     "sector": "Fast Moving Consumer Goods"
+    },
+    {
+     "symbol": "TARIL",
+     "name": "Transformers & Rectifiers India Ltd",
+     "close": 314.7,
+     "change": 0.13,
+     "volume": 2104067.0,
+     "sector": "Capital Goods"
+    },
+    {
+     "symbol": "FSL",
+     "name": "Firstsource Solutions Limited",
+     "close": 307.95,
+     "change": 3.08,
+     "volume": 2308924.0,
+     "sector": "Services",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "BSOFT",
+     "name": "Birlasoft Ltd",
+     "close": 306.1,
+     "change": -1.8,
+     "volume": 909291.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "KROSS",
+     "name": "Kross Ltd",
+     "close": 294.7,
+     "change": 0.67,
+     "volume": 1858464.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ANGELONE",
+     "name": "Angel One Ltd",
+     "close": 292.45,
+     "change": 1.12,
+     "volume": 3191687.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "SHADOWFAX",
+     "name": "Shadowfax Technologies Ltd",
+     "close": 290.4,
+     "change": -0.65,
+     "volume": 1756659.0,
+     "sector": "Services",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "MBEL",
+     "name": "M & B Engineering Ltd",
+     "close": 257.87,
+     "change": -0.29,
+     "volume": 74163.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "LOTUSDEV",
+     "name": "Sri Lotus Developers & Realty Ltd",
+     "close": 245.93,
+     "change": 1.27,
+     "volume": 597751.0,
+     "sector": "Realty"
+    },
+    {
+     "symbol": "HFCL",
+     "name": "HFCL Ltd",
+     "close": 242.81,
+     "change": -2.92,
+     "volume": 4798237.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "BANKBARODA",
+     "name": "Bank Of Baroda Ltd",
+     "close": 231.82,
+     "change": -0.9,
+     "volume": 4857795.0,
+     "sector": "Financial Services",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "MEESHO",
+     "name": "Meesho Ltd",
+     "close": 227.84,
+     "change": 1.91,
+     "volume": 10138041.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "KRISHANA",
+     "name": "Krishana Phoschem Ltd",
+     "close": 217.47,
+     "change": 2.47,
+     "volume": 704310.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PLATIND",
+     "name": "Platinum Industries Ltd",
+     "close": 214.23,
+     "change": -3.7,
+     "volume": 202533.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SPORTKING",
+     "name": "Sportking India Ltd",
+     "close": 209.67,
+     "change": 0.6,
+     "volume": 288797.0,
+     "sector": "Unknown",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "GROWW",
+     "name": "Billionbrains Garage Ventures Ltd",
+     "close": 190.3,
+     "change": 2.0,
+     "volume": 11926762.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "ORIENTELEC",
+     "name": "Orient Electric Ltd",
+     "close": 187.27,
+     "change": -0.09,
+     "volume": 268459.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "WIPRO",
+     "name": "Wipro Limited",
+     "close": 184.5,
+     "change": -1.34,
+     "volume": 19213068.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "UNIONBANK",
+     "name": "Union Bank Of India Ltd",
+     "close": 182.98,
+     "change": -0.88,
+     "volume": 9024912.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "MBAPL",
+     "name": "Madhya Bharat Agro Products Ltd",
+     "close": 168.87,
+     "change": 0.96,
+     "volume": 552767.0,
+     "sector": "Chemicals"
+    },
+    {
+     "symbol": "ITCHOTELS",
+     "name": "ITC Hotels Ltd",
+     "close": 165.1,
+     "change": -0.72,
+     "volume": 2948967.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "GPPL",
+     "name": "Gujarat Pipavav Port Limited",
+     "close": 160.16,
+     "change": -0.05,
+     "volume": 311174.0,
+     "sector": "Services",
+     "results": "2026-11-04"
+    },
+    {
+     "symbol": "ORIENTHOT",
+     "name": "Oriental Hotels Limited",
+     "close": 159.52,
+     "change": 1.01,
+     "volume": 1061709.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "TFCILTD",
+     "name": "Tourism Finance Corporation Of India Limited",
+     "close": 156.94,
+     "change": 1.23,
+     "volume": 6645029.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "SAMHI",
+     "name": "Samhi Hotels Ltd",
+     "close": 151.84,
+     "change": 1.58,
+     "volume": 181615.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "ARIS",
+     "name": "Arisinfra Solutions Ltd",
+     "close": 141.45,
+     "change": 0.38,
+     "volume": 1263991.0,
+     "sector": "Unknown",
+     "results": "2026-11-03"
+    },
+    {
+     "symbol": "BANKINDIA",
+     "name": "Bank Of India Ltd",
+     "close": 132.9,
+     "change": 0.67,
+     "volume": 5656399.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "PWL",
+     "name": "Physicswallah Ltd",
+     "close": 131.4,
+     "change": 1.16,
+     "volume": 7838423.0,
+     "sector": "Consumer Services"
+    },
+    {
+     "symbol": "MUFIN",
+     "name": "Mufin Green Finance Ltd",
+     "close": 131.11,
+     "change": 1.53,
+     "volume": 570305.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "CCAVENUE",
+     "name": "AvenuesAI Ltd",
+     "close": 125.63,
+     "change": 3.6,
+     "volume": 744779.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "MARSONS",
+     "name": "Marsons Ltd",
+     "close": 122.86,
+     "change": -1.51,
+     "volume": 941282.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PASHUPATI",
+     "name": "Pashupati Cotspin Ltd",
+     "close": 121.58,
+     "change": 5.19,
+     "volume": 4750808.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PNB",
+     "name": "Punjab National Bank Ltd",
+     "close": 120.31,
+     "change": -0.79,
+     "volume": 8382686.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "JSWCEMENT",
+     "name": "JSW Cement Ltd",
+     "close": 115.18,
+     "change": -1.23,
+     "volume": 1258980.0,
+     "sector": "Construction Materials"
+    },
+    {
+     "symbol": "RBA",
+     "name": "Restaurant Brands Asia Ltd",
+     "close": 94.95,
+     "change": -1.01,
+     "volume": 3833919.0,
+     "sector": "Consumer Services",
+     "results": "2026-10-29"
+    },
+    {
+     "symbol": "ALGOQUANT",
+     "name": "Algoquant Fintech Ltd",
+     "close": 75.89,
+     "change": -0.56,
+     "volume": 1226021.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "PARACABLES",
+     "name": "Paramount Communications Limited",
+     "close": 63.75,
+     "change": -2.75,
+     "volume": 5191990.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "DCMSRIND",
+     "name": "DCM Shriram Industries Ltd",
+     "close": 54.72,
+     "change": 10.06,
+     "volume": 4298305.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "SOUTHBANK",
+     "name": "The South Indian Bank Limited",
+     "close": 54.64,
+     "change": 0.61,
+     "volume": 12534687.0,
+     "sector": "Financial Services"
+    },
+    {
+     "symbol": "SAGILITY",
+     "name": "Sagility India Ltd",
+     "close": 45.29,
+     "change": -1.67,
+     "volume": 17791508.0,
+     "sector": "Information Technology"
+    },
+    {
+     "symbol": "TTML",
+     "name": "Tata Teleservices (maharashtra) Limited",
+     "close": 39.23,
+     "change": -6.28,
+     "volume": 24975872.0,
+     "sector": "Telecommunication"
+    },
+    {
+     "symbol": "MSUMI",
+     "name": "Motherson Sumi Wiring India Ltd",
+     "close": 34.87,
+     "change": 0.58,
+     "volume": 3943066.0,
+     "sector": "Automobile and Auto Components",
+     "results": "2026-10-30"
+    },
+    {
+     "symbol": "DHANBANK",
+     "name": "Dhanlaxmi Bank Limited",
+     "close": 32.21,
+     "change": 2.35,
+     "volume": 1134512.0,
+     "sector": "Unknown"
+    },
+    {
+     "symbol": "ALOKINDS",
+     "name": "Alok Industries Ltd",
+     "close": 8.3,
+     "change": 0.97,
+     "volume": 10499352.0,
+     "sector": "Unknown"
+    }
+   ],
+   "error": null,
+   "max_show": 50,
+   "prev_count": 108,
+   "new": [
+    "ADANIGREEN",
+    "ADANIPORTS",
+    "ALOKINDS",
+    "AXISBANK",
+    "AXISCADES",
+    "BANKBARODA",
+    "BANKINDIA",
+    "BLUESTARCO",
+    "BOSCHLTD",
+    "DHANBANK",
+    "DIVISLAB",
+    "DLF",
+    "ECLERX",
+    "EICHERMOT",
+    "FDC",
+    "GPPL",
+    "GROWW",
+    "HBLENGINE",
+    "IIFLCAPS",
+    "INDIAGLYCO",
+    "KPL",
+    "KROSS",
+    "LENSKART",
+    "LTM",
+    "LUMAXTECH",
+    "MBAPL",
+    "MBEL",
+    "MUFIN",
+    "NITINSPIN",
+    "PNBHOUSING",
+    "PNGSREVA",
+    "PWL",
+    "RAMBHAJO",
+    "RBA",
+    "SAMHI",
+    "SHADOWFAX",
+    "SIRCA",
+    "SMSPHARMA",
+    "SOLARINDS",
+    "SOUTHBANK",
+    "SPORTKING",
+    "SYNGENE",
+    "TECHNOCRAF",
+    "THELEELA",
+    "TVSMOTOR",
+    "ULTRACEMCO",
+    "VINDHYATEL"
+   ]
+  }
+ ],
+ "breadth": {
+  "level": "red",
+  "emoji": "🔴",
+  "label": "ദുർബലം",
+  "trend": "മെച്ചപ്പെടുന്നു",
+  "notes": [],
+  "asOf": "28 Oct 2026",
+  "t20": 21.13,
+  "t50": 17.91,
+  "t200": 35.66,
+  "hom": 19.23,
+  "nh": -2.44,
+  "above": {
+   "e20": 20,
+   "d50": 17,
+   "d200": 33
+  }
+ }
+}

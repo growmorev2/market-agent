@@ -1,5 +1,5 @@
 {
- "last_price_date": "2026-10-27",
+ "last_price_date": "2026-10-28",
  "entries": [
   {
    "scan": "eps-improving-4",
@@ -8,7 +8,12 @@
    "sector": "Realty",
    "date": "2026-10-27",
    "entry": 1077.5,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1053.8
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -19,7 +24,12 @@
    "sector": "Capital Goods",
    "date": "2026-10-27",
    "entry": 2077.9,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     2165.3
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -30,7 +40,12 @@
    "sector": "Healthcare",
    "date": "2026-10-27",
    "entry": 1105.2,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1175.4
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -41,7 +56,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 53.94,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     54.27
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -52,7 +72,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 311.65,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     306.4
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -63,7 +88,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 249.09,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     260.06
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -74,7 +104,12 @@
    "sector": "Consumer Services",
    "date": "2026-10-27",
    "entry": 792.2,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     805.2
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -85,7 +120,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 64.62,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     65.48
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -96,7 +136,12 @@
    "sector": "Services",
    "date": "2026-10-27",
    "entry": 820.0,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     840.3
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -107,7 +152,12 @@
    "sector": "Automobile and Auto Components",
    "date": "2026-10-27",
    "entry": 1636.0,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1650.0
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -118,7 +168,12 @@
    "sector": "Capital Goods",
    "date": "2026-10-27",
    "entry": 4862.7,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     4850.0
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -129,7 +184,12 @@
    "sector": "Financial Services",
    "date": "2026-10-27",
    "entry": 836.05,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     839.8
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -140,7 +200,12 @@
    "sector": "Consumer Services",
    "date": "2026-10-27",
    "entry": 170.91,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     165.1
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -151,7 +216,12 @@
    "sector": "Healthcare",
    "date": "2026-10-27",
    "entry": 2076.4,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     2181.9
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -162,7 +232,12 @@
    "sector": "Consumer Services",
    "date": "2026-10-27",
    "entry": 223.28,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     227.84
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -173,7 +248,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 64.26,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     63.75
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -184,7 +264,12 @@
    "sector": "Automobile and Auto Components",
    "date": "2026-10-27",
    "entry": 831.3,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     879.45
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -195,7 +280,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 815.0,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     856.3
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -206,7 +296,12 @@
    "sector": "Capital Goods",
    "date": "2026-10-27",
    "entry": 304.85,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     314.7
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -217,7 +312,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 154.58,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     156.94
+    ]
+   ],
    "done": false,
    "regime": null
   },
@@ -228,7 +328,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 121.27,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     125.63
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -239,7 +344,12 @@
    "sector": "Healthcare",
    "date": "2026-10-27",
    "entry": 479.25,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     476.05
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -250,7 +360,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 314.9,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     260.65
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -261,7 +376,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 212.22,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     217.47
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -272,7 +392,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 434.2,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     431.35
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -283,7 +408,12 @@
    "sector": "Oil Gas & Consumable Fuels",
    "date": "2026-10-27",
    "entry": 189.44,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     172.9
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -294,7 +424,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 625.7,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     622.7
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -305,7 +440,12 @@
    "sector": "Automobile and Auto Components",
    "date": "2026-10-27",
    "entry": 851.85,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     879.45
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -316,7 +456,12 @@
    "sector": "Media Entertainment & Publication",
    "date": "2026-10-27",
    "entry": 741.6,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     793.9
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -327,7 +472,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 53.39,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     55.13
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -338,7 +488,12 @@
    "sector": "Healthcare",
    "date": "2026-10-27",
    "entry": 3793.3,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     3710.0
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -349,7 +504,12 @@
    "sector": "Automobile and Auto Components",
    "date": "2026-10-27",
    "entry": 1674.0,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1650.0
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -360,7 +520,12 @@
    "sector": "Oil Gas & Consumable Fuels",
    "date": "2026-10-27",
    "entry": 1573.8,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1521.4
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -371,7 +536,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 434.2,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     431.35
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -382,7 +552,12 @@
    "sector": "Consumer Services",
    "date": "2026-10-27",
    "entry": 600.7,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     595.75
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -393,7 +568,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 76.32,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     75.89
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -404,7 +584,12 @@
    "sector": "Financial Services",
    "date": "2026-10-27",
    "entry": 289.2,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     292.45
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -415,7 +600,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 140.91,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     141.45
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -426,7 +616,12 @@
    "sector": "Consumer Durables",
    "date": "2026-10-27",
    "entry": 662.4,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     660.8
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -437,7 +632,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 2585.8,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     2509.8
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -448,7 +648,12 @@
    "sector": "Information Technology",
    "date": "2026-10-27",
    "entry": 756.35,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     754.25
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -459,7 +664,12 @@
    "sector": "Automobile and Auto Components",
    "date": "2026-10-27",
    "entry": 1449.7,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1449.0
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -470,7 +680,12 @@
    "sector": "Fast Moving Consumer Goods",
    "date": "2026-10-27",
    "entry": 7318.0,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     7268.0
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -481,7 +696,12 @@
    "sector": "Healthcare",
    "date": "2026-10-27",
    "entry": 2960.3,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     3049.0
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -492,7 +712,12 @@
    "sector": "Oil Gas & Consumable Fuels",
    "date": "2026-10-27",
    "entry": 354.0,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     347.15
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -503,7 +728,12 @@
    "sector": "Healthcare",
    "date": "2026-10-27",
    "entry": 1980.8,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1930.5
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -514,7 +744,12 @@
    "sector": "Capital Goods",
    "date": "2026-10-27",
    "entry": 90.95,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     89.41
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -525,7 +760,12 @@
    "sector": "Financial Services",
    "date": "2026-10-27",
    "entry": 350.6,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     350.2
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -536,7 +776,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 1172.5,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1151.4
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -547,7 +792,12 @@
    "sector": "Realty",
    "date": "2026-10-27",
    "entry": 242.84,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     245.93
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -558,7 +808,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 434.2,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     431.35
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -569,7 +824,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 124.74,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     122.86
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -580,7 +840,12 @@
    "sector": "Financial Services",
    "date": "2026-10-27",
    "entry": 1690.8,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1744.7
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -591,7 +856,12 @@
    "sector": "Consumer Services",
    "date": "2026-10-27",
    "entry": 339.4,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     342.5
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -602,7 +872,12 @@
    "sector": "Capital Goods",
    "date": "2026-10-27",
    "entry": 24055.0,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     24005.0
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -613,7 +888,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 1742.5,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1764.1
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -624,7 +904,12 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 251.95,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     252.2
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -635,7 +920,12 @@
    "sector": "Information Technology",
    "date": "2026-10-27",
    "entry": 46.06,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     45.29
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -646,7 +936,12 @@
    "sector": "Media Entertainment & Publication",
    "date": "2026-10-27",
    "entry": 509.5,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     523.95
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -657,7 +952,12 @@
    "sector": "Capital Goods",
    "date": "2026-10-27",
    "entry": 1153.8,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1144.7
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -668,7 +968,12 @@
    "sector": "Fast Moving Consumer Goods",
    "date": "2026-10-27",
    "entry": 1000.0,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1000.2
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -679,7 +984,12 @@
    "sector": "Media Entertainment & Publication",
    "date": "2026-10-27",
    "entry": 741.6,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     793.9
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -690,7 +1000,12 @@
    "sector": "Capital Goods",
    "date": "2026-10-27",
    "entry": 1691.5,
-   "closes": [],
+   "closes": [
+    [
+     "2026-10-28",
+     1638.1
+    ]
+   ],
    "done": false,
    "regime": "red"
   },
@@ -701,6 +1016,748 @@
    "sector": "Unknown",
    "date": "2026-10-27",
    "entry": 815.9,
+   "closes": [
+    [
+     "2026-10-28",
+     816.05
+    ]
+   ],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "AJMERA",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 133.8,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "FSL",
+   "sector": "Services",
+   "date": "2026-10-28",
+   "entry": 307.95,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "LOTUSDEV",
+   "sector": "Realty",
+   "date": "2026-10-28",
+   "entry": 245.93,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "OMNI",
+   "sector": "Capital Goods",
+   "date": "2026-10-28",
+   "entry": 719.25,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "ORIENTHOT",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 159.52,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "PPLPHARMA",
+   "sector": "Healthcare",
+   "date": "2026-10-28",
+   "entry": 232.8,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "SMSPHARMA",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 475.45,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "SOUTHBANK",
+   "sector": "Financial Services",
+   "date": "2026-10-28",
+   "entry": 54.64,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "TANLA",
+   "sector": "Information Technology",
+   "date": "2026-10-28",
+   "entry": 598.7,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "TFCILTD",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 156.94,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-signal",
+   "scan_name": "HOLYGRAIL (GM Signal)",
+   "symbol": "UYFINCORP",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 27.83,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "copy-momentum-portfolio-original-scan-by-hitesh-1319",
+   "scan_name": "MULTIBAGGER (Momentum)",
+   "symbol": "63MOONS",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 932.5,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "copy-momentum-portfolio-original-scan-by-hitesh-1319",
+   "scan_name": "MULTIBAGGER (Momentum)",
+   "symbol": "PPLPHARMA",
+   "sector": "Healthcare",
+   "date": "2026-10-28",
+   "entry": 232.8,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "top-mswing",
+   "scan_name": "Top MSWING",
+   "symbol": "OMNI",
+   "sector": "Capital Goods",
+   "date": "2026-10-28",
+   "entry": 719.25,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "top-mswing",
+   "scan_name": "Top MSWING",
+   "symbol": "UYFINCORP",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 27.83,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "ANTELOPUS",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 1055.3,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "BAJAJ-AUTO",
+   "sector": "Automobile and Auto Components",
+   "date": "2026-10-28",
+   "entry": 10485.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "MANBA",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 143.48,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "NAZARA",
+   "sector": "Media Entertainment & Publication",
+   "date": "2026-10-28",
+   "entry": 400.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "eps-improving-4",
+   "scan_name": "ROE/EPS IMPROVING",
+   "symbol": "UYFINCORP",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 27.83,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "ADANIGREEN",
+   "sector": "Power",
+   "date": "2026-10-28",
+   "entry": 1269.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "ADANIPORTS",
+   "sector": "Services",
+   "date": "2026-10-28",
+   "entry": 1761.3,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "ALOKINDS",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 8.3,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "AXISBANK",
+   "sector": "Financial Services",
+   "date": "2026-10-28",
+   "entry": 1220.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "AXISCADES",
+   "sector": "Capital Goods",
+   "date": "2026-10-28",
+   "entry": 2014.6,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "BANKBARODA",
+   "sector": "Financial Services",
+   "date": "2026-10-28",
+   "entry": 231.82,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "BANKINDIA",
+   "sector": "Financial Services",
+   "date": "2026-10-28",
+   "entry": 132.9,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "BLUESTARCO",
+   "sector": "Consumer Durables",
+   "date": "2026-10-28",
+   "entry": 1598.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "BOSCHLTD",
+   "sector": "Automobile and Auto Components",
+   "date": "2026-10-28",
+   "entry": 47625.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "DHANBANK",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 32.21,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "DIVISLAB",
+   "sector": "Healthcare",
+   "date": "2026-10-28",
+   "entry": 9558.5,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "DLF",
+   "sector": "Realty",
+   "date": "2026-10-28",
+   "entry": 666.3,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "ECLERX",
+   "sector": "Services",
+   "date": "2026-10-28",
+   "entry": 1866.2,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "EICHERMOT",
+   "sector": "Automobile and Auto Components",
+   "date": "2026-10-28",
+   "entry": 7300.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "FDC",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 376.55,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "GPPL",
+   "sector": "Services",
+   "date": "2026-10-28",
+   "entry": 160.16,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "GROWW",
+   "sector": "Financial Services",
+   "date": "2026-10-28",
+   "entry": 190.3,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "HBLENGINE",
+   "sector": "Capital Goods",
+   "date": "2026-10-28",
+   "entry": 809.95,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "IIFLCAPS",
+   "sector": "Financial Services",
+   "date": "2026-10-28",
+   "entry": 346.2,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "INDIAGLYCO",
+   "sector": "Fast Moving Consumer Goods",
+   "date": "2026-10-28",
+   "entry": 331.45,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "KPL",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 3696.7,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "KROSS",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 294.7,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "LENSKART",
+   "sector": "Consumer Services",
+   "date": "2026-10-28",
+   "entry": 689.7,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "LTM",
+   "sector": "Information Technology",
+   "date": "2026-10-28",
+   "entry": 4104.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "LUMAXTECH",
+   "sector": "Automobile and Auto Components",
+   "date": "2026-10-28",
+   "entry": 2043.1,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "MBAPL",
+   "sector": "Chemicals",
+   "date": "2026-10-28",
+   "entry": 168.87,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "MBEL",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 257.87,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "MUFIN",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 131.11,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "NITINSPIN",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 639.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "PNBHOUSING",
+   "sector": "Financial Services",
+   "date": "2026-10-28",
+   "entry": 1122.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "PNGSREVA",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 651.1,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "PWL",
+   "sector": "Consumer Services",
+   "date": "2026-10-28",
+   "entry": 131.4,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "RAMBHAJO",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 364.1,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "RBA",
+   "sector": "Consumer Services",
+   "date": "2026-10-28",
+   "entry": 94.95,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SAMHI",
+   "sector": "Consumer Services",
+   "date": "2026-10-28",
+   "entry": 151.84,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SHADOWFAX",
+   "sector": "Services",
+   "date": "2026-10-28",
+   "entry": 290.4,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SIRCA",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 413.5,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SMSPHARMA",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 475.45,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SOLARINDS",
+   "sector": "Chemicals",
+   "date": "2026-10-28",
+   "entry": 19240.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SOUTHBANK",
+   "sector": "Financial Services",
+   "date": "2026-10-28",
+   "entry": 54.64,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SPORTKING",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 209.67,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "SYNGENE",
+   "sector": "Healthcare",
+   "date": "2026-10-28",
+   "entry": 410.85,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "TECHNOCRAF",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 483.25,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "THELEELA",
+   "sector": "Consumer Services",
+   "date": "2026-10-28",
+   "entry": 605.2,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "TVSMOTOR",
+   "sector": "Automobile and Auto Components",
+   "date": "2026-10-28",
+   "entry": 4239.9,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "ULTRACEMCO",
+   "sector": "Construction Materials",
+   "date": "2026-10-28",
+   "entry": 11104.0,
+   "closes": [],
+   "done": false,
+   "regime": "red"
+  },
+  {
+   "scan": "gm-universe",
+   "scan_name": "GM Universe",
+   "symbol": "VINDHYATEL",
+   "sector": "Unknown",
+   "date": "2026-10-28",
+   "entry": 2700.9,
    "closes": [],
    "done": false,
    "regime": "red"
