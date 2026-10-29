@@ -195,9 +195,14 @@ def value_filters(sym, ind, intrinsic, have_val, persist, days=None):
             mos = 1 - ind["close"] / intrinsic if ind else None
             ok = mos is not None and mos >= c["mos"]
             # Fair Value private ഡാറ്റയാണ് — public പേജിൽ നമ്പർ കാണിക്കില്ല, ✓/✗ മാത്രം
-            f.append(_f("mos", "Margin of safety", ok,
-                        (f"Fair Value-നേക്കാൾ {int(c['mos'] * 100)}%+ താഴെ" if ok else f"Fair Value-നേക്കാൾ {int(c['mos'] * 100)}% താഴെ അല്ല")
-                        if mos is not None else "വില ഇല്ല"))
+            over = mos is not None and mos < 0
+            fl = _f("mos", "Margin of safety", ok,
+                    ("Fair Value-ന് മുകളിൽ — overvalued" if over else
+                     f"Fair Value-നേക്കാൾ {int(c['mos'] * 100)}%+ താഴെ" if ok else f"Fair Value-നേക്കാൾ {int(c['mos'] * 100)}% താഴെ അല്ല")
+                    if mos is not None else "വില ഇല്ല")
+            if over:
+                fl["hard"] = True  # overvalued: Watch-ൽ പോലും വേണ്ട
+            f.append(fl)
         else:
             f.append(_f("mos", "Margin of safety", False, "ഈ സ്റ്റോക്കിന് valuation ഇല്ല"))
     if ind and ind["sma200"]:
@@ -212,6 +217,8 @@ def value_filters(sym, ind, intrinsic, have_val, persist, days=None):
 
 
 def status_of(filters):
+    if any(x.get("hard") and not x["ok"] for x in filters):
+        return "reject"
     fails = sum(1 for x in filters if not x["ok"])
     return "buy" if fails == 0 else "watch" if fails <= 2 else "reject"
 

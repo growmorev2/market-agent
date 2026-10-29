@@ -401,6 +401,7 @@ const pct = v => v == null ? '—' : `<span class="${v >= 0 ? 'up' : 'down'}">${
 const table = (head, rows) => rows.length ? `<div class="table-wrap"><table><thead><tr>${head}</tr></thead><tbody>${rows.join('')}</tbody></table></div>` : '<p class="muted">ഇല്ല</p>';
 function status(r) {
   const f = r.filters.filter(x => !off[tab].has(x.k));
+  if (f.some(x => x.hard && !x.ok)) return 'reject';
   const fails = f.filter(x => !x.ok).length;
   return fails === 0 ? 'buy' : fails <= 2 ? 'watch' : 'reject';
 }
@@ -468,7 +469,7 @@ STRAT_RULES = """
 <p><b>Exit:</b> 50 DMA-ക്ക് താഴെ 2 ദിവസം · 3 ദിവസമായി Top 100-ൽ ഇല്ല · 10% stop-loss</p>
 <h3>💎 Value</h3>
 <p><b>Candidates:</b> ROE/EPS IMPROVING സ്കാനർ.</p>
-<ul><li><b>Margin of safety:</b> Intrinsic value-നേക്കാൾ 20% താഴെ (valuation ഡാറ്റ ഉള്ളപ്പോൾ)</li>
+<ul><li><b>Margin of safety:</b> Fair Value-നേക്കാൾ 20% താഴെ (valuation ഡാറ്റ ഉള്ളപ്പോൾ). Fair Value-ന് മുകളിലുള്ളവ (overvalued) Watch-ലും കാണിക്കില്ല</li>
 <li><b>Stable in scanner:</b> കഴിഞ്ഞ 5 സെഷനിൽ 3 ദിവസമെങ്കിലും സ്കാനറിൽ</li>
 <li><b>Above 200 DMA</b></li>
 <li><b>Near 200 DMA:</b> 200 DMA-യിൽ നിന്ന് 20%-നുള്ളിൽ (അധികം ഉയർന്നത് വേണ്ട)</li></ul>
