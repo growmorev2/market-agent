@@ -65,3 +65,18 @@ jobs:
             sleep 10
           done
           exit 1
+
+      - name: Alert on failure
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          ALERT_SUBJECT: "⚠️ Market Agent (ആഴ്ച റാപ്പപ്പ്) പരാജയപ്പെട്ടു"
+          ALERT_MSG: |
+            ⚠️ Market Agent (ആഴ്ച റാപ്പപ്പ്) പരാജയപ്പെട്ടു
+            Workflow: ${{ github.workflow }} (${{ github.event_name }})
+            എവിടെ പിശക് എന്ന് കാണാൻ: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python3 .github/alert.py

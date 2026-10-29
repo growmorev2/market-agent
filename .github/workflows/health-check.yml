@@ -1,0 +1,29 @@
+name: Daily Health Check
+
+on:
+  schedule:
+    # 14:47 UTC = 8:17 PM IST, തിങ്കൾ–വെള്ളി (എല്ലാ ഓട്ടോമേഷനും കഴിഞ്ഞ ശേഷം)
+    - cron: "47 14 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check everything
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SCREENER_TOKEN: ${{ secrets.SCREENER_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
+        run: python3 scripts/health.py
