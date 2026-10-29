@@ -446,16 +446,42 @@ def run_weekly(args, lang, today):
     return deliver(msg, args.no_send, pdf_path, make_chart(bdata, f"Breadth-{end}.png"))
 
 
+def run_strategy_only(today):
+    """Telegram-ലേക്ക് ഒന്നും അയക്കാതെ strategy പേജ് മാത്രം പുതുക്കും (Actions → Run workflow → strategy-only)."""
+    date_str = today.strftime("%Y-%m-%d")
+    cfg = json.loads((ROOT / "scans.json").read_text(encoding="utf-8"))["scans"]
+    print(f"[1/3] സ്കാനറുകൾ ({date_str})")
+    scans = collect(cfg, False)
+    sectors.tag(scans, sectors.load())
+    results_map, _ = events.load(today.date())
+    results = events.tag(scans, results_map, today.date())
+    print("[2/3] GM World + Strategy")
+    try:
+        bdata = breadth.fetch()
+    except Exception as e:  # noqa: BLE001
+        bdata = None
+        print(f"  GM World ലഭ്യമായില്ല: {e}")
+    ms = breadth.market_status(bdata) if bdata else None
+    strat = strategy.run(date_str, scans, results, bdata, ms)
+    print("[3/3] പേജ്")
+    site.build_strategy(ROOT / "docs", strat)
+    print("  " + strategy.telegram_line(strat).replace("\n", "\n  "))
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--weekly", action="store_true", help="ആഴ്ച റാപ്പപ്പ് ഉണ്ടാക്കും")
     ap.add_argument("--sample", action="store_true", help="Chartink-ന് പകരം data/sample.json ഉപയോഗിക്കും")
     ap.add_argument("--no-send", action="store_true", help="Telegram/Discord-ലേക്ക് അയക്കില്ല")
     ap.add_argument("--no-ai", action="store_true", help="AI വിളിക്കില്ല")
+    ap.add_argument("--strategy-only", action="store_true", help="Strategy പേജ് മാത്രം പുതുക്കും, ഒന്നും അയക്കില്ല")
     args = ap.parse_args()
 
     lang = (os.environ.get("REPORT_LANGUAGE") or "").strip() or "Malayalam"
     today = datetime.now(IST)
+    if args.strategy_only:
+        return run_strategy_only(today)
     return run_weekly(args, lang, today) if args.weekly else run_daily(args, lang, today)
 
 

@@ -6,6 +6,12 @@ on:
     # (GM World 5:30 PM-ന് പുതുക്കിയ ശേഷം; NSE bhavcopy-യും ഈ സമയത്ത് വന്നിരിക്കും)
     - cron: "43 12 * * 1-5"
   workflow_dispatch: # Actions ടാബിൽ നിന്ന് കൈകൊണ്ട് ഓടിക്കാൻ
+    inputs:
+      mode:
+        description: "full = മുഴുവൻ റിപ്പോർട്ട് (Telegram-ഉം) · strategy-only = Strategy പേജ് മാത്രം, ഒന്നും അയക്കില്ല"
+        type: choice
+        options: [full, strategy-only]
+        default: full
 
 permissions:
   contents: write # റിപ്പോർട്ടും ഹിസ്റ്ററിയും repo-യിൽ സേവ് ചെയ്യാൻ
@@ -50,7 +56,8 @@ jobs:
           GMWORLD_URL: ${{ vars.GMWORLD_URL }}
           GMWORLD_WAIT_MIN: ${{ vars.GMWORLD_WAIT_MIN }}
           SCREENER_TOKEN: ${{ secrets.SCREENER_TOKEN }} # Value portfolio-ക്കുള്ള Fair Value (private screener-summery repo)
-        run: python agent.py
+        run: |
+          if [ "${{ inputs.mode }}" = "strategy-only" ]; then python agent.py --strategy-only; else python agent.py; fi
 
       - name: Save report and history
         if: always()
@@ -59,7 +66,7 @@ jobs:
           git config user.email "market-agent@users.noreply.github.com"
           git add -A docs data
           if git diff --cached --quiet; then echo "സേവ് ചെയ്യാൻ മാറ്റങ്ങളില്ല"; exit 0; fi
-          git commit -m "Report $(TZ=Asia/Kolkata date +%F)"
+          git commit -m "${{ inputs.mode == 'strategy-only' && 'Strategy' || 'Report' }} $(TZ=Asia/Kolkata date +%F)"
           # repo-യിൽ ഇതിനിടെ മാറ്റം വന്നാൽ (ഉദാ: നിങ്ങൾ ഫയൽ upload ചെയ്താൽ) ആദ്യം അത് എടുത്ത് വീണ്ടും ശ്രമിക്കും
           for i in 1 2 3; do
             if git pull --rebase -X theirs origin main && git push origin HEAD:main; then exit 0; fi
