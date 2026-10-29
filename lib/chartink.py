@@ -57,6 +57,17 @@ def _num(v):
         return None
 
 
+# Strategy-ക്കുള്ള moving averages Chartink തന്നെ കണക്കാക്കും (Yahoo GitHub-ൽ നിന്ന് തടയുന്നു).
+# scans.json-ൽ "indicators": true ഉള്ള സ്കാനറുകളിലെ എല്ലാ സ്റ്റോക്കുകളുടെയും മൂല്യം ഇവിടെ ശേഖരിക്കും.
+IND_COLS = {"ind-c": "Daily Close", "ind-e20": "Daily Ema( Close , 20 )", "ind-s50": "Daily Sma( Close , 50 )",
+            "ind-s200": "Daily Sma( Close , 200 )", "ind-pc": "1 day ago Close", "ind-ps50": "1 day ago Sma( Close , 50 )"}
+IND_KEYS = {"ind-c": "close", "ind-e20": "ema20", "ind-s50": "sma50", "ind-s200": "sma200",
+            "ind-pc": "prev_close", "ind-ps50": "prev_sma50"}
+DEFAULT_COLS = (" Daily Close as 'scan-column-default-close',  Daily \"close - 1 candle ago close / 1 candle ago close * 100\""
+                " as 'scan-column-default-percent-change',  Daily Volume as 'scan-column-default-volume'")
+INDICATORS = {}
+
+
 def run_scan(session, scan):
     """scan = {"name":..., "slug":..., "clause": (optional)} → സ്റ്റോക്ക് ലിസ്റ്റ്"""
     clause = (scan.get("clause") or "").strip()
@@ -81,8 +92,11 @@ def run_scan(session, scan):
             "scan clause കണ്ടെത്താനായില്ല. scans.json-ൽ ഈ സ്കാനറിന് \"clause\" നേരിട്ട് ചേർക്കുക."
         )
     data = {"scan_clause": clause}
-    if scan.get("columns"):
-        data["column_clause"] = scan["columns"]
+    cols = scan.get("columns") or ""
+    if scan.get("indicators"):
+        cols = (cols or DEFAULT_COLS) + "," + ",".join(f" {v} as '{k}'" for k, v in IND_COLS.items())
+    if cols:
+        data["column_clause"] = cols
     res = session.post(
         f"{BASE}/screener/process",
         data=data,
@@ -105,6 +119,10 @@ def run_scan(session, scan):
         }
         if scan.get("score_col"):
             item["score"] = _num(row.get(scan["score_col"]))
+        if scan.get("indicators"):
+            ind = {IND_KEYS[k]: _num(row.get(k)) for k in IND_COLS}
+            if ind["close"] is not None:
+                INDICATORS[str(sym)] = ind
         stocks.append(item)
     if scan.get("score_col"):
         return rank(stocks, scan)

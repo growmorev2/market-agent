@@ -368,7 +368,7 @@ def run_daily(args, lang, today):
     strat = None
     try:
         strat = strategy.run(date_str, scans, results, bdata, (sig or {}).get("mstat"), sample=args.sample,
-                             fetch=(lambda syms: {}) if args.sample else strategy.price_history)
+                             ind_source=(lambda syms: {}) if args.sample else strategy.from_chartink)
     except Exception as e:  # noqa: BLE001
         print(f"  Strategy പരാജയം: {str(e)[:200]}")
 

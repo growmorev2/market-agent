@@ -21,21 +21,24 @@
       "score_col": "scan-column-_3d483",
       "top": 20,
       "rank_window": 100,
-      "max_show": 20
+      "max_show": 20,
+      "indicators": true
     },
     {
       "name": "ROE/EPS IMPROVING",
       "slug": "eps-improving-4",
       "about": "Fundamental scan: net profit up year-on-year for 3 straight quarters, latest quarter profit +20% and sales +10% YoY, mcap > 500 Cr. A stock entering usually follows a new quarterly result",
       "clause": "( {cash} (  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax and  2 quarter ago net profit/reported profit after tax >  5 quarters ago net profit/reported profit after tax and  3 quarter ago net profit/reported profit after tax >  6 quarters ago net profit/reported profit after tax and  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax *  1.2 and  quarterly net sales >  4 quarters ago net sales *  1.1 and  market cap >  500 ) )",
-      "max_show": 50
+      "max_show": 50,
+      "indicators": true
     },
     {
       "name": "GM Universe",
       "slug": "gm-universe",
       "about": "Momentum universe: 20/50-day momentum score positive and above its 9-EMA, weighted RSI(9) >= 45, mcap > 200 Cr, high liquidity. Broad list; size of the list itself reflects market momentum",
       "clause": "( {cash} (  market cap >  200 and  daily sma(  daily volume , 10 ) *  daily sma(  daily close , 10 ) >=  100000000 and  daily {custom_indicator_162248_start}\"{custom_indicator_162246_start} \"(  close - 20 candles ago close ) * 100 / 20\"{custom_indicator_162246_end} +  {custom_indicator_162247_start} \"(  close - 50 candles ago close ) * 100 / ( 50 candles ago close * 50 )\"{custom_indicator_162247_end}\"{custom_indicator_162248_end} >  0 and  daily {custom_indicator_162248_start}\"{custom_indicator_162246_start} \"(  close - 20 candles ago close ) * 100 / 20\"{custom_indicator_162246_end} +  {custom_indicator_162247_start} \"(  close - 50 candles ago close ) * 100 / ( 50 candles ago close * 50 )\"{custom_indicator_162247_end}\"{custom_indicator_162248_end} >=  daily ema(  daily {custom_indicator_162248_start}\"{custom_indicator_162246_start} \"(  close - 20 candles ago close ) * 100 / 20\"{custom_indicator_162246_end} +  {custom_indicator_162247_start} \"(  close - 50 candles ago close ) * 100 / ( 50 candles ago close * 50 )\"{custom_indicator_162247_end}\"{custom_indicator_162248_end} , 9 ) and  daily wma(  daily rsi( 9 ) , 20 ) >=  45 ) )",
-      "max_show": 50
+      "max_show": 50,
+      "indicators": true
     }
   ]
 }

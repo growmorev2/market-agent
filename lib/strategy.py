@@ -4,7 +4,7 @@
   1. സ്കാനർ റിസൾട്ടുകളിൽ നിന്ന് candidates എടുക്കും
        Momentum = GM Universe ∩ Top MSWING (ആദ്യ 100 റാങ്ക്)
        Value    = ROE/EPS IMPROVING
-  2. Yahoo Finance-ൽ നിന്ന് 1 വർഷത്തെ വില എടുത്ത് 20 EMA / 50 DMA / 200 DMA കണക്കാക്കും
+  2. 20 EMA / 50 DMA / 200 DMA: Chartink സ്കാനിൽ തന്നെ കണക്കാക്കി എടുക്കും (scans.json "indicators": true)
   3. ഓരോ സ്റ്റോക്കിനും ഫിൽറ്ററുകൾ (noise കുറയ്ക്കാൻ) → Buy ready / Watch
   4. ഒരു model portfolio (data/strategy.json) സൂക്ഷിക്കും: exit നിയമം വന്നവ പുറത്ത്,
      Market status അനുവദിക്കുന്ന അത്രയും പുതിയ Buy ready സ്റ്റോക്കുകൾ അകത്ത്
@@ -161,10 +161,11 @@ def _f(key, label, ok, note=""):
     return {"k": key, "label": label, "ok": ok, "note": note}
 
 
-def momentum_filters(sym, ind, persist, results, sector, strong):
+def momentum_filters(sym, ind, persist, results, sector, strong, days=None):
     c = CFG["momentum"]
-    f = [_f("persist", "Stable rank", persist >= c["persist_need"],
-            f"{persist}/{c['persist_of']} ദിവസം Top {c['rank_window']}-ൽ")]
+    days = days or c["persist_of"]
+    need = min(c["persist_need"], days)  # ഹിസ്റ്ററി കുറവുള്ള ആദ്യ ദിവസങ്ങളിൽ ലഭ്യമായ ദിവസങ്ങൾക്കനുസരിച്ച്
+    f = [_f("persist", "Stable rank", persist >= need, f"{persist}/{days} ദിവസം Top {c['rank_window']}-ൽ")]
     if ind and ind["sma50"] and ind["sma200"]:
         ok = ind["close"] > ind["sma50"] > ind["sma200"]
         f.append(_f("trend", "Trend", ok, "Close > 50 DMA > 200 DMA" if ok else "Close/50/200 ക്രമം ശരിയല്ല"))
@@ -185,10 +186,10 @@ def momentum_filters(sym, ind, persist, results, sector, strong):
     return f
 
 
-def value_filters(sym, ind, intrinsic, have_val, persist):
+def value_filters(sym, ind, intrinsic, have_val, persist, days=None):
     c = CFG["value"]
-    f = [_f("persist", "Stable in scanner", persist >= c["persist_need"],
-            f"{persist}/{c['persist_of']} ദിവസം ROE/EPS സ്കാനറിൽ")]
+    days = days or c["persist_of"]
+    f = [_f("persist", "Stable in scanner", persist >= min(c["persist_need"], days), f"{persist}/{days} ദിവസം ROE/EPS സ്കാനറിൽ")]
     if have_val:
         if intrinsic:
             mos = 1 - ind["close"] / intrinsic if ind else None
@@ -272,7 +273,13 @@ def _close_pos(pos, date_str, price, reason):
             "reason": reason}
 
 
-def run(date_str, scans, results, bdata, mstatus, sample=False, fetch=price_history):
+def from_chartink(symbols):
+    """Chartink സ്കാനുകളിൽ നിന്ന് കിട്ടിയ indicators (lib.chartink.INDICATORS)."""
+    from lib import chartink
+    return {s: chartink.INDICATORS[s] for s in symbols if s in chartink.INDICATORS}
+
+
+def run(date_str, scans, results, bdata, mstatus, sample=False, fetch=None, ind_source=from_chartink):
     """മുഴുവൻ strategy ഓടിക്കും; state സേവ് ചെയ്യും (sample-ൽ ഇല്ല). പേജിനുള്ള dict തിരികെ."""
     state = load_state()
     valuations = load_valuations()
@@ -291,9 +298,15 @@ def run(date_str, scans, results, bdata, mstatus, sample=False, fetch=price_hist
     v_cands = sorted({x["symbol"] for x in (val_scan or {}).get("stocks", [])})
     held = [p["symbol"] for pf in ("momentum", "value") for p in state[pf]["open"]]
     print(f"  Strategy: Momentum {len(m_cands)}, Value {len(v_cands)}, കൈവശം {len(held)} — വില എടുക്കുന്നു…")
-    hist = fetch(set(m_cands) | set(v_cands) | set(held))
-    print(f"  വില കിട്ടിയത്: {len(hist)} സ്റ്റോക്ക്")
-    ind = {s: indicators(hist.get(s), (info.get(s) or {}).get("close")) for s in set(m_cands) | set(v_cands) | set(held)}
+    allsyms = set(m_cands) | set(v_cands) | set(held)
+    if fetch:  # വില ചരിത്രത്തിൽ നിന്ന് കണക്കാക്കൽ (പരീക്ഷണത്തിന് / Yahoo)
+        hist = fetch(allsyms)
+        ind = {s: indicators(hist.get(s), (info.get(s) or {}).get("close")) for s in allsyms}
+    else:      # Chartink തന്നെ കണക്കാക്കിയ മൂല്യങ്ങൾ
+        ind = ind_source(allsyms)
+    ind = {s: v for s, v in ind.items() if v}
+    hist = ind
+    print(f"  വില കിട്ടിയത്: {len(ind)} / {len(allsyms)} സ്റ്റോക്ക്")
     strong = strong_sectors(bdata)
     status_name = (mstatus or {}).get("name")
 
@@ -303,7 +316,7 @@ def run(date_str, scans, results, bdata, mstatus, sample=False, fetch=price_hist
     for sym in m_cands:
         persist = sum(1 for st in window_sets if sym in st)
         x = info.get(sym, {})
-        flt = momentum_filters(sym, ind.get(sym), persist, results, x.get("sector"), strong)
+        flt = momentum_filters(sym, ind.get(sym), persist, results, x.get("sector"), strong, len(window_sets))
         m_rows.append({"symbol": sym, "sector": x.get("sector", ""), "close": (ind.get(sym) or {}).get("close") or x.get("close"),
                        "rank": ranks_today.get(sym), "filters": flt, "status": status_of(flt)})
     m_rows.sort(key=lambda r: (r["rank"] or 999))
@@ -314,7 +327,7 @@ def run(date_str, scans, results, bdata, mstatus, sample=False, fetch=price_hist
     for sym in v_cands:
         x, i = info.get(sym, {}), ind.get(sym)
         intrinsic = (valuations or {}).get(sym)
-        flt = value_filters(sym, i, intrinsic, have_val, sum(1 for st in vwin if sym in st))
+        flt = value_filters(sym, i, intrinsic, have_val, sum(1 for st in vwin if sym in st), len(vwin))
         prem = (i["close"] / i["sma200"] - 1) if (i and i["sma200"]) else None
         mos = (1 - i["close"] / intrinsic) if (i and intrinsic) else None
         v_rows.append({"symbol": sym, "sector": x.get("sector", ""), "close": (i or {}).get("close") or x.get("close"),
