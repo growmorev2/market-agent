@@ -20,7 +20,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from lib import ai, breadth, chartink, events, notify, pdf, report, sectors, site, tracker, weekly, strategy
+from lib import ai, breadth, chartink, events, notify, pdf, report, sectors, site, tracker, weekly, strategy, pead
 
 ROOT = Path(__file__).parent
 HISTORY = ROOT / "data" / "history"
@@ -371,6 +371,8 @@ def run_daily(args, lang, today):
                              ind_source=(lambda syms: {}) if args.sample else strategy.from_chartink)
     except Exception as e:  # noqa: BLE001
         print(f"  Strategy പരാജയം: {str(e)[:200]}")
+    if strat is not None and not args.sample:
+        strat["pead"] = run_pead(today, bdata, mapping)
 
     print("[3/5] AI വിശകലനം")
     raw, ai_label = ask_ai(SYSTEM_DAILY.format(lang=lang), DRIVERS_DAILY.format(lang=lang),
@@ -401,7 +403,8 @@ def run_daily(args, lang, today):
     base = site_base()
     msg = report.telegram_daily(date_str, sig, bfresh, scans, rows, sector_rows, bmoves, results_key, len(results),
                                 ai_out, ai_label, f"{base}/reports/{date_str}.html" if base else "",
-                                strategy_text=strategy.telegram_line(strat),
+                                strategy_text="\n".join(x for x in (strategy.telegram_line(strat),
+                                                                     pead.telegram_line((strat or {}).get("pead"))) if x),
                                 strategy_link=f"{base}/strategy.html" if (base and strat) else "")
     pdf_path = make_pdf(ROOT / "docs" / "reports" / f"{date_str}.html", f"Market-Report-{date_str}.pdf")
     return deliver(msg, args.no_send, pdf_path, make_chart(bdata, f"Breadth-{date_str}.png"))
@@ -446,6 +449,15 @@ def run_weekly(args, lang, today):
     return deliver(msg, args.no_send, pdf_path, make_chart(bdata, f"Breadth-{end}.png"))
 
 
+def run_pead(now, bdata, mapping):
+    """PEAD tracker (Excellent റിസൾട്ട് → ദിവസേന % മാറ്റം). പരാജയപ്പെട്ടാലും റിപ്പോർട്ട് തുടരും."""
+    try:
+        return pead.run(now, bdata, mapping)
+    except Exception as e:  # noqa: BLE001
+        print(f"  PEAD പരാജയം: {str(e)[:200]}")
+        return None
+
+
 def run_strategy_only(today):
     """Telegram-ലേക്ക് ഒന്നും അയക്കാതെ strategy പേജ് മാത്രം പുതുക്കും (Actions → Run workflow → strategy-only)."""
     date_str = today.strftime("%Y-%m-%d")
@@ -463,9 +475,11 @@ def run_strategy_only(today):
         print(f"  GM World ലഭ്യമായില്ല: {e}")
     ms = breadth.market_status(bdata) if bdata else None
     strat = strategy.run(date_str, scans, results, bdata, ms)
+    strat["pead"] = run_pead(today, bdata, sectors.load())
     print("[3/3] പേജ്")
     site.build_strategy(ROOT / "docs", strat)
     print("  " + strategy.telegram_line(strat).replace("\n", "\n  "))
+    print("  " + pead.telegram_line(strat.get("pead")))
     return 0
 
 

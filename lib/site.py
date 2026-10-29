@@ -387,6 +387,10 @@ STRAT_CSS = """
 .fl{display:inline-block;font-size:.72rem;border-radius:6px;padding:0 5px;margin:2px 3px 0 0;border:1px solid var(--line)}
 .fl.no{border-color:var(--down)}
 .gate{font-weight:600}
+.strip{display:inline-flex;gap:1px;height:46px;align-items:center;vertical-align:middle;cursor:pointer}
+.strip i{display:block;width:4px;border-radius:1px}
+details summary{list-style:none}details summary::-webkit-details-marker{display:none}
+details .chip{font-size:.75rem}
 .tvbtns{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px}
 .tvbtns button{font:inherit;font-size:.88rem;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer}
 .kpi{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:.9rem}.kpi b{font-size:1.15rem}
@@ -411,8 +415,65 @@ function flags(r, onlyFail) {
   return r.filters.filter(x => !off[tab].has(x.k) && (!onlyFail || !x.ok))
     .map(x => `<span class="fl ${x.ok ? 'ok' : 'no'}" title="${esc(x.note)}">${x.ok ? '✓' : '✗'} ${esc(x.label)}</span>`).join('');
 }
+function tvButtons(list, label) {
+  if (!list.length) return '';
+  return `<div class="tvbtns"><button type="button" id="tv-copy">📋 Copy to TradingView</button><button type="button" id="tv-file">⬇️ .txt (Import list)</button><span class="muted" id="tv-msg"></span></div>`;
+}
+function wireTv(syms, fname) {
+  const tvList = syms.map(s => 'NSE:' + s).join(',');
+  const msg = t => { const m = document.getElementById('tv-msg'); if (m) m.textContent = t; };
+  const cp = document.getElementById('tv-copy');
+  if (cp) cp.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(tvList); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = tvList; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e2) {} ta.remove(); }
+    msg(`✓ ${syms.length} symbol കോപ്പി ചെയ്തു — TradingView watchlist-ൽ "Add symbol" ബോക്സിൽ paste ചെയ്യുക`);
+  });
+  const fb = document.getElementById('tv-file');
+  if (fb) fb.addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([tvList], { type: 'text/plain' }));
+    a.download = fname; document.body.appendChild(a); a.click(); a.remove();
+    msg('✓ ഫയൽ ഡൗൺലോഡ് ചെയ്തു — TradingView watchlist മെനു → Import list');
+  });
+}
+function dmy(s) { const [y, m, d] = s.split('-'); return `${+d} ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m - 1]}`; }
+function strip(e) {
+  const pts = Object.entries(e.series).map(([d, c]) => [d, (c / e.base - 1) * 100]);
+  if (!pts.length) return '';
+  const max = Math.max(5, ...pts.map(p => Math.abs(p[1])));
+  const bars = pts.map(([d, p]) => `<i title="${dmy(d)}: ${p >= 0 ? '+' : ''}${p.toFixed(1)}%" style="height:${Math.max(2, 22 * Math.abs(p) / max)}px;background:var(${p >= 0 ? '--up' : '--down'});${p >= 0 ? 'align-self:flex-end' : 'align-self:flex-start'}"></i>`).join('');
+  return `<span class="strip">${bars}</span>`;
+}
+function renderPead() {
+  const P = R.pead;
+  if (!P) { document.getElementById('sbody').innerHTML = '<div class="card"><p class="muted">PEAD ഡാറ്റ ഇന്ന് ലഭ്യമായില്ല.</p></div>'; return; }
+  const now = e => { const v = Object.values(e.series); return v.length ? (v[v.length - 1] / e.base - 1) * 100 : null; };
+  const best = e => { const v = Object.values(e.series); return v.length ? (Math.max(...v) / e.base - 1) * 100 : null; };
+  const act = P.active.slice().sort((a, b) => (now(b) ?? -99) - (now(a) ?? -99));
+  const avg = act.length ? act.reduce((t, e) => t + (now(e) || 0), 0) / act.length : null;
+  const up = act.filter(e => (now(e) || 0) > 0).length;
+  let h = `<div class="card"><div class="kpi"><span>ട്രാക്കിൽ <b>${act.length}</b></span><span>ഇന്ന് പുതിയത് <b>${P.added.length}</b></span>
+    <span>ശരാശരി <b>${pct(avg)}</b></span><span>ഉയർന്നവ <b>${up}/${act.length}</b></span></div>
+    <p class="muted">Excellent റിസൾട്ട് (6-ൽ 5+ പരിശോധന, EPS ≥30% + Sales ≥15% നിർബന്ധം) വന്ന സ്റ്റോക്കുകൾ. % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള close-ൽ നിന്ന്. 60 ട്രേഡിംഗ് ദിവസം വരെ ട്രാക്ക് ചെയ്യും.</p></div>`;
+  if (P.added.length) h += `<div class="card"><h2>🆕 ഇന്ന് ചേർത്തവ</h2><p>${P.added.map(esc).join(', ')}</p></div>`;
+  h += `<div class="card"><h2>📢 റിസൾട്ടിന് ശേഷം (${act.length})</h2>` + tvButtons(act) +
+    table('<th>Stock</th><th>Result</th><th class="num">Score</th><th class="num">ഇപ്പോൾ</th><th class="num col-wide">Max</th><th>ഓരോ ദിവസവും</th>',
+      act.map(e => {
+        const days = Object.entries(e.series).map(([d, c], i) => `<span class="chip">D${i + 1} ${dmy(d)}: ${pct((c / e.base - 1) * 100)}</span>`).join('');
+        return `<tr><td><b>${esc(e.symbol)}</b><div class="muted">${esc(e.sector || '')}</div></td>
+          <td>${dmy(e.res_date)}<div class="muted">${Object.keys(e.series).length} ദിവസം</div></td>
+          <td class="num" title="${esc(e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + c[0] + ': ' + c[2]).join(' · '))}">${e.score}/6</td>
+          <td class="num">${pct(now(e))}</td><td class="num col-wide">${pct(best(e))}</td>
+          <td class="wrap"><details><summary>${strip(e)}</summary><div>${days}</div><div class="muted">${e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + esc(c[0]) + ': ' + esc(c[2])).join('<br>')}</div></details></td></tr>`;
+      })) + `</div>`;
+  if (P.done.length) h += `<div class="card"><h2>✅ 60 ദിവസം പൂർത്തിയായവ</h2>` + table('<th>Stock</th><th>Result</th><th class="num">അവസാനം</th><th class="num">Max</th>',
+      P.done.slice().reverse().map(e => `<tr><td><b>${esc(e.symbol)}</b></td><td>${dmy(e.res_date)}</td><td class="num">${pct(now(e))}</td><td class="num">${pct(best(e))}</td></tr>`)) + `</div>`;
+  document.getElementById('sbody').innerHTML = h;
+  wireTv(act.map(e => e.symbol), `PEAD_${R.date}.txt`);
+}
 function render() {
   document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.t === tab));
+  if (tab === 'pead') return renderPead();
   const d = R[tab], cap = R.caps[tab], max = R.max_pos[tab];
   const fl = [...new Map(d.rows.flatMap(r => r.filters).map(x => [x.k, x.label])).entries()];
   const gateTxt = cap === 0 ? `<span class="no">പുതിയ entry ഇല്ല</span>` : cap < max ? `പരമാവധി ${cap} പൊസിഷൻ` : `പരമാവധി ${max} പൊസിഷൻ`;
@@ -451,22 +512,7 @@ function render() {
     '<th>Stock</th><th class="num">%</th><th>കാരണം</th><th class="col-wide">തീയതി</th>',
     closed.map(c => `<tr><td><b>${esc(c.symbol)}</b></td><td class="num">${pct(c.ret)}</td><td class="wrap">${esc(c.reason)}</td><td class="col-wide">${esc(c.entry_date)} → ${esc(c.exit_date)}</td></tr>`)) + `</div>`;
   document.getElementById('sbody').innerHTML = h;
-  const tvList = buy.map(r => 'NSE:' + r.symbol).join(',');
-  const msg = t => { const m = document.getElementById('tv-msg'); if (m) m.textContent = t; };
-  const cp = document.getElementById('tv-copy');
-  if (cp) cp.addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText(tvList); }
-    catch (e) { const ta = document.createElement('textarea'); ta.value = tvList; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e2) {} ta.remove(); }
-    msg(`✓ ${buy.length} symbol കോപ്പി ചെയ്തു — TradingView watchlist-ൽ "Add symbol" ബോക്സിൽ paste ചെയ്യുക`);
-  });
-  const fb = document.getElementById('tv-file');
-  if (fb) fb.addEventListener('click', () => {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([tvList], { type: 'text/plain' }));
-    a.download = `${tab === 'momentum' ? 'Momentum' : 'Value'}_BuyReady_${R.date}.txt`;
-    document.body.appendChild(a); a.click(); a.remove();
-    msg('✓ ഫയൽ ഡൗൺലോഡ് ചെയ്തു — TradingView watchlist മെനു → Import list');
-  });
+  wireTv(buy.map(r => r.symbol), `${tab === 'momentum' ? 'Momentum' : 'Value'}_BuyReady_${R.date}.txt`);
   document.querySelectorAll('.flt input').forEach(cb => cb.addEventListener('change', () => {
     cb.checked ? off[tab].delete(cb.dataset.k) : off[tab].add(cb.dataset.k); render();
   }));
@@ -494,6 +540,12 @@ STRAT_RULES = """
 <li><b>Above 200 DMA</b></li>
 <li><b>Near 200 DMA:</b> 200 DMA-യിൽ നിന്ന് 20%-നുള്ളിൽ (അധികം ഉയർന്നത് വേണ്ട)</li></ul>
 <p><b>Exit:</b> Intrinsic value എത്തി · 200 DMA-ക്ക് 10%-ൽ കൂടുതൽ താഴെ · 3 ദിവസമായി സ്കാനറിൽ ഇല്ല</p>
+<h3>📢 PEAD (Post-Earnings Announcement Drift)</h3>
+<p>Excellent റിസൾട്ട് വന്ന സ്റ്റോക്കുകൾ, റിസൾട്ട് ദിവസം മുതൽ ഓരോ ദിവസവും എത്ര % മാറി എന്ന ട്രാക്കർ (buy/sell നിയമങ്ങൾ ഇല്ല). Excellent = 6 പരിശോധനയിൽ 5 എണ്ണമെങ്കിലും, 1-ഉം 2-ഉം നിർബന്ധം:</p>
+<ul><li><b>EPS growth</b> ≥30% YoY (Chartink-ൽ ക്വാർട്ടർ EPS ഇല്ല — ക്വാർട്ടർ net profit growth)</li><li><b>Sales growth</b> ≥15% YoY</li>
+<li><b>Acceleration:</b> ഈ ക്വാർട്ടറിലെ YoY growth മുൻ ക്വാർട്ടറിനേക്കാൾ കൂടുതൽ</li><li><b>QoQ growth:</b> profit മുൻ ക്വാർട്ടറിനേക്കാൾ കൂടുതൽ</li>
+<li><b>Record quarter:</b> 5 ക്വാർട്ടറിലെ ഉയർന്ന profit</li><li><b>Real growth:</b> ഒരു വർഷം മുമ്പും ലാഭത്തിൽ (low base അല്ല)</li></ul>
+<p class="muted">റിസൾട്ട് തീയതി NSE കലണ്ടറിൽ നിന്ന്. Chartink പുതിയ ക്വാർട്ടർ ചേർത്ത ശേഷം മാത്രം പരിശോധിക്കും (സാധാരണ റിസൾട്ടിന് പിറ്റേന്ന്). % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള ട്രേഡിംഗ് ദിവസത്തെ close-ൽ നിന്ന്.</p>
 <h3>🧭 Market status gate</h3>
 <p>Momentum: Stay out / Failed turn / Wait → പുതിയ entry ഇല്ല; Bottoming / Early rally → പരമാവധി 3. Value: Stay out → പുതിയ entry ഇല്ല. ബാക്കി → പരമാവധി 10.</p>
 <p class="muted">Model portfolio: Buy ready ആയ സ്റ്റോക്ക് അന്നത്തെ close-ൽ "വാങ്ങിയതായി" കണക്കാക്കും. Strategy എങ്ങനെ പ്രവർത്തിക്കുന്നു എന്ന് നോക്കാനാണ്, യഥാർത്ഥ portfolio അല്ല.</p>
@@ -511,7 +563,8 @@ def build_strategy(out_dir, res):
         "<h1>📋 Stock selection strategy</h1>"
         f'<p class="muted">{_e(nice_date(res["date"]))} · വില കിട്ടിയത് {res["prices"]} സ്റ്റോക്ക് · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</p>'
         '<div class="tabs" role="tablist"><button type="button" data-t="momentum">🚀 Momentum</button>'
-        '<button type="button" data-t="value">💎 Value</button></div>'
+        '<button type="button" data-t="value">💎 Value</button>'
+        '<button type="button" data-t="pead">📢 PEAD</button></div>'
         '<div id="sbody"></div>' + STRAT_RULES
         + f'<script type="application/json" id="sdata">{data}</script><script>{STRAT_JS}</script>'
     )
