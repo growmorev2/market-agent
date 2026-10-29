@@ -238,6 +238,8 @@ def labels(d, dates, rd):
         out["margin"], out["margin_prev"] = round(m0, 1), round(m4, 1)
     g0 = _growth(d.get("np0"), d.get("np4"))
     out["base_effect"] = g0 is not None and g0 >= c["base_warn"]
+    g2 = _growth(d.get("np0"), d.get("np8"))  # 2 വർഷം മുമ്പത്തെ അതേ ക്വാർട്ടറുമായി (മോശം വർഷം ഒഴിവാക്കി)
+    out["g2y"] = round(g2) if g2 is not None else None
     return out
 
 

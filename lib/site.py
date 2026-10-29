@@ -464,8 +464,9 @@ function renderPead() {
         const react = e.react == null ? '—' : `${e.react_ok ? '🚀 ' : ''}${pct(e.react)}<div class="muted">${e.volx != null ? e.volx.toFixed(1) + '× vol' : ''}</div>`;
         const extra = [e.margin != null ? `Margin ${e.margin_prev}% → ${e.margin}% ${e.margin > e.margin_prev ? '↑' : '↓'}` : '',
                        e.react_date ? `പ്രതികരണ ദിവസം ${dmy(e.react_date)}` : '',
-                       e.sue != null ? `SUE ${e.sue} (2+ = വലിയ surprise)` : ''].filter(Boolean).join(' · ');
-        return `<tr><td><b>${esc(e.symbol)}</b>${e.base_effect ? '<span class="badge warn" title="മുൻ വർഷം ലാഭം വളരെ കുറവ് — % വളർച്ച കൂടുതലായി തോന്നാം">base effect</span>' : ''}<div class="muted">${esc(e.sector || '')}</div></td>
+                       e.sue != null ? `SUE ${e.sue} (2+ = വലിയ surprise)` : '',
+                       e.g2y != null ? `Profit 2 വർഷം മുമ്പത്തെ അതേ ക്വാർട്ടറിനേക്കാൾ ${e.g2y >= 0 ? '+' : ''}${e.g2y}%` : ''].filter(Boolean).join(' · ');
+        return `<tr><td><b>${esc(e.symbol)}</b>${e.base_effect ? `<span class="badge warn" title="മുൻ വർഷം ലാഭം വളരെ കുറവ് — % വളർച്ച കൂടുതലായി തോന്നാം. 2 വർഷം മുമ്പുമായി താരതമ്യം നോക്കുക">base effect</span><div class="muted">2 വർഷം മുമ്പത്തേക്കാൾ ${e.g2y != null ? pct(e.g2y) : '—'}</div>` : ''}<div class="muted">${esc(e.sector || '')}</div></td>
           <td>${dmy(e.res_date)}<div class="muted">${Object.keys(e.series).length} ദിവസം</div></td>
           <td class="num" title="${esc(e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + c[0] + ': ' + c[2]).join(' · '))}">${e.score}/${e.checks.length}</td>
           <td class="num">${sueTxt}</td><td class="num">${react}</td>
@@ -552,7 +553,7 @@ STRAT_RULES = """
 <li><b>Quality of earnings:</b> core profit (PBT − other income) YoY ≥20% — other income / ഒറ്റത്തവണ നേട്ടം കൊണ്ടുള്ള ലാഭം ഒഴിവാക്കാൻ</li>
 <li><b>Acceleration:</b> ഈ ക്വാർട്ടറിലെ YoY growth മുൻ ക്വാർട്ടറിനേക്കാൾ കൂടുതൽ</li><li><b>QoQ growth:</b> profit മുൻ ക്വാർട്ടറിനേക്കാൾ കൂടുതൽ</li>
 <li><b>Record quarter:</b> 5 ക്വാർട്ടറിലെ ഉയർന്ന profit</li><li><b>Real growth:</b> ഒരു വർഷം മുമ്പും ലാഭത്തിൽ (low base അല്ല)</li></ul>
-<p><b>ലേബലുകൾ (Excellent തീരുമാനിക്കുന്നതിൽ ഇല്ല):</b> <b>SUE</b> = ഈ ക്വാർട്ടറിലെ YoY profit മാറ്റം കമ്പനിയുടെ കഴിഞ്ഞ 8 ക്വാർട്ടറിലെ സാധാരണ മാറ്റത്തേക്കാൾ എത്ര standard deviation കൂടുതൽ (2+ = വലിയ surprise) · <b>പ്രതികരണം</b> = റിസൾട്ട് ദിവസത്തെ / പിറ്റേന്നത്തെ വില % + volume · <b>Margin</b> = core EBITDA margin മുൻ വർഷത്തെ അതേ ക്വാർട്ടറുമായി · <b>base effect</b> = profit 150%+ വളർന്നത് (മുൻ വർഷം ലാഭം കുറവ്).</p>
+<p><b>ലേബലുകൾ (Excellent തീരുമാനിക്കുന്നതിൽ ഇല്ല):</b> <b>SUE</b> = ഈ ക്വാർട്ടറിലെ YoY profit മാറ്റം കമ്പനിയുടെ കഴിഞ്ഞ 8 ക്വാർട്ടറിലെ സാധാരണ മാറ്റത്തേക്കാൾ എത്ര standard deviation കൂടുതൽ (2+ = വലിയ surprise) · <b>പ്രതികരണം</b> = റിസൾട്ട് ദിവസത്തെ / പിറ്റേന്നത്തെ വില % + volume · <b>Margin</b> = core EBITDA margin മുൻ വർഷത്തെ അതേ ക്വാർട്ടറുമായി · <b>base effect</b> = profit 150%+ വളർന്നത് (മുൻ വർഷം ലാഭം കുറവ്) — അതിന് താഴെ 2 വർഷം മുമ്പത്തെ അതേ ക്വാർട്ടറുമായുള്ള താരതമ്യം: അതും ശക്തമാണെങ്കിൽ യഥാർത്ഥ വളർച്ച, കുറവാണെങ്കിൽ വെറും തിരിച്ചുവരവ്.</p>
 <p class="muted">റിസൾട്ട് തീയതി NSE കലണ്ടറിൽ നിന്ന്. Chartink പുതിയ ക്വാർട്ടർ ചേർത്ത ശേഷം മാത്രം പരിശോധിക്കും (സാധാരണ റിസൾട്ടിന് പിറ്റേന്ന്). % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള ട്രേഡിംഗ് ദിവസത്തെ close-ൽ നിന്ന്.</p>
 <h3>🧭 Market status gate</h3>
 <p>Momentum: Stay out / Failed turn / Wait → പുതിയ entry ഇല്ല; Bottoming / Early rally → പരമാവധി 3. Value: Stay out → പുതിയ entry ഇല്ല. ബാക്കി → പരമാവധി 10.</p>
