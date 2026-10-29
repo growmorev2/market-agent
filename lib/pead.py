@@ -240,6 +240,23 @@ def labels(d, dates, rd):
     out["base_effect"] = g0 is not None and g0 >= c["base_warn"]
     g2 = _growth(d.get("np0"), d.get("np8"))  # 2 വർഷം മുമ്പത്തെ അതേ ക്വാർട്ടറുമായി (മോശം വർഷം ഒഴിവാക്കി)
     out["g2y"] = round(g2) if g2 is not None else None
+    out["g_yoy"] = round(g0) if g0 is not None else None
+    # വളർച്ചയുടെ നില: base effect ആണെങ്കിൽ 2 വർഷം മുമ്പുമായുള്ള താരതമ്യം, അല്ലെങ്കിൽ YoY
+    basis = g2 if out["base_effect"] else g0
+    if out["base_effect"] and basis is None:
+        out["growth_tag"] = "പരിശോധിക്കുക (2 വർഷ ഡാറ്റ ഇല്ല)"
+    elif basis is None:
+        out["growth_tag"] = None
+    elif basis >= 150:
+        out["growth_tag"] = "ശരിക്കും വലിയ വളർച്ച"
+    elif basis >= 75:
+        out["growth_tag"] = "ശക്തം"
+    elif basis >= 30:
+        out["growth_tag"] = "മാന്യമായ വളർച്ച"
+    elif out["base_effect"] and basis < 20:
+        out["growth_tag"] = "വെറും തിരിച്ചുവരവ്"
+    else:
+        out["growth_tag"] = "ചെറിയ വളർച്ച"
     return out
 
 

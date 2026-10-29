@@ -457,9 +457,13 @@ function renderPead() {
     <p class="muted">Excellent റിസൾട്ട് (7-ൽ 5+ പരിശോധന, EPS ≥30% + Sales ≥15% + Quality നിർബന്ധം) വന്ന സ്റ്റോക്കുകൾ. SUE 2+ = 🔥 വലിയ surprise · 🚀 = ശക്തമായ പ്രതികരണം (വില 4%+, volume 2×+). % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള close-ൽ നിന്ന്. 60 ട്രേഡിംഗ് ദിവസം വരെ ട്രാക്ക് ചെയ്യും.</p></div>`;
   if (P.added.length) h += `<div class="card"><h2>🆕 ഇന്ന് ചേർത്തവ</h2><p>${P.added.map(esc).join(', ')}</p></div>`;
   h += `<div class="card"><h2>📢 റിസൾട്ടിന് ശേഷം (${act.length})</h2>` + tvButtons(act) +
-    table('<th>Stock</th><th>Result</th><th class="num">Score</th><th class="num">SUE</th><th class="num">പ്രതികരണം</th><th class="num">ഇപ്പോൾ</th><th class="num col-wide">Max</th><th>ഓരോ ദിവസവും</th>',
+    table('<th>Stock</th><th>Result</th><th class="num">Score</th><th>വളർച്ച</th><th class="num">SUE</th><th class="num">പ്രതികരണം</th><th class="num">ഇപ്പോൾ</th><th class="num col-wide">Max</th><th>ഓരോ ദിവസവും</th>',
       act.map(e => {
         const days = Object.entries(e.series).map(([d, c], i) => `<span class="chip">D${i + 1} ${dmy(d)}: ${pct((c / e.base - 1) * 100)}</span>`).join('');
+        const GT = { 'ശരിക്കും വലിയ വളർച്ച': ['🚀', 'up'], 'ശക്തം': ['💪', 'up'], 'മാന്യമായ വളർച്ച': ['👍', ''], 'ചെറിയ വളർച്ച': ['➖', 'muted'], 'വെറും തിരിച്ചുവരവ്': ['⚠️', 'down'] };
+        const gt = GT[e.growth_tag] || ['❔', 'muted'];
+        const growth = (e.g_yoy != null ? `<b>${pct(e.g_yoy)}</b> <span class="muted">YoY</span>` : '—') +
+          (e.growth_tag ? `<div class="${gt[1]}" style="font-size:.82rem">${gt[0]} ${esc(e.growth_tag)}${e.base_effect ? ' <span class="muted">(2Y അടിസ്ഥാനം)</span>' : ''}</div>` : '');
         const sueTxt = e.sue == null ? '—' : `<span class="${e.sue >= 2 ? 'up' : e.sue < 1 ? 'muted' : ''}">${e.sue >= 2 ? '🔥 ' : ''}${e.sue.toFixed(1)}</span>`;
         const react = e.react == null ? '—' : `${e.react_ok ? '🚀 ' : ''}${pct(e.react)}<div class="muted">${e.volx != null ? e.volx.toFixed(1) + '× vol' : ''}</div>`;
         const extra = [e.margin != null ? `Margin ${e.margin_prev}% → ${e.margin}% ${e.margin > e.margin_prev ? '↑' : '↓'}` : '',
@@ -469,7 +473,7 @@ function renderPead() {
         return `<tr><td><b>${esc(e.symbol)}</b>${e.base_effect ? `<span class="badge warn" title="മുൻ വർഷം ലാഭം വളരെ കുറവ് — % വളർച്ച കൂടുതലായി തോന്നാം. 2 വർഷം മുമ്പുമായി താരതമ്യം നോക്കുക">base effect</span><div class="muted">2 വർഷം മുമ്പത്തേക്കാൾ ${e.g2y != null ? pct(e.g2y) : '—'}</div>` : ''}<div class="muted">${esc(e.sector || '')}</div></td>
           <td>${dmy(e.res_date)}<div class="muted">${Object.keys(e.series).length} ദിവസം</div></td>
           <td class="num" title="${esc(e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + c[0] + ': ' + c[2]).join(' · '))}">${e.score}/${e.checks.length}</td>
-          <td class="num">${sueTxt}</td><td class="num">${react}</td>
+          <td>${growth}</td><td class="num">${sueTxt}</td><td class="num">${react}</td>
           <td class="num">${pct(now(e))}</td><td class="num col-wide">${pct(best(e))}</td>
           <td class="wrap"><details><summary>${strip(e)}</summary><div>${days}</div><div class="muted">${e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + esc(c[0]) + ': ' + esc(c[2])).join('<br>')}${extra ? '<br>' + esc(extra) : ''}</div></details></td></tr>`;
       })) + `</div>`;
@@ -553,7 +557,7 @@ STRAT_RULES = """
 <li><b>Quality of earnings:</b> core profit (PBT − other income) YoY ≥20% — other income / ഒറ്റത്തവണ നേട്ടം കൊണ്ടുള്ള ലാഭം ഒഴിവാക്കാൻ</li>
 <li><b>Acceleration:</b> ഈ ക്വാർട്ടറിലെ YoY growth മുൻ ക്വാർട്ടറിനേക്കാൾ കൂടുതൽ</li><li><b>QoQ growth:</b> profit മുൻ ക്വാർട്ടറിനേക്കാൾ കൂടുതൽ</li>
 <li><b>Record quarter:</b> 5 ക്വാർട്ടറിലെ ഉയർന്ന profit</li><li><b>Real growth:</b> ഒരു വർഷം മുമ്പും ലാഭത്തിൽ (low base അല്ല)</li></ul>
-<p><b>ലേബലുകൾ (Excellent തീരുമാനിക്കുന്നതിൽ ഇല്ല):</b> <b>SUE</b> = ഈ ക്വാർട്ടറിലെ YoY profit മാറ്റം കമ്പനിയുടെ കഴിഞ്ഞ 8 ക്വാർട്ടറിലെ സാധാരണ മാറ്റത്തേക്കാൾ എത്ര standard deviation കൂടുതൽ (2+ = വലിയ surprise) · <b>പ്രതികരണം</b> = റിസൾട്ട് ദിവസത്തെ / പിറ്റേന്നത്തെ വില % + volume · <b>Margin</b> = core EBITDA margin മുൻ വർഷത്തെ അതേ ക്വാർട്ടറുമായി · <b>base effect</b> = profit 150%+ വളർന്നത് (മുൻ വർഷം ലാഭം കുറവ്) — അതിന് താഴെ 2 വർഷം മുമ്പത്തെ അതേ ക്വാർട്ടറുമായുള്ള താരതമ്യം: അതും ശക്തമാണെങ്കിൽ യഥാർത്ഥ വളർച്ച, കുറവാണെങ്കിൽ വെറും തിരിച്ചുവരവ്.</p>
+<p><b>ലേബലുകൾ (Excellent തീരുമാനിക്കുന്നതിൽ ഇല്ല):</b> <b>SUE</b> = ഈ ക്വാർട്ടറിലെ YoY profit മാറ്റം കമ്പനിയുടെ കഴിഞ്ഞ 8 ക്വാർട്ടറിലെ സാധാരണ മാറ്റത്തേക്കാൾ എത്ര standard deviation കൂടുതൽ (2+ = വലിയ surprise) · <b>പ്രതികരണം</b> = റിസൾട്ട് ദിവസത്തെ / പിറ്റേന്നത്തെ വില % + volume · <b>Margin</b> = core EBITDA margin മുൻ വർഷത്തെ അതേ ക്വാർട്ടറുമായി · <b>വളർച്ച</b> = profit YoY %, നില: 150%+ ശരിക്കും വലിയ വളർച്ച · 75–150% ശക്തം · 30–75% മാന്യമായ വളർച്ച · base effect ഉള്ളവയ്ക്ക് 2 വർഷം മുമ്പുമായുള്ള താരതമ്യം വെച്ച് (20%-ന് താഴെ = വെറും തിരിച്ചുവരവ്) · <b>base effect</b> = profit 150%+ വളർന്നത് (മുൻ വർഷം ലാഭം കുറവ്) — അതിന് താഴെ 2 വർഷം മുമ്പത്തെ അതേ ക്വാർട്ടറുമായുള്ള താരതമ്യം: അതും ശക്തമാണെങ്കിൽ യഥാർത്ഥ വളർച്ച, കുറവാണെങ്കിൽ വെറും തിരിച്ചുവരവ്.</p>
 <p class="muted">റിസൾട്ട് തീയതി NSE കലണ്ടറിൽ നിന്ന്. Chartink പുതിയ ക്വാർട്ടർ ചേർത്ത ശേഷം മാത്രം പരിശോധിക്കും (സാധാരണ റിസൾട്ടിന് പിറ്റേന്ന്). % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള ട്രേഡിംഗ് ദിവസത്തെ close-ൽ നിന്ന്.</p>
 <h3>🧭 Market status gate</h3>
 <p>Momentum: Stay out / Failed turn / Wait → പുതിയ entry ഇല്ല; Bottoming / Early rally → പരമാവധി 3. Value: Stay out → പുതിയ entry ഇല്ല. ബാക്കി → പരമാവധി 10.</p>
