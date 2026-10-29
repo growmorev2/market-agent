@@ -106,7 +106,8 @@ def signal(data):
     return {"level": level, "emoji": emoji, "label": label, "trend": trend, "notes": notes,
             "asOf": data["asOf"], "t20": t20, "t50": t50, "t200": _last(data["t200"]),
             "hom": _last(data["hom"]), "nh": nh,
-            "above": {k: pct_above(data, k) for k in ("e20", "d50", "d200")}}
+            "above": {k: pct_above(data, k) for k in ("e20", "d50", "d200")},
+            "mstat": market_status(data)}
 
 
 def message_line(sig, fresh=True):
@@ -161,6 +162,13 @@ def prompt_text(data, fresh=True, sessions=5):
     lines.append("Last sessions (date: short20/medium50/long200/homma/netNHNL):")
     for d, v in table(data, sessions):
         lines.append(f"  {d}: {v['t20']}/{v['t50']}/{v['t200']}/{v['hom']}/{v['nh']}")
+    ms = sig.get("mstat")
+    if ms:
+        c = ms["cycle"]
+        lines.append(f"Market status (dashboard): {ms['name']} = market cycle {c['cond']} ({c['n']}/{c['tot']} "
+                     f"timeframes with more stocks above than below the MA; "
+                     + ", ".join(f"{t['name']} {t['ma']}: {t['state']}" for t in c["tfs"])
+                     + f") x sentiment {ms['sentiment']} (breadth {ms['breadth']}, MSWING momentum {ms['momentum']})")
     mv = sector_moves(data)
     fmt = lambda rs: ", ".join(f"{r['sector']} {r['now']} ({r['change']:+d})" for r in rs) or "none"
     lines.append("Sector momentum (Landry, count of stocks; change vs 5 sessions ago):")
@@ -168,3 +176,111 @@ def prompt_text(data, fresh=True, sessions=5):
     lines.append("  Rising most: " + fmt(mv["gainers"]))
     lines.append("  Falling most: " + fmt(mv["losers"]))
     return "\n".join(lines)
+
+
+# ---------- Market status (GM World ഡാഷ്‌ബോർഡിലെ അതേ നിയമങ്ങൾ) ----------
+# Market cycle: 20/50/200 DMA-ക്ക് മുകളിലും താഴെയുമുള്ള സ്റ്റോക്കുകളുടെ crossover എണ്ണം
+# Market sentiment: Breadth (Net NH−NL) × Momentum (Homma MSWING)
+# Market status: ഇവ രണ്ടും ചേർത്ത്. index.html-ൽ മാറ്റം വരുത്തിയാൽ ഇവിടെയും മാറ്റണം.
+CYC_TF = [("e20", "Short", "20"), ("d50", "Medium", "50"), ("d200", "Long", "200")]
+CYC_LOOK, CYC_FRESH = 3, 3
+CYC_ST = {"down": "Markdown", "acc": "Accumulation", "xbull": "Bull crossover",
+          "up": "Markup", "dist": "Distribution", "xbear": "Bear crossover"}
+
+
+def _cycle_one(m):
+    up, dn = m["up"], m["dn"]
+    spread = [100 * (u - d) / (u + d) if (u + d) else 0 for u, d in zip(up, dn)]
+    prev, last_x, st = True, None, None
+    for i, s in enumerate(spread):
+        d = s - spread[max(0, i - CYC_LOOK)]
+        blue_gain = True if d > 0 else False if d < 0 else prev
+        prev = blue_gain
+        if i > 0 and (spread[i - 1] < 0) != (s < 0):
+            last_x = (i, s >= 0)
+        st = ("up" if blue_gain else "dist") if s >= 0 else ("acc" if blue_gain else "down")
+        if last_x and i - last_x[0] < CYC_FRESH:
+            st = "xbull" if last_x[1] else "xbear"
+    return {"lead": spread[-1] >= 0, "state": CYC_ST[st]}
+
+
+def market_cycle(data):
+    ma = data.get("ma") or {}
+    tfs = [(name, n, _cycle_one(ma[k])) for k, name, n in CYC_TF if ma.get(k)]
+    if not tfs:
+        return None
+    tot, n_bull = len(tfs), sum(1 for _, _, c in tfs if c["lead"])
+    cond = ("Strong bull" if n_bull == tot else "Bull condition" if n_bull * 2 > tot
+            else "Turning" if n_bull else "Bear condition")
+    return {"cond": cond, "n": n_bull, "tot": tot, "lv": min(3, round(n_bull * 3 / tot)),
+            "tfs": [{"name": name, "ma": n, "state": c["state"]} for name, n, c in tfs]}
+
+
+def _breadth_state(nh):
+    n, pos3 = nh[-1], len(nh) >= 3 and all(x > 0 for x in nh[-3:])
+    if pos3 and n > 5:
+        return 3, "Strong"
+    if pos3:
+        return 2, "Healthy"
+    if n > 0:
+        return 1, "Improving"
+    return 0, "Weak"
+
+
+def _momentum_state(hom, ahom):
+    v, avg = hom[-1], ahom[-1]
+    above, rising = v > avg, len(hom) > 1 and v > hom[-2]
+    if v > 50 and above and rising:
+        return 3, "Strong"
+    if v > 50 and above:
+        return 3, "Strong · Choppy"
+    if v > 50:
+        return 1, "Slowing"
+    if above and rising:
+        return 2, "Turning"
+    if above:
+        return 2, "Turning · Choppy"
+    return 0, "Negative"
+
+
+SENT = [["Bearish", "Weakening", "Recovering", "Recovering"],
+        ["Mixed", "Cautious", "Improving", "Improving"],
+        ["Mixed", "Cautious", "Building", "Bullish"],
+        ["Mixed", "Cautious", "Building", "Very bullish"]]
+SENT_GROUP = {"Bearish": 0, "Weakening": 0, "Mixed": 1, "Cautious": 1, "Recovering": 2,
+              "Improving": 2, "Building": 2, "Bullish": 3, "Very bullish": 3}
+MSTAT = [[("Stay out", "🔴"), ("Wait", "🔴"), ("Bottoming", "🔵"), ("Early rally", "🔵")],
+         [("Failed turn", "🔴"), ("Wait", "🟠"), ("Early uptrend", "🔵"), ("Uptrend starting", "🟢")],
+         [("Correction", "🟠"), ("Pullback", "🟠"), ("Uptrend", "🟢"), ("Uptrend", "🟢")],
+         [("Topping risk", "🟠"), ("Pullback", "🟠"), ("Uptrend", "🟢"), ("Strong uptrend", "🟩")]]
+MSTAT_ML = {
+    "Stay out": "എല്ലാം ദുർബലം. പുതിയ ട്രേഡ് വേണ്ട.",
+    "Wait": "വ്യക്തമായ ദിശയില്ല. crossover-നോ നല്ല sentiment-നോ കാത്തിരിക്കുക.",
+    "Bottoming": "ഇപ്പോഴും താഴെ, പക്ഷേ momentum തിരിയുന്നു. ചെറിയ ടെസ്റ്റ് ട്രേഡുകൾ മാത്രം.",
+    "Early rally": "crossover ആയില്ല, പക്ഷേ sentiment ശക്തം. ശ്രദ്ധയോടെ തുടങ്ങാം.",
+    "Failed turn": "ഒരു crossover വന്നു, പക്ഷേ sentiment ദുർബലം. തിരിച്ചുവീഴാൻ സാധ്യത.",
+    "Early uptrend": "പുതിയ സൈക്കിൾ തുടങ്ങുന്നു. പൊസിഷൻ പതുക്കെ കൂട്ടാം.",
+    "Uptrend starting": "നല്ല sentiment-ഓടെ പുതിയ സൈക്കിൾ. പൊസിഷൻ കൂട്ടാം.",
+    "Uptrend": "ട്രെൻഡ് ആരോഗ്യകരം. സാധാരണ പൊസിഷൻ സൈസ്.",
+    "Strong uptrend": "ട്രെൻഡും sentiment-ഉം ശക്തം. പൂർണ്ണ പൊസിഷൻ സൈസ്.",
+    "Pullback": "ട്രെൻഡ് മുകളിൽ, പക്ഷേ ക്ഷീണം. പുതിയ buy സൂക്ഷിച്ച്.",
+    "Correction": "ട്രെൻഡ് മുകളിൽ, പക്ഷേ sentiment നെഗറ്റീവ്. Stop മുറുക്കുക, ലാഭം എടുക്കുക.",
+    "Topping risk": "മൂന്നും crossover ആയി, പക്ഷേ sentiment നെഗറ്റീവ്. Stop മുറുക്കുക, ലാഭം എടുക്കുക.",
+}
+
+
+def market_status(data):
+    """ഡാഷ്‌ബോർഡിലെ Market status. ഡാറ്റ ഇല്ലെങ്കിൽ None."""
+    try:
+        cyc = market_cycle(data)
+        if not cyc or not data.get("nh") or not data.get("hom") or not data.get("ahom"):
+            return None
+        bl, bname = _breadth_state(data["nh"])
+        ml, mname = _momentum_state(data["hom"], data["ahom"])
+        sent = SENT[bl][ml]
+        name, emoji = MSTAT[cyc["lv"]][SENT_GROUP[sent]]
+        return {"name": name, "emoji": emoji, "meaning": MSTAT_ML[name], "cycle": cyc,
+                "sentiment": sent, "breadth": bname, "momentum": mname}
+    except Exception as e:  # noqa: BLE001
+        print(f"  Market status കണക്കാക്കാനായില്ല: {str(e)[:120]}")
+        return None

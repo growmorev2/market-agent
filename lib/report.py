@@ -86,6 +86,15 @@ def telegram_daily(date_str, sig, fresh, scans, rows, sector_rows, bmoves, resul
         if not fresh:
             L.append(f"<i>({e(sig['asOf'])}-ലെ ബ്രെഡ്ത്ത് — ഇന്നത്തേത് വന്നില്ല)</i>")
         L.append("")
+        ms = sig.get("mstat")
+        if ms:
+            c = ms["cycle"]
+            L.append(f"🧭 <b>Market status: {e(ms['name'])}</b> {ms['emoji']}")
+            L.append(f"Cycle: {e(c['cond'])} ({c['n']}/{c['tot']}) · Sentiment: {e(ms['sentiment'])}")
+            L.append(f"<code>" + e("  ".join(f"{t['ma']}: {t['state']}" for t in c["tfs"])) + "</code>")
+            L.append(f"Breadth {e(ms['breadth'])} · MSWING {e(ms['momentum'])}")
+            L.append(f"<i>{e(ms['meaning'])}</i>")
+            L.append("")
 
     L.append("🎯 <b>സിഗ്നലുകൾ</b>")
     width = max((len(short_name(s)) for s in scans), default=10)
