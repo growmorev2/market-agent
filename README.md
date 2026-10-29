@@ -357,3 +357,14 @@ python agent.py --no-send
 - Model portfolio `data/strategy.json`-ൽ. വില Yahoo Finance-ൽ നിന്ന് (1 വർഷം).
 - Valuation: `data/valuations.json` = `{"SYMBOL": intrinsic_value}` ചേർത്താൽ Margin of safety ഫിൽറ്റർ ഓണാകും.
 - അക്കങ്ങൾ മാറ്റാൻ: `lib/strategy.py`-ലെ `CFG`, `GATE`.
+
+#### Value portfolio-ക്ക് Fair Value ബന്ധിപ്പിക്കാൻ (ഒറ്റത്തവണ)
+
+Fair Value നിങ്ങളുടെ private `screener-summery` repo-യിലെ `output/valuations.json`-ൽ നിന്നാണ് (Valuation sheet-ലെ Fair Value). ആ repo വായിക്കാൻ ഒരു read-only token വേണം:
+
+1. github.com → പ്രൊഫൈൽ ചിത്രം → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**
+2. Name: `market-agent-read` · Expiration: 1 വർഷം · **Repository access → Only select repositories → screener-summery**
+3. **Permissions → Repository permissions → Contents → Read-only** → **Generate token** → token കോപ്പി ചെയ്യുക (ചാറ്റിൽ ഒട്ടിക്കരുത്)
+4. market-agent repo → **Settings → Secrets and variables → Actions → New repository secret** → Name `SCREENER_TOKEN`, Value: token → **Add secret**
+
+Fair Value നമ്പറുകൾ ഈ public repo-യിലോ strategy പേജിലോ വരില്ല — "Margin of safety" ✓/✗ മാത്രം. Token ഇല്ലെങ്കിൽ Value portfolio ROE/EPS + 200 DMA മാത്രം വെച്ച് ഓടും.

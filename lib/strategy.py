@@ -11,7 +11,8 @@
 
 Value portfolio-ക്കുള്ള intrinsic value (Gangil's 3) data/valuations.json-ൽ നിന്ന് വായിക്കും:
     {"SYMBOL": 1234.5, ...}   അല്ലെങ്കിൽ   {"SYMBOL": {"intrinsic": 1234.5}, ...}
-ഫയൽ ഇല്ലെങ്കിൽ valuation ഫിൽറ്റർ ഒഴിവാക്കും (പേജിൽ "valuation pending" എന്ന് കാണിക്കും).
+(അല്ലെങ്കിൽ SCREENER_TOKEN secret ഉണ്ടെങ്കിൽ private screener-summery repo-യിലെ output/valuations.json).
+ഒന്നും ഇല്ലെങ്കിൽ valuation ഫിൽറ്റർ ഒഴിവാക്കും (പേജിൽ "valuation pending" എന്ന് കാണിക്കും).
 
 അക്കങ്ങൾ മാറ്റാൻ താഴെയുള്ള CFG / GATE നോക്കുക. ഇത് സാമ്പത്തിക ഉപദേശമല്ല.
 """
@@ -191,8 +192,11 @@ def value_filters(sym, ind, intrinsic, have_val, persist):
     if have_val:
         if intrinsic:
             mos = 1 - ind["close"] / intrinsic if ind else None
-            f.append(_f("mos", "Margin of safety", mos is not None and mos >= c["mos"],
-                        f"Intrinsic {intrinsic:,.0f} · {mos * 100:.0f}% താഴെ" if mos is not None else "വില ഇല്ല"))
+            ok = mos is not None and mos >= c["mos"]
+            # Fair Value private ഡാറ്റയാണ് — public പേജിൽ നമ്പർ കാണിക്കില്ല, ✓/✗ മാത്രം
+            f.append(_f("mos", "Margin of safety", ok,
+                        (f"Fair Value-നേക്കാൾ {int(c['mos'] * 100)}%+ താഴെ" if ok else f"Fair Value-നേക്കാൾ {int(c['mos'] * 100)}% താഴെ അല്ല")
+                        if mos is not None else "വില ഇല്ല"))
         else:
             f.append(_f("mos", "Margin of safety", False, "ഈ സ്റ്റോക്കിന് valuation ഇല്ല"))
     if ind and ind["sma200"]:
@@ -220,19 +224,46 @@ def load_state():
         return {"momentum": {"open": [], "closed": []}, "value": {"open": [], "closed": []}}
 
 
-def load_valuations():
-    try:
-        raw = json.loads(VALUATIONS.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return None
+VAL_API = "https://api.github.com/repos/{repo}/contents/output/valuations.json"
+
+
+def _parse_valuations(raw):
+    raw = raw.get("stocks", raw) if isinstance(raw, dict) else {}
     out = {}
     for k, v in raw.items():
-        val = v.get("intrinsic") if isinstance(v, dict) else v
+        val = (v.get("fair") or v.get("intrinsic")) if isinstance(v, dict) else v
         try:
-            out[k.upper()] = float(val)
+            if val:
+                out[str(k).upper()] = float(val)
         except (TypeError, ValueError):
             pass
     return out
+
+
+def load_valuations():
+    """Fair Value (Gangil's 3): private screener-summery repo-യിൽ നിന്ന് (SCREENER_TOKEN secret ഉണ്ടെങ്കിൽ),
+    ഇല്ലെങ്കിൽ data/valuations.json. രണ്ടും ഇല്ലെങ്കിൽ None. ഡാറ്റ ഈ public repo-യിൽ സേവ് ചെയ്യില്ല."""
+    import os
+    token = (os.environ.get("SCREENER_TOKEN") or "").strip()
+    if token:
+        repo = (os.environ.get("SCREENER_REPO") or "growmorev2/screener-summery").strip()
+        try:
+            r = requests.get(VAL_API.format(repo=repo), timeout=30, headers={
+                "Authorization": f"Bearer {token}", "Accept": "application/vnd.github.raw+json",
+                "X-GitHub-Api-Version": "2022-11-28"})
+            if r.status_code == 200:
+                out = _parse_valuations(r.json())
+                print(f"  Valuations: {len(out)} കമ്പനി ({repo})")
+                if out:
+                    return out
+            else:
+                print(f"  Valuations ലഭ്യമായില്ല: HTTP {r.status_code}")
+        except Exception as e:  # noqa: BLE001
+            print(f"  Valuations ലഭ്യമായില്ല: {str(e)[:120]}")
+    try:
+        return _parse_valuations(json.loads(VALUATIONS.read_text(encoding="utf-8"))) or None
+    except (OSError, ValueError):
+        return None
 
 
 def _close_pos(pos, date_str, price, reason):
@@ -287,8 +318,10 @@ def run(date_str, scans, results, bdata, mstatus, sample=False, fetch=price_hist
         prem = (i["close"] / i["sma200"] - 1) if (i and i["sma200"]) else None
         mos = (1 - i["close"] / intrinsic) if (i and intrinsic) else None
         v_rows.append({"symbol": sym, "sector": x.get("sector", ""), "close": (i or {}).get("close") or x.get("close"),
-                       "intrinsic": intrinsic, "mos": mos, "prem200": prem, "filters": flt, "status": status_of(flt)})
-    v_rows.sort(key=lambda r: (-(r["mos"] if r["mos"] is not None else -9), r["prem200"] if r["prem200"] is not None else 9))
+                       "_mos": mos, "prem200": prem, "filters": flt, "status": status_of(flt)})
+    v_rows.sort(key=lambda r: (-(r["_mos"] if r["_mos"] is not None else -9), r["prem200"] if r["prem200"] is not None else 9))
+    for r in v_rows:
+        r.pop("_mos", None)  # Fair Value-ൽ നിന്നുള്ള നമ്പർ പേജിലേക്ക് പോകരുത്
 
     # --- Exits ---
     exits = {"momentum": [], "value": []}

@@ -49,6 +49,7 @@ jobs:
           SEND_PDF: ${{ vars.SEND_PDF }}
           GMWORLD_URL: ${{ vars.GMWORLD_URL }}
           GMWORLD_WAIT_MIN: ${{ vars.GMWORLD_WAIT_MIN }}
+          SCREENER_TOKEN: ${{ secrets.SCREENER_TOKEN }} # Value portfolio-ക്കുള്ള Fair Value (private screener-summery repo)
         run: python agent.py
 
       - name: Save report and history
