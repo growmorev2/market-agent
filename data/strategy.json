@@ -1,10 +1,61 @@
 {
  "momentum": {
-  "open": [],
+  "open": [
+   {
+    "symbol": "ONWARDTEC",
+    "sector": "Unknown",
+    "entry_date": "2026-10-29",
+    "entry": 404.0,
+    "last": 404.0
+   },
+   {
+    "symbol": "PVRINOX",
+    "sector": "Media Entertainment & Publication",
+    "entry_date": "2026-10-29",
+    "entry": 1490.3,
+    "last": 1490.3
+   },
+   {
+    "symbol": "WSTCSTPAPR",
+    "sector": "Unknown",
+    "entry_date": "2026-10-29",
+    "entry": 839.85,
+    "last": 839.85
+   }
+  ],
   "closed": []
  },
  "value": {
-  "open": [],
+  "open": [
+   {
+    "symbol": "HMAAGRO",
+    "sector": "Unknown",
+    "entry_date": "2026-10-29",
+    "entry": 24.43,
+    "last": 24.43
+   },
+   {
+    "symbol": "MAHLOG",
+    "sector": "Unknown",
+    "entry_date": "2026-10-29",
+    "entry": 427.15,
+    "last": 427.15
+   },
+   {
+    "symbol": "SHAREINDIA",
+    "sector": "Financial Services",
+    "entry_date": "2026-10-29",
+    "entry": 177.93,
+    "last": 177.93
+   },
+   {
+    "symbol": "MVGJL",
+    "sector": "Unknown",
+    "entry_date": "2026-10-29",
+    "entry": 172.2,
+    "last": 172.2
+   }
+  ],
   "closed": []
  }
 }
