@@ -53,6 +53,14 @@ main{max-width:1100px}
 .phead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
 .phead h2{margin:0}
 .psort{font-size:.88rem;color:var(--muted)}.psort select{font:inherit;padding:4px 8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text)}
+.ptable th.sortable{cursor:pointer;user-select:none}.ptable th.sortable:hover{color:var(--accent)}
+.ptable .prow{cursor:pointer}.ptable .prow:hover td,.ptable .prow.open td{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.ptable .prow.open td{border-bottom-color:transparent}
+.ptable .pdet td{white-space:normal;background:color-mix(in srgb,var(--accent) 4%,transparent);padding:4px 10px 12px}
+.ptable .badge{margin-left:4px;padding:0 4px;font-size:.65rem}
+.ph-only{display:none}
+@media (max-width:560px){.ph-hide{display:none}.ph-only{display:inline}div.ph-only{display:block}.ptable th,.ptable td{padding:7px 4px;font-size:.8rem}.ptable td:first-child{min-width:0;max-width:120px}.ptable .badge{display:none}}
+.cklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px 14px;font-size:.82rem}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;margin-top:6px}
 .pcard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg);min-width:0}
 .pcard header{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
@@ -159,50 +167,62 @@ function renderPead() {
   if (!P) { document.getElementById('sbody').innerHTML = '<div class="card"><p class="muted">PEAD ഡാറ്റ ഇന്ന് ലഭ്യമായില്ല.</p></div>'; return; }
   const now = e => { const v = Object.values(e.series); return v.length ? (v[v.length - 1] / e.base - 1) * 100 : null; };
   const best = e => { const v = Object.values(e.series); return v.length ? (Math.max(...v) / e.base - 1) * 100 : null; };
-  let sortBy = 'now';
-  try { sortBy = localStorage.getItem('pead-sort') || 'now'; } catch (e) {}
-  const keys = { now: e => now(e) ?? -999, sue: e => e.sue ?? -999, score: e => e.score * 1000 + (now(e) ?? 0), date: e => e.res_date, growth: e => e.g_yoy ?? -999 };
-  const act = P.active.slice().sort((a, b) => { const x = keys[sortBy](a), y = keys[sortBy](b); return x < y ? 1 : x > y ? -1 : 0; });
+  let sortBy = 'now', sortAsc = false;
+  try { sortBy = localStorage.getItem('pead-sort') || 'now'; sortAsc = localStorage.getItem('pead-asc') === '1'; } catch (e) {}
+  const keys = { now: e => now(e) ?? -999, max: e => best(e) ?? -999, sue: e => e.sue ?? -999, score: e => e.score * 1000 + (now(e) ?? 0),
+                 date: e => e.res_date, growth: e => e.g_yoy ?? -999, react: e => e.react ?? -999, symbol: e => e.symbol };
+  if (!keys[sortBy]) sortBy = 'now';
+  const act = P.active.slice().sort((a, b) => { const x = keys[sortBy](a), y = keys[sortBy](b); const r = x < y ? 1 : x > y ? -1 : 0; return sortAsc ? -r : r; });
   const avg = act.length ? act.reduce((t, e) => t + (now(e) || 0), 0) / act.length : null;
   const up = act.filter(e => (now(e) || 0) > 0).length;
   const GT = { 'ശരിക്കും വലിയ വളർച്ച': ['🚀', 'up'], 'ശക്തം': ['💪', 'up'], 'മാന്യമായ വളർച്ച': ['👍', ''], 'ചെറിയ വളർച്ച': ['➖', 'muted'], 'വെറും തിരിച്ചുവരവ്': ['⚠️', 'down'] };
   let h = `<div class="card"><div class="kpi"><span>ട്രാക്കിൽ <b>${act.length}</b></span><span>ഇന്ന് പുതിയത് <b>${P.added.length}</b></span>
     <span>ശരാശരി <b>${pct(avg)}</b></span><span>ഉയർന്നവ <b>${up}/${act.length}</b></span></div>
-    <p class="muted">Excellent റിസൾട്ട് (7-ൽ 5+ പരിശോധന; EPS ≥30%, Sales ≥15%, Quality നിർബന്ധം). % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള close-ൽ നിന്ന് · 🔥 SUE 2+ = വലിയ surprise · 🚀 = ശക്തമായ പ്രതികരണം (വില 4%+, volume 2×+) · 60 ട്രേഡിംഗ് ദിവസം വരെ.</p></div>`;
+    <p class="muted">Excellent റിസൾട്ട് (7-ൽ 5+; EPS ≥30%, Sales ≥15%, Quality നിർബന്ധം) · % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള close-ൽ നിന്ന് · 🔥 SUE 2+ വലിയ surprise · 🚀 ശക്തമായ പ്രതികരണം · 🚀/💪/👍/⚠️ വളർച്ചയുടെ നില · വരിയിൽ തൊട്ടാൽ മുഴുവൻ വിവരം.</p></div>`;
+  const cols = [['symbol', 'Stock', ''], ['date', 'Result', 'ph-hide'], ['score', 'Score', 'num ph-hide'], ['growth', 'വളർച്ച', 'num'], ['sue', 'SUE', 'num'],
+                ['react', 'പ്രതികരണം', 'num ph-hide'], ['now', 'ഇപ്പോൾ', 'num'], ['max', 'Max', 'num col-wide'], ['', 'ഓരോ ദിവസവും', 'col-wide']];
+  const head = cols.map(([k, l, c]) => k ? `<th class="${c} sortable" data-k="${k}">${l}${sortBy === k ? (sortAsc ? ' ▲' : ' ▼') : ''}</th>` : `<th class="${c}">${l}</th>`).join('');
+  const rows = act.map((e, i) => {
+    const n = now(e), mx = best(e), gt = GT[e.growth_tag] || ['', 'muted'];
+    const tag = e.growth_tag ? `<span title="${esc(e.growth_tag)}${e.base_effect ? ' (2 വർഷം മുമ്പുമായി)' : ''}">${gt[0]}</span> ` : '';
+    const days = Object.entries(e.series).map(([d, c], j) => { const p = (c / e.base - 1) * 100;
+      return `<span class="dchip ${p >= 0 ? 'pos' : 'neg'}"><small>D${j + 1} · ${dmy(d)}</small>${p >= 0 ? '+' : ''}${p.toFixed(1)}%</span>`; }).join('');
+    const tiles = [
+      ['Profit വളർച്ച (YoY)', e.g_yoy == null ? '—' : pct(e.g_yoy), e.growth_tag ? gt[0] + ' ' + esc(e.growth_tag) + (e.base_effect ? ' (2Y അടിസ്ഥാനം)' : '') : ''],
+      e.base_effect ? ['2 വർഷം മുമ്പത്തേക്കാൾ', e.g2y == null ? '—' : pct(e.g2y), 'base effect — കഴിഞ്ഞ വർഷം ലാഭം കുറവായിരുന്നു'] : null,
+      ['SUE', e.sue == null ? '—' : (e.sue >= 2 ? '🔥 ' : '') + e.sue.toFixed(1), e.sue == null ? 'ഹിസ്റ്ററി കുറവ്' : e.sue >= 2 ? 'വലിയ surprise' : e.sue >= 1 ? 'പോസിറ്റീവ്' : 'പ്രതീക്ഷിച്ചത്'],
+      ['പ്രതികരണം', e.react == null ? '—' : (e.react_ok ? '🚀 ' : '') + pct(e.react), (e.volx != null ? e.volx.toFixed(1) + '× volume' : '') + (e.react_date ? ' · ' + dmy(e.react_date) : '')],
+      e.margin != null ? ['Margin', `${e.margin}% ${e.margin >= e.margin_prev ? '↑' : '↓'}`, 'മുൻ വർഷം ' + e.margin_prev + '%'] : null,
+    ].filter(Boolean).map(([l, v, sub]) => `<div><small>${l}</small><b>${v}</b><span class="muted">${sub}</span></div>`).join('');
+    const checks = e.checks.map(c => `<div class="${c[1] ? 'up' : 'down'}">${c[1] ? '✓' : '✗'} <b>${esc(c[0])}</b> <span class="muted">${esc(c[2])}</span></div>`).join('');
+    return `<tr class="prow" data-i="${i}">
+        <td><b>${esc(e.symbol)}</b><span class="ph-only">${e.react_ok ? ' 🚀' : ''}</span>${P.added.includes(e.symbol) ? '<span class="badge">NEW</span>' : ''}${e.base_effect ? '<span class="badge warn">base</span>' : ''}<div class="muted ph-hide">${esc(e.sector || '')}</div><div class="muted ph-only">${dmy(e.res_date)} · ${e.score}/${e.checks.length}</div></td>
+        <td class="ph-hide">${dmy(e.res_date)}<div class="muted">${Object.keys(e.series).length} ദിവസം</div></td>
+        <td class="num ph-hide">${e.score}/${e.checks.length}</td>
+        <td class="num">${tag}${e.g_yoy == null ? '—' : pct(e.g_yoy)}</td>
+        <td class="num">${e.sue == null ? '—' : `<span class="${e.sue >= 2 ? 'up' : 'muted'}">${e.sue >= 2 ? '🔥 ' : ''}${e.sue.toFixed(1)}</span>`}</td>
+        <td class="num ph-hide">${e.react == null ? '—' : (e.react_ok ? '🚀 ' : '') + pct(e.react)}${e.volx != null ? `<div class="muted">${e.volx.toFixed(1)}× vol</div>` : ''}</td>
+        <td class="num"><b>${pct(n)}</b></td><td class="num col-wide">${pct(mx)}</td><td class="col-wide">${strip(e)}</td></tr>
+      <tr class="pdet" data-i="${i}" hidden><td colspan="9"><div class="tiles">${tiles}</div><div class="days">${days}</div><div class="cklist">${checks}</div></td></tr>`;
+  });
   h += `<div class="card"><div class="phead"><h2>📢 റിസൾട്ടിന് ശേഷം (${act.length})</h2>
     <label class="psort">ക്രമം <select id="psort">
-      <option value="now">ഇപ്പോഴത്തെ %</option><option value="sue">SUE</option><option value="score">Score</option>
-      <option value="growth">Profit വളർച്ച</option><option value="date">റിസൾട്ട് തീയതി</option></select></label></div>` + tvButtons(act) + `<div class="pgrid">` +
-    act.map(e => {
-      const n = now(e), mx = best(e), gt = GT[e.growth_tag] || ['❔', 'muted'];
-      const isNew = P.added.includes(e.symbol);
-      const days = Object.entries(e.series).map(([d, c], i) => { const p = (c / e.base - 1) * 100;
-        return `<span class="dchip ${p >= 0 ? 'pos' : 'neg'}"><small>D${i + 1} · ${dmy(d)}</small>${p >= 0 ? '+' : ''}${p.toFixed(1)}%</span>`; }).join('');
-      const checks = e.checks.map(c => `<span class="ck ${c[1] ? 'ok' : 'no'}" title="${esc(c[2])}">${c[1] ? '✓' : '✗'} ${esc(c[0])}</span>`).join('');
-      return `<article class="pcard">
-        <header><div><div class="psym">${esc(e.symbol)}${isNew ? '<span class="badge">NEW</span>' : ''}${e.base_effect ? '<span class="badge warn">base effect</span>' : ''}</div>
-          <div class="muted">${esc(e.sector || '—')}</div></div>
-          <div class="pnow"><div class="${(n ?? 0) >= 0 ? 'up' : 'down'}">${n == null ? '—' : (n >= 0 ? '+' : '') + n.toFixed(1) + '%'}</div><small class="muted">Max ${mx == null ? '—' : (mx >= 0 ? '+' : '') + mx.toFixed(1) + '%'}</small></div></header>
-        <div class="tiles">
-          <div><small>റിസൾട്ട്</small><b>${dmy(e.res_date)}</b><span class="muted">${Object.keys(e.series).length} ദിവസം</span></div>
-          <div><small>Score</small><b>${e.score}/${e.checks.length}</b></div>
-          <div><small>Profit വളർച്ച</small><b class="${(e.g_yoy ?? 0) >= 0 ? 'up' : 'down'}">${e.g_yoy == null ? '—' : (e.g_yoy >= 0 ? '+' : '') + e.g_yoy + '%'}</b><span class="${gt[1]}">${e.growth_tag ? gt[0] + ' ' + esc(e.growth_tag) : ''}</span></div>
-          ${e.base_effect ? `<div><small>2 വർഷം മുമ്പത്തേക്കാൾ</small><b class="${(e.g2y ?? 0) >= 0 ? 'up' : 'down'}">${e.g2y == null ? '—' : (e.g2y >= 0 ? '+' : '') + e.g2y + '%'}</b></div>` : ''}
-          <div><small>SUE</small><b class="${(e.sue ?? 0) >= 2 ? 'up' : ''}">${e.sue == null ? '—' : ((e.sue >= 2 ? '🔥 ' : '') + e.sue.toFixed(1))}</b><span class="muted">${e.sue == null ? 'ഹിസ്റ്ററി കുറവ്' : e.sue >= 2 ? 'വലിയ surprise' : e.sue >= 1 ? 'പോസിറ്റീവ്' : 'പ്രതീക്ഷിച്ചത്'}</span></div>
-          <div><small>പ്രതികരണം</small><b class="${(e.react ?? 0) >= 0 ? 'up' : 'down'}">${e.react == null ? '—' : (e.react_ok ? '🚀 ' : '') + (e.react >= 0 ? '+' : '') + e.react + '%'}</b><span class="muted">${e.volx != null ? e.volx.toFixed(1) + '× volume' : ''}${e.react_date ? ' · ' + dmy(e.react_date) : ''}</span></div>
-          ${e.margin != null ? `<div><small>Margin</small><b class="${e.margin >= e.margin_prev ? 'up' : 'down'}">${e.margin}% ${e.margin >= e.margin_prev ? '↑' : '↓'}</b><span class="muted">മുൻ വർഷം ${e.margin_prev}%</span></div>` : ''}
-        </div>
-        <div class="days">${days || '<span class="muted">ഇനിയും ഡാറ്റ വന്നിട്ടില്ല</span>'}</div>
-        <div class="checks">${checks}</div>
-        <details><summary class="muted">വിശദാംശം</summary><div class="muted">${e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + esc(c[0]) + ': ' + esc(c[2])).join('<br>')}</div></details>
-      </article>`;
-    }).join('') + `</div></div>`;
+      <option value="now">ഇപ്പോഴത്തെ %</option><option value="max">Max %</option><option value="sue">SUE</option><option value="score">Score</option>
+      <option value="growth">Profit വളർച്ച</option><option value="react">പ്രതികരണം</option><option value="date">റിസൾട്ട് തീയതി</option><option value="symbol">പേര്</option></select></label></div>` +
+    tvButtons(act) + `<div class="table-wrap"><table class="ptable"><thead><tr>${head}</tr></thead><tbody>${rows.join('')}</tbody></table></div></div>`;
   if (P.done.length) h += `<div class="card"><h2>✅ 60 ദിവസം പൂർത്തിയായവ</h2>` + table('<th>Stock</th><th>Result</th><th class="num">അവസാനം</th><th class="num">Max</th>',
       P.done.slice().reverse().map(e => `<tr><td><b>${esc(e.symbol)}</b></td><td>${dmy(e.res_date)}</td><td class="num">${pct(now(e))}</td><td class="num">${pct(best(e))}</td></tr>`)) + `</div>`;
   document.getElementById('sbody').innerHTML = h;
+  const setSort = (k, asc) => { try { localStorage.setItem('pead-sort', k); localStorage.setItem('pead-asc', asc ? '1' : '0'); } catch (e) {} renderPead(); };
   const sel = document.getElementById('psort');
   sel.value = sortBy;
-  sel.addEventListener('change', () => { try { localStorage.setItem('pead-sort', sel.value); } catch (e) {} renderPead(); });
+  sel.addEventListener('change', () => setSort(sel.value, sel.value === 'symbol'));
+  document.querySelectorAll('.ptable th.sortable').forEach(th => th.addEventListener('click', () => {
+    const k = th.dataset.k; setSort(k, k === sortBy ? !sortAsc : k === 'symbol');
+  }));
+  document.querySelectorAll('.ptable .prow').forEach(tr => tr.addEventListener('click', () => {
+    const d = document.querySelector(`.ptable .pdet[data-i="${tr.dataset.i}"]`); d.hidden = !d.hidden; tr.classList.toggle('open', !d.hidden);
+  }));
   wireTv(act.map(e => e.symbol), `PEAD_${R.date}.txt`);
 }
 function render() {
