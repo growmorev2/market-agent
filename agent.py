@@ -20,7 +20,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from lib import ai, breadth, chartink, events, notify, pdf, report, sectors, site, tracker, weekly
+from lib import ai, breadth, chartink, events, notify, pdf, report, sectors, site, tracker, weekly, strategy
 
 ROOT = Path(__file__).parent
 HISTORY = ROOT / "data" / "history"
@@ -365,6 +365,13 @@ def run_daily(args, lang, today):
         perf_rows = tracker.stats(state)
         print(f"  ട്രാക്കർ: {added} പുതിയ എൻട്രി, ആകെ {len(state['entries'])}")
 
+    strat = None
+    try:
+        strat = strategy.run(date_str, scans, results, bdata, (sig or {}).get("mstat"), sample=args.sample,
+                             fetch=(lambda syms: {}) if args.sample else strategy.price_history)
+    except Exception as e:  # noqa: BLE001
+        print(f"  Strategy പരാജയം: {str(e)[:200]}")
+
     print("[3/5] AI വിശകലനം")
     raw, ai_label = ask_ai(SYSTEM_DAILY.format(lang=lang), DRIVERS_DAILY.format(lang=lang),
                            daily_prompt(date_str, scans, sector_rows, dict(list(results_key.items())[:15]),
@@ -387,11 +394,15 @@ def run_daily(args, lang, today):
                rep={"summary": ai_out["summary"], "rows": rows, "sectors": ai_out["sectors"]})
     if perf_rows:
         site.build_performance(ROOT / "docs", date_str, perf_rows)
+    if strat:
+        site.build_strategy(ROOT / "docs", strat)
 
     print("[5/5] അയക്കുന്നു")
     base = site_base()
     msg = report.telegram_daily(date_str, sig, bfresh, scans, rows, sector_rows, bmoves, results_key, len(results),
-                                ai_out, ai_label, f"{base}/reports/{date_str}.html" if base else "")
+                                ai_out, ai_label, f"{base}/reports/{date_str}.html" if base else "",
+                                strategy_text=strategy.telegram_line(strat),
+                                strategy_link=f"{base}/strategy.html" if (base and strat) else "")
     pdf_path = make_pdf(ROOT / "docs" / "reports" / f"{date_str}.html", f"Market-Report-{date_str}.pdf")
     return deliver(msg, args.no_send, pdf_path, make_chart(bdata, f"Breadth-{date_str}.png"))
 

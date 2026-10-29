@@ -6,6 +6,7 @@ docs/performance.html         → സ്കാനർ പെർഫോമൻസ്
 docs/index.html               → എല്ലാ റിപ്പോർട്ടുകളുടെയും ലിസ്റ്റ് (പുതിയത് മുകളിൽ)
 """
 import html
+import json
 import re
 from pathlib import Path
 
@@ -258,6 +259,7 @@ def _write_index(out):
     body = (
         "<h1>മാർക്കറ്റ് ഏജന്റ്</h1>"
         '<p class="muted">AI റിപ്പോർട്ടുകൾ · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</p>'
+        + ('<p><a href="strategy.html">📋 Stock selection strategy (Momentum / Value)</a></p>' if (out / "strategy.html").exists() else "")
         + ('<p><a href="performance.html">📈 സ്കാനർ പെർഫോമൻസ്</a></p>' if (out / "performance.html").exists() else "")
         + (f'<h2>ആഴ്ച റാപ്പപ്പ്</h2><ul class="reports">{w_items}</ul>' if w_items else "")
         + f'<h2>ദിവസേനയുള്ള റിപ്പോർട്ട്</h2><ul class="reports">{d_items}</ul>'
@@ -370,4 +372,128 @@ def build_weekly(out_dir, end_date, report_md, agg, ai_label, perf_rows=None, br
         + "".join(parts) + _perf_card(perf_rows or [])
     )
     (out / "weekly" / f"{end_date}.html").write_text(_page(f"Weekly {end_date}", body), encoding="utf-8")
+    _write_index(out)
+
+
+# ---------- Strategy പേജ് (Momentum / Value portfolio) ----------
+
+STRAT_CSS = """
+.tabs{display:flex;gap:8px;margin:14px 0}
+.tabs button{font:inherit;font-weight:600;padding:8px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+.tabs button[aria-selected=true]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.flt{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem;margin:6px 0 2px}
+.flt label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
+.ok{color:var(--up)}.no{color:var(--down)}
+.fl{display:inline-block;font-size:.72rem;border-radius:6px;padding:0 5px;margin:2px 3px 0 0;border:1px solid var(--line)}
+.fl.no{border-color:var(--down)}
+.gate{font-weight:600}
+.kpi{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:.9rem}.kpi b{font-size:1.15rem}
+"""
+
+STRAT_JS = r"""
+const R = JSON.parse(document.getElementById('sdata').textContent);
+let tab = 'momentum';
+try { tab = localStorage.getItem('strat-tab') || 'momentum'; } catch (e) {}
+const off = { momentum: new Set(), value: new Set() };
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num = (v, d = 2) => v == null ? '—' : Number(v).toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = v => v == null ? '—' : `<span class="${v >= 0 ? 'up' : 'down'}">${v >= 0 ? '+' : ''}${num(v, 1)}%</span>`;
+const table = (head, rows) => rows.length ? `<div class="table-wrap"><table><thead><tr>${head}</tr></thead><tbody>${rows.join('')}</tbody></table></div>` : '<p class="muted">ഇല്ല</p>';
+function status(r) {
+  const f = r.filters.filter(x => !off[tab].has(x.k));
+  const fails = f.filter(x => !x.ok).length;
+  return fails === 0 ? 'buy' : fails <= 2 ? 'watch' : 'reject';
+}
+function flags(r, onlyFail) {
+  return r.filters.filter(x => !off[tab].has(x.k) && (!onlyFail || !x.ok))
+    .map(x => `<span class="fl ${x.ok ? 'ok' : 'no'}" title="${esc(x.note)}">${x.ok ? '✓' : '✗'} ${esc(x.label)}</span>`).join('');
+}
+function render() {
+  document.querySelectorAll('.tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.t === tab));
+  const d = R[tab], cap = R.caps[tab], max = R.max_pos[tab];
+  const fl = [...new Map(d.rows.flatMap(r => r.filters).map(x => [x.k, x.label])).entries()];
+  const gateTxt = cap === 0 ? `<span class="no">പുതിയ entry ഇല്ല</span>` : cap < max ? `പരമാവധി ${cap} പൊസിഷൻ` : `പരമാവധി ${max} പൊസിഷൻ`;
+  const extra = tab === 'value' && !R.have_val ? '<p class="muted">⚠️ Valuation (Gangil\'s 3) ഡാറ്റ ഇതുവരെ ബന്ധിപ്പിച്ചിട്ടില്ല — ഇപ്പോൾ ROE/EPS + 200 DMA മാത്രം.</p>' : '';
+  const rows = d.rows.map(r => ({ ...r, st: status(r) }));
+  const buy = rows.filter(r => r.st === 'buy'), watch = rows.filter(r => r.st === 'watch');
+  const closed = d.closed.slice().reverse();
+  const wins = d.closed.filter(c => (c.ret ?? 0) > 0).length;
+  const extraCol = tab === 'momentum' ? '<th class="num">Rank</th>' : '<th class="num">vs 200 DMA</th>';
+  const extraVal = r => tab === 'momentum' ? `<td class="num">${r.rank ?? '—'}</td>` : `<td class="num">${pct(r.prem200 == null ? null : r.prem200 * 100)}</td>`;
+  let h = `<div class="card"><div class="kpi">
+      <span>Market status <b>${esc(R.mstatus ? R.mstatus.name : '—')}</b></span>
+      <span class="gate">${gateTxt}</span>
+      <span>കൈവശം <b>${d.open.length}</b></span>
+      <span>Buy ready <b>${buy.length}</b></span>
+      <span>അടച്ച ട്രേഡ് <b>${d.closed.length}</b>${d.closed.length ? ` · ജയം ${Math.round(100 * wins / d.closed.length)}%` : ''}</span>
+    </div>${extra}</div>`;
+  if (d.entries.length || d.exits.length) {
+    h += `<div class="card"><h2>🔔 ഇന്ന്</h2>` +
+      (d.entries.length ? `<p>🟢 <b>Entry:</b> ${d.entries.map(p => `${esc(p.symbol)} @ ${num(p.entry)}`).join(', ')}</p>` : '') +
+      (d.exits.length ? `<p>🚪 <b>Exit:</b> ${d.exits.map(p => `${esc(p.symbol)} @ ${num(p.exit)} (${pct(p.ret)}) — ${esc(p.reason)}`).join('; ')}</p>` : '') + `</div>`;
+  }
+  h += `<div class="card"><h2>📂 Model portfolio (${d.open.length})</h2>` + table(
+    '<th>Stock</th><th class="num">Entry</th><th class="num">Now</th><th class="num">%</th><th class="col-wide">From</th>',
+    d.open.map(p => `<tr><td><b>${esc(p.symbol)}</b><div class="muted">${esc(p.sector || '')}</div></td><td class="num">${num(p.entry)}</td><td class="num">${num(p.last)}</td><td class="num">${pct(p.last && p.entry ? (p.last / p.entry - 1) * 100 : null)}</td><td class="col-wide">${esc(p.entry_date)}</td></tr>`)) + `</div>`;
+  h += `<div class="card"><h2>✅ Buy ready (${buy.length})</h2><p class="muted">എല്ലാ ഫിൽറ്ററും കടന്നവ. ഫിൽറ്റർ ഓഫ് ചെയ്ത് നോക്കാം:</p><div class="flt">` +
+    fl.map(([k, l]) => `<label><input type="checkbox" data-k="${k}" ${off[tab].has(k) ? '' : 'checked'}> ${esc(l)}</label>`).join('') + `</div>` +
+    table(`<th>Stock</th>${extraCol}<th class="num">Close</th><th>ഫിൽറ്റർ</th>`,
+      buy.map(r => `<tr><td><b>${esc(r.symbol)}</b>${r.held ? '<span class="badge">കൈവശം</span>' : ''}<div class="muted">${esc(r.sector || '')}</div></td>${extraVal(r)}<td class="num">${num(r.close)}</td><td class="wrap">${flags(r)}</td></tr>`)) + `</div>`;
+  h += `<div class="card"><h2>👀 Watch (${watch.length})</h2><p class="muted">ഒന്നോ രണ്ടോ ഫിൽറ്റർ മാത്രം ബാക്കി — ബാക്കിയുള്ളത് ✗</p>` +
+    table(`<th>Stock</th>${extraCol}<th class="num">Close</th><th>ബാക്കി</th>`,
+      watch.map(r => `<tr><td><b>${esc(r.symbol)}</b>${r.held ? '<span class="badge">കൈവശം</span>' : ''}<div class="muted">${esc(r.sector || '')}</div></td>${extraVal(r)}<td class="num">${num(r.close)}</td><td class="wrap">${flags(r, true)}</td></tr>`)) + `</div>`;
+  h += `<div class="card"><h2>📜 അടച്ച ട്രേഡുകൾ</h2>` + table(
+    '<th>Stock</th><th class="num">%</th><th>കാരണം</th><th class="col-wide">തീയതി</th>',
+    closed.map(c => `<tr><td><b>${esc(c.symbol)}</b></td><td class="num">${pct(c.ret)}</td><td class="wrap">${esc(c.reason)}</td><td class="col-wide">${esc(c.entry_date)} → ${esc(c.exit_date)}</td></tr>`)) + `</div>`;
+  document.getElementById('sbody').innerHTML = h;
+  document.querySelectorAll('.flt input').forEach(cb => cb.addEventListener('change', () => {
+    cb.checked ? off[tab].delete(cb.dataset.k) : off[tab].add(cb.dataset.k); render();
+  }));
+}
+document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
+  tab = b.dataset.t; try { localStorage.setItem('strat-tab', tab); } catch (e) {} render();
+}));
+render();
+"""
+
+STRAT_RULES = """
+<details class="card"><summary><b>📖 നിയമങ്ങൾ</b></summary>
+<h3>🚀 Momentum</h3>
+<p><b>Candidates:</b> GM Universe-ലും Top MSWING ആദ്യ 100-ലും ഉള്ളവ.</p>
+<ul><li><b>Stable rank:</b> കഴിഞ്ഞ 5 സെഷനിൽ 3 ദിവസമെങ്കിലും Top 100-ൽ</li>
+<li><b>Trend:</b> Close &gt; 50 DMA &gt; 200 DMA</li>
+<li><b>Not extended:</b> 20 EMA-യിൽ നിന്ന് 15%-ൽ കൂടുതൽ മുകളിൽ അല്ല</li>
+<li><b>No results soon:</b> 7 ദിവസത്തിൽ റിസൾട്ട് ഇല്ല</li>
+<li><b>Strong sector:</b> Landry momentum-ൽ മുകളിലെ പകുതി</li></ul>
+<p><b>Exit:</b> 50 DMA-ക്ക് താഴെ 2 ദിവസം · 3 ദിവസമായി Top 100-ൽ ഇല്ല · 10% stop-loss</p>
+<h3>💎 Value</h3>
+<p><b>Candidates:</b> ROE/EPS IMPROVING സ്കാനർ.</p>
+<ul><li><b>Margin of safety:</b> Intrinsic value-നേക്കാൾ 20% താഴെ (valuation ഡാറ്റ ഉള്ളപ്പോൾ)</li>
+<li><b>Stable in scanner:</b> കഴിഞ്ഞ 5 സെഷനിൽ 3 ദിവസമെങ്കിലും സ്കാനറിൽ</li>
+<li><b>Above 200 DMA</b></li>
+<li><b>Near 200 DMA:</b> 200 DMA-യിൽ നിന്ന് 20%-നുള്ളിൽ (അധികം ഉയർന്നത് വേണ്ട)</li></ul>
+<p><b>Exit:</b> Intrinsic value എത്തി · 200 DMA-ക്ക് 10%-ൽ കൂടുതൽ താഴെ · 3 ദിവസമായി സ്കാനറിൽ ഇല്ല</p>
+<h3>🧭 Market status gate</h3>
+<p>Momentum: Stay out / Failed turn / Wait → പുതിയ entry ഇല്ല; Bottoming / Early rally → പരമാവധി 3. Value: Stay out → പുതിയ entry ഇല്ല. ബാക്കി → പരമാവധി 10.</p>
+<p class="muted">Model portfolio: Buy ready ആയ സ്റ്റോക്ക് അന്നത്തെ close-ൽ "വാങ്ങിയതായി" കണക്കാക്കും. Strategy എങ്ങനെ പ്രവർത്തിക്കുന്നു എന്ന് നോക്കാനാണ്, യഥാർത്ഥ portfolio അല്ല.</p>
+</details>
+"""
+
+
+def build_strategy(out_dir, res):
+    if not res:
+        return
+    out = Path(out_dir)
+    data = json.dumps(res, ensure_ascii=False, default=str).replace("</", "<\\/")
+    body = (
+        '<p><a href="index.html">← എല്ലാ റിപ്പോർട്ടുകളും</a></p>'
+        "<h1>📋 Stock selection strategy</h1>"
+        f'<p class="muted">{_e(nice_date(res["date"]))} · വില കിട്ടിയത് {res["prices"]} സ്റ്റോക്ക് · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</p>'
+        '<div class="tabs" role="tablist"><button type="button" data-t="momentum">🚀 Momentum</button>'
+        '<button type="button" data-t="value">💎 Value</button></div>'
+        '<div id="sbody"></div>' + STRAT_RULES
+        + f'<script type="application/json" id="sdata">{data}</script><script>{STRAT_JS}</script>'
+    )
+    page = _page("Strategy", body).replace("</style>", STRAT_CSS + "</style>", 1)
+    (out / "strategy.html").write_text(page, encoding="utf-8")
     _write_index(out)

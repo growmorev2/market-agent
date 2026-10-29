@@ -77,7 +77,7 @@ def notable_rows(scans, symbols, ai, results):
 # ---------- Telegram (HTML) ----------
 
 def telegram_daily(date_str, sig, fresh, scans, rows, sector_rows, bmoves, results_key, results_total,
-                   ai, ai_label, link):
+                   ai, ai_label, link, strategy_text="", strategy_link=""):
     L = [f"📊 <b>മാർക്കറ്റ് റിപ്പോർട്ട്</b> · {e(nice_date(date_str))}", RULE]
 
     if sig:
@@ -158,6 +158,13 @@ def telegram_daily(date_str, sig, fresh, scans, rows, sector_rows, bmoves, resul
     if ai["summary"]:
         L.append("💡 <b>ചുരുക്കം</b>")
         L.append(e(ai["summary"]))
+        L.append("")
+
+    if strategy_text:
+        L.append("📋 <b>Strategy</b>")
+        L.append(e(strategy_text))
+        if strategy_link:
+            L.append(f'<a href="{e(strategy_link)}">Buy ready / Watch / Exit പട്ടിക</a>')
         L.append("")
 
     if link:

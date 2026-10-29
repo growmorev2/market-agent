@@ -346,3 +346,14 @@ python agent.py --no-send
 ## അടുത്തതായി ചേർക്കാവുന്നവ
 
 - ഓരോ സ്കാനറിനും വേറെ Discord ചാനൽ
+
+### 📋 Stock selection strategy (Momentum / Value)
+
+എല്ലാ ദിവസവും രണ്ട് portfolio-ക്കായി സ്റ്റോക്കുകൾ ഫിൽറ്റർ ചെയ്ത് `docs/strategy.html` എന്ന പേജിൽ കാണിക്കും (Buy ready / Watch / Model portfolio / Exit). Telegram റിപ്പോർട്ടിൽ ഒരു ചെറിയ സംഗ്രഹവും ലിങ്കും.
+
+- **Momentum:** GM Universe ∩ Top MSWING (ആദ്യ 100) → Stable rank, Trend (Close > 50 > 200 DMA), Not extended (20 EMA-യിൽ നിന്ന് ≤15%), റിസൾട്ട് 7 ദിവസത്തിൽ ഇല്ല, Strong sector. Exit: 50 DMA-ക്ക് താഴെ 2 ദിവസം / 3 ദിവസം Top 100-ൽ ഇല്ല / 10% stop-loss.
+- **Value:** ROE/EPS IMPROVING → Stable in scanner, Above 200 DMA, Near 200 DMA (≤20%), Margin of safety ≥20% (valuation ഉള്ളപ്പോൾ). Exit: intrinsic value എത്തി / 200 DMA-ക്ക് 10% താഴെ / 3 ദിവസം സ്കാനറിൽ ഇല്ല.
+- **Market status gate:** Stay out / Failed turn / Wait-ൽ Momentum entry ഇല്ല; Bottoming / Early rally-യിൽ പരമാവധി 3.
+- Model portfolio `data/strategy.json`-ൽ. വില Yahoo Finance-ൽ നിന്ന് (1 വർഷം).
+- Valuation: `data/valuations.json` = `{"SYMBOL": intrinsic_value}` ചേർത്താൽ Margin of safety ഫിൽറ്റർ ഓണാകും.
+- അക്കങ്ങൾ മാറ്റാൻ: `lib/strategy.py`-ലെ `CFG`, `GATE`.
