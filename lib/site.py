@@ -454,17 +454,23 @@ function renderPead() {
   const up = act.filter(e => (now(e) || 0) > 0).length;
   let h = `<div class="card"><div class="kpi"><span>ട്രാക്കിൽ <b>${act.length}</b></span><span>ഇന്ന് പുതിയത് <b>${P.added.length}</b></span>
     <span>ശരാശരി <b>${pct(avg)}</b></span><span>ഉയർന്നവ <b>${up}/${act.length}</b></span></div>
-    <p class="muted">Excellent റിസൾട്ട് (6-ൽ 5+ പരിശോധന, EPS ≥30% + Sales ≥15% നിർബന്ധം) വന്ന സ്റ്റോക്കുകൾ. % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള close-ൽ നിന്ന്. 60 ട്രേഡിംഗ് ദിവസം വരെ ട്രാക്ക് ചെയ്യും.</p></div>`;
+    <p class="muted">Excellent റിസൾട്ട് (7-ൽ 5+ പരിശോധന, EPS ≥30% + Sales ≥15% + Quality നിർബന്ധം) വന്ന സ്റ്റോക്കുകൾ. SUE 2+ = 🔥 വലിയ surprise · 🚀 = ശക്തമായ പ്രതികരണം (വില 4%+, volume 2×+). % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള close-ൽ നിന്ന്. 60 ട്രേഡിംഗ് ദിവസം വരെ ട്രാക്ക് ചെയ്യും.</p></div>`;
   if (P.added.length) h += `<div class="card"><h2>🆕 ഇന്ന് ചേർത്തവ</h2><p>${P.added.map(esc).join(', ')}</p></div>`;
   h += `<div class="card"><h2>📢 റിസൾട്ടിന് ശേഷം (${act.length})</h2>` + tvButtons(act) +
-    table('<th>Stock</th><th>Result</th><th class="num">Score</th><th class="num">ഇപ്പോൾ</th><th class="num col-wide">Max</th><th>ഓരോ ദിവസവും</th>',
+    table('<th>Stock</th><th>Result</th><th class="num">Score</th><th class="num">SUE</th><th class="num">പ്രതികരണം</th><th class="num">ഇപ്പോൾ</th><th class="num col-wide">Max</th><th>ഓരോ ദിവസവും</th>',
       act.map(e => {
         const days = Object.entries(e.series).map(([d, c], i) => `<span class="chip">D${i + 1} ${dmy(d)}: ${pct((c / e.base - 1) * 100)}</span>`).join('');
-        return `<tr><td><b>${esc(e.symbol)}</b><div class="muted">${esc(e.sector || '')}</div></td>
+        const sueTxt = e.sue == null ? '—' : `<span class="${e.sue >= 2 ? 'up' : e.sue < 1 ? 'muted' : ''}">${e.sue >= 2 ? '🔥 ' : ''}${e.sue.toFixed(1)}</span>`;
+        const react = e.react == null ? '—' : `${e.react_ok ? '🚀 ' : ''}${pct(e.react)}<div class="muted">${e.volx != null ? e.volx.toFixed(1) + '× vol' : ''}</div>`;
+        const extra = [e.margin != null ? `Margin ${e.margin_prev}% → ${e.margin}% ${e.margin > e.margin_prev ? '↑' : '↓'}` : '',
+                       e.react_date ? `പ്രതികരണ ദിവസം ${dmy(e.react_date)}` : '',
+                       e.sue != null ? `SUE ${e.sue} (2+ = വലിയ surprise)` : ''].filter(Boolean).join(' · ');
+        return `<tr><td><b>${esc(e.symbol)}</b>${e.base_effect ? '<span class="badge warn" title="മുൻ വർഷം ലാഭം വളരെ കുറവ് — % വളർച്ച കൂടുതലായി തോന്നാം">base effect</span>' : ''}<div class="muted">${esc(e.sector || '')}</div></td>
           <td>${dmy(e.res_date)}<div class="muted">${Object.keys(e.series).length} ദിവസം</div></td>
-          <td class="num" title="${esc(e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + c[0] + ': ' + c[2]).join(' · '))}">${e.score}/6</td>
+          <td class="num" title="${esc(e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + c[0] + ': ' + c[2]).join(' · '))}">${e.score}/${e.checks.length}</td>
+          <td class="num">${sueTxt}</td><td class="num">${react}</td>
           <td class="num">${pct(now(e))}</td><td class="num col-wide">${pct(best(e))}</td>
-          <td class="wrap"><details><summary>${strip(e)}</summary><div>${days}</div><div class="muted">${e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + esc(c[0]) + ': ' + esc(c[2])).join('<br>')}</div></details></td></tr>`;
+          <td class="wrap"><details><summary>${strip(e)}</summary><div>${days}</div><div class="muted">${e.checks.map(c => (c[1] ? '✓ ' : '✗ ') + esc(c[0]) + ': ' + esc(c[2])).join('<br>')}${extra ? '<br>' + esc(extra) : ''}</div></details></td></tr>`;
       })) + `</div>`;
   if (P.done.length) h += `<div class="card"><h2>✅ 60 ദിവസം പൂർത്തിയായവ</h2>` + table('<th>Stock</th><th>Result</th><th class="num">അവസാനം</th><th class="num">Max</th>',
       P.done.slice().reverse().map(e => `<tr><td><b>${esc(e.symbol)}</b></td><td>${dmy(e.res_date)}</td><td class="num">${pct(now(e))}</td><td class="num">${pct(best(e))}</td></tr>`)) + `</div>`;
@@ -541,10 +547,12 @@ STRAT_RULES = """
 <li><b>Near 200 DMA:</b> 200 DMA-യിൽ നിന്ന് 20%-നുള്ളിൽ (അധികം ഉയർന്നത് വേണ്ട)</li></ul>
 <p><b>Exit:</b> Intrinsic value എത്തി · 200 DMA-ക്ക് 10%-ൽ കൂടുതൽ താഴെ · 3 ദിവസമായി സ്കാനറിൽ ഇല്ല</p>
 <h3>📢 PEAD (Post-Earnings Announcement Drift)</h3>
-<p>Excellent റിസൾട്ട് വന്ന സ്റ്റോക്കുകൾ, റിസൾട്ട് ദിവസം മുതൽ ഓരോ ദിവസവും എത്ര % മാറി എന്ന ട്രാക്കർ (buy/sell നിയമങ്ങൾ ഇല്ല). Excellent = 6 പരിശോധനയിൽ 5 എണ്ണമെങ്കിലും, 1-ഉം 2-ഉം നിർബന്ധം:</p>
+<p>Excellent റിസൾട്ട് വന്ന സ്റ്റോക്കുകൾ, റിസൾട്ട് ദിവസം മുതൽ ഓരോ ദിവസവും എത്ര % മാറി എന്ന ട്രാക്കർ (buy/sell നിയമങ്ങൾ ഇല്ല). Excellent = 7 പരിശോധനയിൽ 5 എണ്ണമെങ്കിലും, ആദ്യ 3 നിർബന്ധം:</p>
 <ul><li><b>EPS growth</b> ≥30% YoY (Chartink-ൽ ക്വാർട്ടർ EPS ഇല്ല — ക്വാർട്ടർ net profit growth)</li><li><b>Sales growth</b> ≥15% YoY</li>
+<li><b>Quality of earnings:</b> core profit (PBT − other income) YoY ≥20% — other income / ഒറ്റത്തവണ നേട്ടം കൊണ്ടുള്ള ലാഭം ഒഴിവാക്കാൻ</li>
 <li><b>Acceleration:</b> ഈ ക്വാർട്ടറിലെ YoY growth മുൻ ക്വാർട്ടറിനേക്കാൾ കൂടുതൽ</li><li><b>QoQ growth:</b> profit മുൻ ക്വാർട്ടറിനേക്കാൾ കൂടുതൽ</li>
 <li><b>Record quarter:</b> 5 ക്വാർട്ടറിലെ ഉയർന്ന profit</li><li><b>Real growth:</b> ഒരു വർഷം മുമ്പും ലാഭത്തിൽ (low base അല്ല)</li></ul>
+<p><b>ലേബലുകൾ (Excellent തീരുമാനിക്കുന്നതിൽ ഇല്ല):</b> <b>SUE</b> = ഈ ക്വാർട്ടറിലെ YoY profit മാറ്റം കമ്പനിയുടെ കഴിഞ്ഞ 8 ക്വാർട്ടറിലെ സാധാരണ മാറ്റത്തേക്കാൾ എത്ര standard deviation കൂടുതൽ (2+ = വലിയ surprise) · <b>പ്രതികരണം</b> = റിസൾട്ട് ദിവസത്തെ / പിറ്റേന്നത്തെ വില % + volume · <b>Margin</b> = core EBITDA margin മുൻ വർഷത്തെ അതേ ക്വാർട്ടറുമായി · <b>base effect</b> = profit 150%+ വളർന്നത് (മുൻ വർഷം ലാഭം കുറവ്).</p>
 <p class="muted">റിസൾട്ട് തീയതി NSE കലണ്ടറിൽ നിന്ന്. Chartink പുതിയ ക്വാർട്ടർ ചേർത്ത ശേഷം മാത്രം പരിശോധിക്കും (സാധാരണ റിസൾട്ടിന് പിറ്റേന്ന്). % = റിസൾട്ടിന് തൊട്ടുമുമ്പുള്ള ട്രേഡിംഗ് ദിവസത്തെ close-ൽ നിന്ന്.</p>
 <h3>🧭 Market status gate</h3>
 <p>Momentum: Stay out / Failed turn / Wait → പുതിയ entry ഇല്ല; Bottoming / Early rally → പരമാവധി 3. Value: Stay out → പുതിയ entry ഇല്ല. ബാക്കി → പരമാവധി 10.</p>
