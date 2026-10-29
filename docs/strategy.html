@@ -49,6 +49,8 @@ ul.reports{list-style:none;padding:0}ul.reports li{padding:10px 0;border-bottom:
 .fl{display:inline-block;font-size:.72rem;border-radius:6px;padding:0 5px;margin:2px 3px 0 0;border:1px solid var(--line)}
 .fl.no{border-color:var(--down)}
 .gate{font-weight:600}
+.tvbtns{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px}
+.tvbtns button{font:inherit;font-size:.88rem;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer}
 .kpi{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:.9rem}.kpi b{font-size:1.15rem}
 </style></head>
 <body><main><p><a href="index.html">← എല്ലാ റിപ്പോർട്ടുകളും</a></p><h1>📋 Stock selection strategy</h1><p class="muted">29 Oct, വ്യാഴം · വില കിട്ടിയത് 314 സ്റ്റോക്ക് · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</p><div class="tabs" role="tablist"><button type="button" data-t="momentum">🚀 Momentum</button><button type="button" data-t="value">💎 Value</button></div><div id="sbody"></div>
@@ -118,10 +120,12 @@ function render() {
   h += `<div class="card"><h2>📂 Model portfolio (${d.open.length})</h2>` + table(
     '<th>Stock</th><th class="num">Entry</th><th class="num">Now</th><th class="num">%</th><th class="col-wide">From</th>',
     d.open.map(p => `<tr><td><b>${esc(p.symbol)}</b><div class="muted">${esc(p.sector || '')}</div></td><td class="num">${num(p.entry)}</td><td class="num">${num(p.last)}</td><td class="num">${pct(p.last && p.entry ? (p.last / p.entry - 1) * 100 : null)}</td><td class="col-wide">${esc(p.entry_date)}</td></tr>`)) + `</div>`;
-  h += `<div class="card"><h2>✅ Buy ready (${buy.length})</h2><p class="muted">എല്ലാ ഫിൽറ്ററും കടന്നവ. ഫിൽറ്റർ ഓഫ് ചെയ്ത് നോക്കാം:</p><div class="flt">` +
+  h += `<div class="card"><h2>✅ Buy ready (${buy.length})</h2>` +
+    (buy.length ? `<div class="tvbtns"><button type="button" id="tv-copy">📋 Copy to TradingView</button><button type="button" id="tv-file">⬇️ .txt (Import list)</button><span class="muted" id="tv-msg"></span></div>` : '') +
+    `<p class="muted">എല്ലാ ഫിൽറ്ററും കടന്നവ. ഫിൽറ്റർ ഓഫ് ചെയ്ത് നോക്കാം:</p><div class="flt">` +
     fl.map(([k, l]) => `<label><input type="checkbox" data-k="${k}" ${off[tab].has(k) ? '' : 'checked'}> ${esc(l)}</label>`).join('') + `</div>` +
     table(`<th>Stock</th>${extraCol}<th class="num">Close</th><th>ഫിൽറ്റർ</th>`,
-      buy.map(r => `<tr><td><b>${esc(r.symbol)}</b>${r.held ? '<span class="badge">കൈവശം</span>' : ''}<div class="muted">${esc(r.sector || '')}</div></td>${extraVal(r)}<td class="num">${num(r.close)}</td><td class="wrap">${flags(r)}</td></tr>`)) + `</div>`;
+      buy.map(r => `<tr><td><b>${esc(r.symbol)}</b>${r.held ? '<span class="badge">കൈവശം</span>' : ''}<div class="muted">${esc(r.sector || '')}</div></td>${extraVal(r)}<td class="num">${num(r.close)}</td><td class="ok" title="${esc(r.filters.map(x => x.label + ': ' + x.note).join(' · '))}">✓ ${r.filters.filter(x => !off[tab].has(x.k)).length}/${r.filters.filter(x => !off[tab].has(x.k)).length}</td></tr>`)) + `</div>`;
   h += `<div class="card"><h2>👀 Watch (${watch.length})</h2><p class="muted">ഒന്നോ രണ്ടോ ഫിൽറ്റർ മാത്രം ബാക്കി — ബാക്കിയുള്ളത് ✗</p>` +
     table(`<th>Stock</th>${extraCol}<th class="num">Close</th><th>ബാക്കി</th>`,
       watch.map(r => `<tr><td><b>${esc(r.symbol)}</b>${r.held ? '<span class="badge">കൈവശം</span>' : ''}<div class="muted">${esc(r.sector || '')}</div></td>${extraVal(r)}<td class="num">${num(r.close)}</td><td class="wrap">${flags(r, true)}</td></tr>`)) + `</div>`;
@@ -129,6 +133,22 @@ function render() {
     '<th>Stock</th><th class="num">%</th><th>കാരണം</th><th class="col-wide">തീയതി</th>',
     closed.map(c => `<tr><td><b>${esc(c.symbol)}</b></td><td class="num">${pct(c.ret)}</td><td class="wrap">${esc(c.reason)}</td><td class="col-wide">${esc(c.entry_date)} → ${esc(c.exit_date)}</td></tr>`)) + `</div>`;
   document.getElementById('sbody').innerHTML = h;
+  const tvList = buy.map(r => 'NSE:' + r.symbol).join(',');
+  const msg = t => { const m = document.getElementById('tv-msg'); if (m) m.textContent = t; };
+  const cp = document.getElementById('tv-copy');
+  if (cp) cp.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(tvList); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = tvList; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e2) {} ta.remove(); }
+    msg(`✓ ${buy.length} symbol കോപ്പി ചെയ്തു — TradingView watchlist-ൽ "Add symbol" ബോക്സിൽ paste ചെയ്യുക`);
+  });
+  const fb = document.getElementById('tv-file');
+  if (fb) fb.addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([tvList], { type: 'text/plain' }));
+    a.download = `${tab === 'momentum' ? 'Momentum' : 'Value'}_BuyReady_${R.date}.txt`;
+    document.body.appendChild(a); a.click(); a.remove();
+    msg('✓ ഫയൽ ഡൗൺലോഡ് ചെയ്തു — TradingView watchlist മെനു → Import list');
+  });
   document.querySelectorAll('.flt input').forEach(cb => cb.addEventListener('change', () => {
     cb.checked ? off[tab].delete(cb.dataset.k) : off[tab].add(cb.dataset.k); render();
   }));
