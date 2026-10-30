@@ -138,10 +138,12 @@ def push_to_tradingview(list_id, symbols):
         timeout=30,
     )
     print(f"  TradingView push to list {list_id}:", r.status_code, r.text[:80])
+    STATUS.setdefault("tv", {})[str(list_id)] = r.status_code
     if r.status_code != 200:
         ISSUES.append(f"TradingView list {list_id}: HTTP {r.status_code} {r.text[:60]}")
 
 
+STATUS = {}  # tv/last_run.json — ഓരോ റണ്ണിന്റെയും ചുരുക്കം (secrets ഇല്ല)
 ISSUES = []  # ഈ റണ്ണിലെ പ്രശ്നങ്ങൾ — അവസാനം Telegram-ലേക്ക് (env.sh-ൽ TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID ഉണ്ടെങ്കിൽ)
 
 
@@ -238,6 +240,7 @@ def append_to_tradingview(list_id, symbols, scan_name=None):
     )
     if r.status_code != 200:
         ISSUES.append(f"TradingView add to {name}: HTTP {r.status_code} {r.text[:60]}")
+    STATUS.setdefault("tv", {})[str(list_id)] = r.status_code
     msg = f"  TradingView add to {name}: {r.status_code}, +{len(new)} new"
     if new:
         msg += " -> " + ", ".join(s[4:] for s in new)[:300]
@@ -269,6 +272,7 @@ def main():
             session.headers["User-Agent"] = "Mozilla/5.0"
             df = run_scan(session, scan["clause"], scan["columns"])
             print(f"  {len(df)} stocks")
+            STATUS.setdefault("scans", {})[scan["name"]] = len(df)
             if df.empty:
                 print("  No stocks, list left unchanged.")
                 continue
@@ -285,6 +289,11 @@ def main():
         except Exception as e:
             print(f"  ERROR in {scan['name']}: {e}")
             ISSUES.append(f"{scan['name']}: {str(e)[:150]}")
+    import json
+    STATUS.update({"run": datetime.now().strftime("%Y-%m-%d %H:%M"), "issues": ISSUES,
+                   "tv_login": bool(os.environ.get("TV_SESSIONID") and os.environ.get("TV_SESSIONID_SIGN"))})
+    with open("last_run.json", "w") as f:
+        json.dump(STATUS, f, ensure_ascii=False, indent=1)
     if ISSUES:
         alert_telegram(ISSUES)
 
