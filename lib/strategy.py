@@ -34,8 +34,9 @@ CFG = {
     "momentum": {"max_pos": 10, "stop": 0.10, "extended": 0.15, "persist_need": 3, "persist_of": 5,
                  "rank_window": 100, "out_days": 3, "below50_days": 2},
     "value": {"max_pos": 10, "mos": 0.20, "below200": 0.10, "out_days": 3, "near200": 0.20,
-              "persist_need": 3, "persist_of": 5},
+              "persist_need": 3, "persist_of": 5, "max_red": 1, "min_quality": 3},
 }
+SCREENER_EXTRA = {}  # {SYMBOL: {"red": Red flags എണ്ണം (0–8), "qual": Quality passed (0–4)}} — Screener Excel-ൽ നിന്ന്
 # Market status → പരമാവധി എത്ര പൊസിഷൻ (ഇല്ലെങ്കിൽ max_pos). 0 = പുതിയ entry ഇല്ല.
 GATE = {
     "momentum": {"Stay out": 0, "Failed turn": 0, "Wait": 0, "Bottoming": 3, "Early rally": 3},
@@ -205,6 +206,19 @@ def value_filters(sym, ind, intrinsic, have_val, persist, days=None):
             f.append(fl)
         else:
             f.append(_f("mos", "Margin of safety", False, "ഈ സ്റ്റോക്കിന് valuation ഇല്ല"))
+        # Screener Excel-ലെ Red flags / Quality — value trap ഒഴിവാക്കാൻ (എണ്ണം പേജിൽ കാണിക്കില്ല, ✓/✗ മാത്രം)
+        ex = SCREENER_EXTRA.get(sym) or {}
+        red, qual = ex.get("red"), ex.get("qual")
+        if isinstance(red, (int, float)):
+            f.append(_f("redflags", "Few red flags", red <= c["max_red"],
+                        f"Red flags {c['max_red']}-ൽ താഴെ" if red <= c["max_red"] else f"Red flags {c['max_red']}-ൽ കൂടുതൽ (Excel നോക്കുക)"))
+        else:
+            f.append(_f("redflags", "Few red flags", False, "Screener Excel ഇല്ല"))
+        if isinstance(qual, (int, float)):
+            f.append(_f("quality", "5Y quality", qual >= c["min_quality"],
+                        f"5 വർഷ quality {c['min_quality']}/4-ൽ കൂടുതൽ" if qual >= c["min_quality"] else f"5 വർഷ quality {c['min_quality']}/4-ൽ താഴെ"))
+        else:
+            f.append(_f("quality", "5Y quality", False, "Screener Excel ഇല്ല"))
     if ind and ind["sma200"]:
         prem = ind["close"] / ind["sma200"] - 1
         f.append(_f("above200", "Above 200 DMA", prem > 0, f"200 DMA-യിൽ നിന്ന് {prem * 100:+.0f}%"))
@@ -239,6 +253,8 @@ def _parse_valuations(raw):
     raw = raw.get("stocks", raw) if isinstance(raw, dict) else {}
     out = {}
     for k, v in raw.items():
+        if isinstance(v, dict):
+            SCREENER_EXTRA[str(k).upper()] = {"red": v.get("red_flags"), "qual": v.get("quality")}
         val = (v.get("fair") or v.get("intrinsic")) if isinstance(v, dict) else v
         try:
             if val:

@@ -600,6 +600,8 @@ STRAT_RULES = """
 <h3>💎 Value</h3>
 <p><b>Candidates:</b> ROE/EPS IMPROVING സ്കാനർ.</p>
 <ul><li><b>Margin of safety:</b> Fair Value-നേക്കാൾ 20% താഴെ (valuation ഡാറ്റ ഉള്ളപ്പോൾ). Fair Value-ന് മുകളിലുള്ളവ (overvalued) Watch-ലും കാണിക്കില്ല</li>
+<li><b>Few red flags:</b> Screener Excel-ലെ 8 red flag പരിശോധനയിൽ 1-ൽ കൂടുതൽ ചുവപ്പ് ഇല്ല (value trap ഒഴിവാക്കാൻ)</li>
+<li><b>5Y quality:</b> 5 വർഷത്തെ sales / profit / net worth / ROCE പരിശോധനയിൽ 4-ൽ 3 എണ്ണമെങ്കിലും പാസ്</li>
 <li><b>Stable in scanner:</b> കഴിഞ്ഞ 5 സെഷനിൽ 3 ദിവസമെങ്കിലും സ്കാനറിൽ</li>
 <li><b>Above 200 DMA</b></li>
 <li><b>Near 200 DMA:</b> 200 DMA-യിൽ നിന്ന് 20%-നുള്ളിൽ (അധികം ഉയർന്നത് വേണ്ട)</li></ul>
