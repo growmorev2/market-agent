@@ -1,0 +1,54 @@
+name: TradingView watchlists
+
+on:
+  schedule:
+    # സമയം UTC-യിൽ. 13:37 UTC = വൈകിട്ട് 7:07 IST, തിങ്കൾ–വെള്ളി
+    - cron: "37 13 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tv-watchlist
+  cancel-in-progress: false
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests pandas beautifulsoup4
+      - name: Chartink → TradingView
+        env:
+          TV_SESSIONID: ${{ secrets.TV_SESSIONID }}
+          TV_SESSIONID_SIGN: ${{ secrets.TV_SESSIONID_SIGN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python tv/chartink_scan.py
+      - name: Save record files
+        if: always()
+        run: |
+          git config user.name "market-agent"
+          git config user.email "market-agent@users.noreply.github.com"
+          git add -A tv
+          if git diff --cached --quiet; then echo "മാറ്റങ്ങളില്ല"; exit 0; fi
+          git commit -q -m "TV watchlist record $(TZ=Asia/Kolkata date +%F)"
+          for i in 1 2 3; do
+            if git pull -q --rebase -X theirs origin main && git push -q origin HEAD:main; then exit 0; fi
+            git rebase --abort 2>/dev/null || true; sleep 10
+          done
+          exit 1
+      - name: Alert on failure
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: python .github/alert.py "TradingView watchlist workflow പരാജയപ്പെട്ടു — ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
