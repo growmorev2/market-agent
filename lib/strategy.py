@@ -442,3 +442,64 @@ def telegram_line(res):
             s += " · Exit " + ", ".join(p["symbol"] for p in d["exits"])
         bits.append(s)
     return "\n".join(bits)
+
+
+# ---------- ⭐ Top conviction: പല strategy-കളിലും ഒരുമിച്ച് വരുന്ന സ്റ്റോക്കുകൾ ----------
+CONV_SCANS = {"gm-signal": "HOLYGRAIL", "copy-momentum-portfolio-original-scan-by-hitesh-1319": "MULTIBAGGER"}
+
+
+def conviction(res, scans, top=10):
+    """Momentum / Value (buy=2, watch=1), PEAD (1, +1 SUE≥2 / ശക്തമായ വളർച്ച), HOLYGRAIL, MULTIBAGGER (1 വീതം).
+    കുറഞ്ഞത് 2 സ്രോതസ്സും സ്കോർ 3-ഉം വേണം."""
+    if not res:
+        return []
+    pts = {}
+
+    def add(sym, src, p, extra=None):
+        d = pts.setdefault(sym, {"symbol": sym, "score": 0, "src": [], "sector": ""})
+        d["score"] += p
+        d["src"].append(src)
+        if extra:
+            d.update({k: v for k, v in extra.items() if v and not d.get(k)})
+
+    for pf, name in (("momentum", "Momentum"), ("value", "Value")):
+        for r in res[pf]["rows"]:
+            if r["status"] in ("buy", "watch"):
+                add(r["symbol"], name + ("" if r["status"] == "buy" else " (watch)"), 2 if r["status"] == "buy" else 1,
+                    {"sector": r.get("sector"), "close": r.get("close")})
+    for e in (res.get("pead") or {}).get("active", []):
+        strong = (e.get("sue") or 0) >= 2 or e.get("growth_tag") in ("ശരിക്കും വലിയ വളർച്ച", "ശക്തം")
+        add(e["symbol"], "PEAD" + (" 🔥" if strong else ""), 2 if strong else 1, {"sector": e.get("sector")})
+    for s in scans:
+        lab = CONV_SCANS.get(s.get("slug"))
+        if lab and not s.get("error"):
+            for x in s.get("stocks") or []:
+                add(x["symbol"], lab, 1, {"sector": x.get("sector")})
+    out = [d for d in pts.values() if len(d["src"]) >= 2 and d["score"] >= 3]
+    out.sort(key=lambda d: (-d["score"], -len(d["src"]), d["symbol"]))
+    return out[:top]
+
+
+def action_text(res):
+    """Telegram-ന്റെ ഏറ്റവും മുകളിൽ: ഇന്ന് എന്ത് ചെയ്യണം."""
+    if not res:
+        return ""
+    L = []
+    ms = res.get("mstatus") or {}
+    caps = res.get("caps") or {}
+    if ms:
+        mc = caps.get("momentum")
+        gate = "പുതിയ Momentum entry വേണ്ട" if mc == 0 else f"Momentum പരമാവധി {mc} പൊസിഷൻ" if mc is not None and mc < CFG["momentum"]["max_pos"] else "സാധാരണ പോലെ entry ആകാം"
+        L.append(f"മാർക്കറ്റ്: {ms.get('name', '?')} → {gate}")
+    for pf, name in (("momentum", "Momentum"), ("value", "Value")):
+        d = res[pf]
+        if d["entries"]:
+            L.append(f"🟢 {name} വാങ്ങുക: " + ", ".join(p["symbol"] for p in d["entries"]))
+        if d["exits"]:
+            L.append(f"🔴 {name} വിൽക്കുക: " + ", ".join(f"{p['symbol']} ({p.get('reason', '')})" for p in d["exits"]))
+    conv = res.get("conviction") or []
+    if conv:
+        L.append("⭐ Top conviction: " + ", ".join(f"{d['symbol']} ({len(d['src'])})" for d in conv[:5]))
+    if not any(res[pf]["entries"] or res[pf]["exits"] for pf in ("momentum", "value")):
+        L.insert(1 if ms else 0, "ഇന്ന് പുതിയ entry/exit ഇല്ല — കൈവശമുള്ളവ തുടരുക")
+    return "\n".join(L)

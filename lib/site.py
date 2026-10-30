@@ -621,6 +621,20 @@ STRAT_RULES = """
 """
 
 
+def _conviction_html(conv):
+    if not conv:
+        return ""
+    rows = "".join(
+        f'<tr><td><b>{_e(d["symbol"])}</b><br><small class="muted">{_e("" if (d.get("sector") or "") == "Unknown" else d.get("sector") or "")}</small></td>'
+        f'<td class="num"><b>{d["score"]}</b></td><td style="white-space:normal">' + "".join(f'<span class="chip">{_e(x)}</span>' for x in d["src"]) + "</td></tr>"
+        for d in conv)
+    return ('<div class="card conv"><style>.conv td{white-space:normal;vertical-align:top}.conv .chip{font-size:.75rem;margin:2px 3px 2px 0}</style><h2 style="margin:0 0 4px">⭐ Top conviction</h2>'
+            '<p class="muted" style="margin:0 0 8px">പല strategy-കളിലും ഒരേ സമയം വരുന്ന സ്റ്റോക്കുകൾ — '
+            'Momentum/Value Buy = 2, Watch = 1, PEAD = 1 (🔥 = 2), HOLYGRAIL / MULTIBAGGER = 1. കുറഞ്ഞത് 2 സ്രോതസ്സ്.</p>'
+            '<div style="overflow-x:auto"><table class="ptable"><thead><tr><th>Stock</th><th class="num">Score</th><th>എവിടെയെല്ലാം</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div></div>')
+
+
 def build_strategy(out_dir, res):
     if not res:
         return
@@ -630,7 +644,8 @@ def build_strategy(out_dir, res):
         '<p><a href="index.html">← എല്ലാ റിപ്പോർട്ടുകളും</a></p>'
         "<h1>📋 Stock selection strategy</h1>"
         f'<p class="muted">{_e(nice_date(res["date"]))} · വില കിട്ടിയത് {res["prices"]} സ്റ്റോക്ക് · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</p>'
-        '<div class="tabs" role="tablist"><button type="button" data-t="momentum">🚀 Momentum</button>'
+        + _conviction_html(res.get("conviction"))
+        + '<div class="tabs" role="tablist"><button type="button" data-t="momentum">🚀 Momentum</button>'
         '<button type="button" data-t="value">💎 Value</button>'
         '<button type="button" data-t="pead">📢 PEAD</button></div>'
         '<div id="sbody"></div>' + STRAT_RULES

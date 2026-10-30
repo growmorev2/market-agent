@@ -373,6 +373,8 @@ def run_daily(args, lang, today):
         print(f"  Strategy പരാജയം: {str(e)[:200]}")
     if strat is not None and not args.sample:
         strat["pead"] = run_pead(today, bdata, mapping)
+    if strat is not None:
+        strat["conviction"] = strategy.conviction(strat, scans)
 
     print("[3/5] AI വിശകലനം")
     raw, ai_label = ask_ai(SYSTEM_DAILY.format(lang=lang), DRIVERS_DAILY.format(lang=lang),
@@ -405,7 +407,8 @@ def run_daily(args, lang, today):
                                 ai_out, ai_label, f"{base}/reports/{date_str}.html" if base else "",
                                 strategy_text="\n".join(x for x in (strategy.telegram_line(strat),
                                                                      pead.telegram_line((strat or {}).get("pead"))) if x),
-                                strategy_link=f"{base}/strategy.html" if (base and strat) else "")
+                                strategy_link=f"{base}/strategy.html" if (base and strat) else "",
+                                action_text=strategy.action_text(strat))
     pdf_path = make_pdf(ROOT / "docs" / "reports" / f"{date_str}.html", f"Market-Report-{date_str}.pdf")
     return deliver(msg, args.no_send, pdf_path, make_chart(bdata, f"Breadth-{date_str}.png"))
 
@@ -476,10 +479,12 @@ def run_strategy_only(today):
     ms = breadth.market_status(bdata) if bdata else None
     strat = strategy.run(date_str, scans, results, bdata, ms)
     strat["pead"] = run_pead(today, bdata, sectors.load())
+    strat["conviction"] = strategy.conviction(strat, scans)
     print("[3/3] പേജ്")
     site.build_strategy(ROOT / "docs", strat)
     print("  " + strategy.telegram_line(strat).replace("\n", "\n  "))
     print("  " + pead.telegram_line(strat.get("pead")))
+    print("  " + strategy.action_text(strat).replace("\n", "\n  "))
     return 0
 
 
