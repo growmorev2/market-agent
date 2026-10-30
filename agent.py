@@ -373,7 +373,7 @@ def run_daily(args, lang, today):
         print(f"  Strategy പരാജയം: {str(e)[:200]}")
     if strat is not None and not args.sample:
         strat["pead"] = run_pead(today, bdata, mapping)
-        strat["orders"] = run_orders(today, mapping)
+        strat["orders"] = run_orders(today, mapping, bdata)
     if strat is not None:
         strat["conviction"] = strategy.conviction(strat, scans)
 
@@ -469,10 +469,10 @@ def run_pead(now, bdata, mapping):
         return None
 
 
-def run_orders(now, mapping):
+def run_orders(now, mapping, bdata=None):
     """📦 Order inflow (NSE announcements). പരാജയപ്പെട്ടാലും റിപ്പോർട്ട് തുടരും."""
     try:
-        res = orders.run(now, mapping)
+        res = orders.run(now, mapping, bdata=bdata)
         orders_page.build(ROOT / "docs", orders.load())
         return res
     except Exception as e:  # noqa: BLE001
@@ -498,7 +498,7 @@ def run_strategy_only(today):
     ms = breadth.market_status(bdata) if bdata else None
     strat = strategy.run(date_str, scans, results, bdata, ms)
     strat["pead"] = run_pead(today, bdata, sectors.load())
-    strat["orders"] = run_orders(today, sectors.load())
+    strat["orders"] = run_orders(today, sectors.load(), bdata)
     strat["conviction"] = strategy.conviction(strat, scans)
     print("[3/3] പേജ്")
     site.build_strategy(ROOT / "docs", strat)

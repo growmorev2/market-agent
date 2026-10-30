@@ -103,7 +103,7 @@ def _an_dt(x):
     return None
 
 
-def run(now, sectors=None, save=True, session=None, ck=None):
+def run(now, sectors=None, save=True, session=None, ck=None, bdata=None):
     """now = IST datetime. പേജിനും Telegram-നുമുള്ള dict തിരികെ."""
     today = now.date()
     today_s = today.isoformat()
@@ -152,7 +152,7 @@ def run(now, sectors=None, save=True, session=None, ck=None):
         # വില ട്രാക്കിംഗിന്റെ അടിസ്ഥാനം: ഇന്നത്തെ announcement മാത്രം (പഴയവയുടെ കൃത്യമായ close ഇല്ല)
         o["series"] = {}
         o["base"] = None
-        if o["date"] == today_s and c.get("c0") and c.get("c1") and now.hour >= 16:
+        if o["date"] == today_s and c.get("c0") and c.get("c1") and now.hour >= 16 and is_trading_day(today, bdata):
             after_close = o["time"] >= "15:30"
             o["base"] = c["c0"] if after_close else c["c1"]
             o["base_date"] = today_s if after_close else "prev"
@@ -181,8 +181,8 @@ def run(now, sectors=None, save=True, session=None, ck=None):
         print(f"  Orders: {n_re} പഴയ filing-ൽ നിന്ന് execution കാലാവധി ചേർത്തു")
     for o in st["orders"]:
         _derive(o)
-    # ദിവസേനയുള്ള വില (20 ട്രേഡിംഗ് ദിവസം വരെ)
-    if now.hour >= 16 and today.weekday() < 5:
+    # ദിവസേനയുള്ള വില (20 ട്രേഡിംഗ് ദിവസം വരെ) — ഇന്ന് ശരിക്കും ട്രേഡിംഗ് നടന്നാൽ മാത്രം (NSE അവധി ഒഴിവാക്കും)
+    if now.hour >= 16 and is_trading_day(today, bdata):
         for o in st["orders"]:
             if (not o.get("base") or len(o["series"]) >= CFG["track"] or today_s in o["series"]
                     or today_s == o.get("base_date")):
@@ -201,6 +201,17 @@ def run(now, sectors=None, save=True, session=None, ck=None):
     big = [o for o in added if is_big(o) and (o["date"] >= prev_upd if prev_upd != today_s else o["date"] == today_s)]
     print(f"  Orders: NSE-ൽ {len(ann)} order announcement, പുതിയത് {len(added)} (PDF {n_pdf}), വലിയവ {len(big)}")
     return {"updated": today_s, "added": added, "big_today": big, "orders": st["orders"]}
+
+
+def is_trading_day(today, bdata):
+    """GM World-ലെ അവസാന ട്രേഡിംഗ് ദിവസം ഇന്ന് തന്നെയാണോ (അവധി ദിവസം Chartink-ൽ ഇന്നലത്തെ close തന്നെ വരും).
+    GM World ഡാറ്റ ഇല്ലെങ്കിൽ: തിങ്കൾ–വെള്ളി."""
+    if today.weekday() >= 5:
+        return False
+    try:
+        return datetime.strptime(bdata["asOf"], "%d %b %Y").date() == today
+    except (TypeError, KeyError, ValueError):
+        return True
 
 
 def _derive(o):

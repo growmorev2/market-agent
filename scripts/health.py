@@ -6,6 +6,7 @@
   3. Screener Summary: ഇന്നത്തെ valuations, problems.txt
   4. ഇന്നത്തെ GitHub workflow റണ്ണുകളിൽ പരാജയം
 പ്രശ്നം ഉണ്ടെങ്കിൽ മാത്രം Telegram + Email (.github/alert.py). എല്ലാം ശരിയാണെങ്കിൽ ഒന്നും അയക്കില്ല.
+ഒരേ പ്രശ്നം: ആദ്യ ദിവസം അയക്കും, പിന്നെ 3 ദിവസത്തിലൊരിക്കൽ മാത്രം (data/health_state.json). ശരിയായാൽ "✅ ശരിയായി" എന്ന് അടുത്ത സന്ദേശത്തിൽ.
 """
 import json
 import os
@@ -30,6 +31,26 @@ def get(url, token=None, raw=False):
         h["Authorization"] = f"Bearer {token}"
     with urllib.request.urlopen(urllib.request.Request(url, headers=h), timeout=30) as r:
         return r.read().decode("utf-8", "replace")
+
+
+STATE = ROOT / "data" / "health_state.json"
+REMIND_DAYS = 3
+
+
+def issue_key(text):
+    """അക്കങ്ങളും തീയതികളും മാറ്റി ഒരേ പ്രശ്നത്തിന് ഒരേ key (ഉദാ: "അവസാനം 2026-10-29" → "അവസാനം #")."""
+    return re.sub(r"https?://\S+", "", re.sub(r"\d+([.,:/-]\d+)*", "#", text)).strip()[:160]
+
+
+def load_state():
+    try:
+        return json.loads(STATE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def save_state(st):
+    STATE.write_text(json.dumps(st, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 def main():
@@ -149,11 +170,31 @@ def main():
         except Exception as e:  # noqa: BLE001
             print(f"{repo} റൺ ലിസ്റ്റ് കിട്ടിയില്ല: {e}")
 
-    if not issues:
-        print("✅ എല്ലാം ശരി")
+    # ഒരേ പ്രശ്നം ദിവസവും അയക്കില്ല: പുതിയ പ്രശ്നം → ഉടൻ; തുടരുന്നത് → 3 ദിവസത്തിലൊരിക്കൽ ഓർമ്മപ്പെടുത്തൽ
+    state = load_state()
+    new, still, keep = [], [], {}
+    for x in issues:
+        k = issue_key(x)
+        first, last = state.get(k, {}).get("first", today), state.get(k, {}).get("last")
+        keep[k] = {"first": first, "last": last, "text": x[:200]}
+        if last is None:
+            new.append(x)
+            keep[k]["last"] = today
+        elif (now.date() - datetime.fromisoformat(last).date()).days >= REMIND_DAYS:
+            days = (now.date() - datetime.fromisoformat(first).date()).days
+            still.append(f"{x} (🔁 {days} ദിവസമായി)")
+            keep[k]["last"] = today
+    fixed = [v["text"] for k, v in state.items() if k not in keep]
+    save_state(keep)
+    if fixed:
+        print("ശരിയായവ: " + "; ".join(fixed))
+    if not new and not still:
+        print("✅ പുതിയ പ്രശ്നമില്ല" + (f" (തുടരുന്നവ {len(issues)}, ഓർമ്മപ്പെടുത്തൽ പിന്നീട്)" if issues else ""))
         return 0
-    head = f"⚠️ ദിവസ പരിശോധന ({now:%d %b}) — {len(issues)} പ്രശ്നം"
-    body = head + "\n\n" + "\n".join(f"• {x}" for x in issues)
+    head = f"⚠️ ദിവസ പരിശോധന ({now:%d %b}) — " + (f"{len(new)} പുതിയ പ്രശ്നം" if new else "ഓർമ്മപ്പെടുത്തൽ")
+    body = head + "\n\n" + "\n".join(f"• {x}" for x in new + still)
+    if fixed:
+        body += "\n\n✅ ശരിയായി: " + "; ".join(f[:80] for f in fixed[:4])
     if stale >= 2:
         body += "\n\n(ഇന്ന് മാർക്കറ്റ് അവധി ദിവസമാണെങ്കിൽ ഇത് അവഗണിക്കുക.)"
     body += "\n\nറണ്ണുകൾ: https://github.com/growmorev2/market-agent/actions"
