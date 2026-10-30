@@ -2,7 +2,7 @@
 
 പരിശോധിക്കുന്നത്:
   1. GM World: ഇന്നത്തെ ഡാറ്റ വന്നോ
-  2. Market Agent: ഇന്നത്തെ റിപ്പോർട്ട്, സ്കാനർ പിശകുകൾ, Strategy (വില, Fair Value), PEAD
+  2. Market Agent: ഇന്നത്തെ റിപ്പോർട്ട്, സ്കാനർ പിശകുകൾ + എണ്ണത്തിലെ വലിയ മാറ്റം (>50%), Strategy (വില, Fair Value), PEAD
   3. Screener Summary: ഇന്നത്തെ valuations, problems.txt
   4. ഇന്നത്തെ GitHub workflow റണ്ണുകളിൽ പരാജയം
 പ്രശ്നം ഉണ്ടെങ്കിൽ മാത്രം Telegram + Email (.github/alert.py). എല്ലാം ശരിയാണെങ്കിൽ ഒന്നും അയക്കില്ല.
@@ -57,9 +57,26 @@ def main():
     hist = ROOT / "data" / "history" / f"{today}.json"
     if hist.exists():
         h = json.loads(hist.read_text(encoding="utf-8"))
+        prev_files = sorted(x for x in (ROOT / "data" / "history").glob("*.json") if x.stem < today)
+        prev = {}
+        if prev_files:
+            try:
+                prev = {s.get("slug") or s["name"]: len(s.get("stocks") or [])
+                        for s in json.loads(prev_files[-1].read_text(encoding="utf-8")).get("scans", []) if not s.get("error")}
+            except Exception:  # noqa: BLE001
+                prev = {}
         for s in h.get("scans", []):
             if s.get("error"):
                 issues.append(f"സ്കാനർ പിശക് — {s['name']}: {s['error'][:120]}")
+                continue
+            # ഡാറ്റ ശരിയാണോ: ഇന്നലത്തെ എണ്ണവുമായി 50%-ൽ കൂടുതൽ വ്യത്യാസം / 0 ആയാൽ അലർട്ട്
+            n, p0 = len(s.get("stocks") or []), prev.get(s.get("slug") or s["name"])
+            if p0 is None:
+                continue
+            if n == 0 and p0 > 0:
+                issues.append(f"സ്കാനർ {s['name']}: ഇന്ന് 0 സ്റ്റോക്ക് (ഇന്നലെ {p0}) — Chartink ഡാറ്റ?")
+            elif p0 >= 10 and abs(n - p0) / p0 > 0.5:
+                issues.append(f"സ്കാനർ {s['name']}: എണ്ണം {p0} → {n} (50%-ൽ കൂടുതൽ മാറ്റം) — ഒന്ന് നോക്കുക")
     sp = ROOT / "docs" / "strategy.html"
     if sp.exists():
         try:
