@@ -4,13 +4,23 @@
       "name": "HOLYGRAIL (GM Signal)",
       "slug": "gm-signal",
       "about": "GM Hollygrail long term: higher highs and rising OHLC 3 days, EMA20 > EMA60, RSI14 >= 60; results go to the 3️⃣HOLYGRAIL watchlist",
-      "clause": "( {cash} (  (  daily open +  daily close +  daily high +  daily low ) >  (  1 day ago open +  1 day ago close +  1 day ago high +  1 day ago low ) and(  1 day ago open +  1 day ago close +  1 day ago high +  1 day ago low ) >  (  2 days ago open +  2 days ago close +  2 days ago high +  2 days ago low ) and  daily high >  1 day ago high and  1 day ago high >  2 days ago high and  daily sma( volume,100 ) >  100000 and  daily close >  1 and  daily close <  1200 and  daily ema( close,20 ) >  daily ema( close,60 ) and  daily rsi( 14 ) >=  60 and  market cap >  500 and  daily sma(  daily volume , 10 ) *  daily sma(  daily close , 10 ) >=  10000000 ) )"
+      "clause": "( {cash} (  (  daily open +  daily close +  daily high +  daily low ) >  (  1 day ago open +  1 day ago close +  1 day ago high +  1 day ago low ) and(  1 day ago open +  1 day ago close +  1 day ago high +  1 day ago low ) >  (  2 days ago open +  2 days ago close +  2 days ago high +  2 days ago low ) and  daily high >  1 day ago high and  1 day ago high >  2 days ago high and  daily sma( volume,100 ) >  100000 and  daily close >  1 and  daily close <  1200 and  daily ema( close,20 ) >  daily ema( close,60 ) and  daily rsi( 14 ) >=  60 and  market cap >  500 and  daily sma(  daily volume , 10 ) *  daily sma(  daily close , 10 ) >=  10000000 ) )",
+      "use": [
+        "report",
+        "screener",
+        "tv"
+      ]
     },
     {
       "name": "MULTIBAGGER (Momentum)",
       "slug": "copy-momentum-portfolio-original-scan-by-hitesh-1319",
       "about": "Weekly close at a fresh 52-week high after 5 weeks below it, mcap >= 500 Cr, good liquidity; results go to the 4️⃣MULTIBAGGER watchlist",
-      "clause": "( {cash} (  weekly close >  1 week ago max( 52 ,  weekly close ) and  1 week ago close <  2 weeks ago max( 52 ,  weekly close ) and  2 weeks ago close <  3 weeks ago max( 52 ,  weekly close ) and  3 weeks ago close <  4 weeks ago max( 52 ,  weekly close ) and  4 weeks ago close <  5 weeks ago max( 52 ,  weekly close ) and  5 weeks ago close <  6 weeks ago max( 52 ,  weekly close ) and  market cap >=  500 and  weekly sma(  weekly close *  weekly volume , 4 ) >  250000000 ) )"
+      "clause": "( {cash} (  weekly close >  1 week ago max( 52 ,  weekly close ) and  1 week ago close <  2 weeks ago max( 52 ,  weekly close ) and  2 weeks ago close <  3 weeks ago max( 52 ,  weekly close ) and  3 weeks ago close <  4 weeks ago max( 52 ,  weekly close ) and  4 weeks ago close <  5 weeks ago max( 52 ,  weekly close ) and  5 weeks ago close <  6 weeks ago max( 52 ,  weekly close ) and  market cap >=  500 and  weekly sma(  weekly close *  weekly volume , 4 ) >  250000000 ) )",
+      "use": [
+        "report",
+        "screener",
+        "tv"
+      ]
     },
     {
       "name": "Top MSWING",
@@ -22,7 +32,11 @@
       "top": 20,
       "rank_window": 100,
       "max_show": 20,
-      "indicators": true
+      "indicators": true,
+      "use": [
+        "report",
+        "tv"
+      ]
     },
     {
       "name": "ROE/EPS IMPROVING",
@@ -30,7 +44,11 @@
       "about": "Fundamental scan: net profit up year-on-year for 3 straight quarters, latest quarter profit +20% and sales +10% YoY, mcap > 500 Cr. A stock entering usually follows a new quarterly result",
       "clause": "( {cash} (  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax and  2 quarter ago net profit/reported profit after tax >  5 quarters ago net profit/reported profit after tax and  3 quarter ago net profit/reported profit after tax >  6 quarters ago net profit/reported profit after tax and  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax *  1.2 and  quarterly net sales >  4 quarters ago net sales *  1.1 and  market cap >  500 ) )",
       "max_show": 50,
-      "indicators": true
+      "indicators": true,
+      "use": [
+        "report",
+        "screener"
+      ]
     },
     {
       "name": "GM Universe",
@@ -38,7 +56,21 @@
       "about": "Momentum universe: 20/50-day momentum score positive and above its 9-EMA, weighted RSI(9) >= 45, mcap > 200 Cr, high liquidity. Broad list; size of the list itself reflects market momentum",
       "clause": "( {cash} (  market cap >  200 and  daily sma(  daily volume , 10 ) *  daily sma(  daily close , 10 ) >=  100000000 and  daily {custom_indicator_162248_start}\"{custom_indicator_162246_start} \"(  close - 20 candles ago close ) * 100 / 20\"{custom_indicator_162246_end} +  {custom_indicator_162247_start} \"(  close - 50 candles ago close ) * 100 / ( 50 candles ago close * 50 )\"{custom_indicator_162247_end}\"{custom_indicator_162248_end} >  0 and  daily {custom_indicator_162248_start}\"{custom_indicator_162246_start} \"(  close - 20 candles ago close ) * 100 / 20\"{custom_indicator_162246_end} +  {custom_indicator_162247_start} \"(  close - 50 candles ago close ) * 100 / ( 50 candles ago close * 50 )\"{custom_indicator_162247_end}\"{custom_indicator_162248_end} >=  daily ema(  daily {custom_indicator_162248_start}\"{custom_indicator_162246_start} \"(  close - 20 candles ago close ) * 100 / 20\"{custom_indicator_162246_end} +  {custom_indicator_162247_start} \"(  close - 50 candles ago close ) * 100 / ( 50 candles ago close * 50 )\"{custom_indicator_162247_end}\"{custom_indicator_162248_end} , 9 ) and  daily wma(  daily rsi( 9 ) , 20 ) >=  45 ) )",
       "max_show": 50,
-      "indicators": true
+      "indicators": true,
+      "use": [
+        "report",
+        "tv"
+      ]
+    },
+    {
+      "name": "GM Quarterly Performers",
+      "slug": "gm-quaterly-performers",
+      "clause": "( {cash} (  market cap >  500 and  daily close >  15 and  yearly debt equity ratio <  1 and  quarterly net profit/reported profit after tax >  0 and  quarterly net profit/reported profit after tax >  4 quarters ago net profit/reported profit after tax *  1.15 and  1 quarter ago net profit/reported profit after tax >  5 quarters ago net profit/reported profit after tax and  2 quarter ago net profit/reported profit after tax >  6 quarters ago net profit/reported profit after tax and  3 quarter ago net profit/reported profit after tax >  7 quarters ago net profit/reported profit after tax and  quarterly net sales >  4 quarters ago net sales *  1.10 and  1 quarter ago net sales >  5 quarters ago net sales ) )",
+      "about": "Screener Summary-ക്ക് മാത്രം (Excel download): ലാഭം/വിൽപ്പന തുടർച്ചയായി വളരുന്നവ, കടം കുറവ്",
+      "use": [
+        "screener"
+      ]
     }
-  ]
+  ],
+  "_use": "use: report = Market Agent റിപ്പോർട്ട്/Strategy, screener = Screener Summary (Excel + Fair Value), tv = PC-യിലെ TradingView watchlist. എല്ലാ സ്കാനറും ഈ ഒറ്റ ഫയലിൽ."
 }

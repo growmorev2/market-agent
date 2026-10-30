@@ -313,7 +313,7 @@ def deliver(message, no_send, pdf_path=None, photo=None):
 
 def run_daily(args, lang, today):
     date_str = today.strftime("%Y-%m-%d")
-    cfg = json.loads((ROOT / "scans.json").read_text(encoding="utf-8"))["scans"]
+    cfg = [x for x in json.loads((ROOT / "scans.json").read_text(encoding="utf-8"))["scans"] if "report" in x.get("use", ["report"])]
 
     print(f"[1/5] സ്കാനറുകൾ ഓടിക്കുന്നു ({date_str})")
     scans = collect(cfg, args.sample)
@@ -471,7 +471,7 @@ def run_pead(now, bdata, mapping):
 def run_strategy_only(today):
     """Telegram-ലേക്ക് ഒന്നും അയക്കാതെ strategy പേജ് മാത്രം പുതുക്കും (Actions → Run workflow → strategy-only)."""
     date_str = today.strftime("%Y-%m-%d")
-    cfg = json.loads((ROOT / "scans.json").read_text(encoding="utf-8"))["scans"]
+    cfg = [x for x in json.loads((ROOT / "scans.json").read_text(encoding="utf-8"))["scans"] if "report" in x.get("use", ["report"])]
     print(f"[1/3] സ്കാനറുകൾ ({date_str})")
     scans = collect(cfg, False)
     sectors.tag(scans, sectors.load())
