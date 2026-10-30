@@ -5,6 +5,7 @@
   2. Market Agent: ഇന്നത്തെ റിപ്പോർട്ട്, സ്കാനർ പിശകുകൾ + എണ്ണത്തിലെ വലിയ മാറ്റം (>50%), Strategy (വില, Fair Value), PEAD
   3. Screener Summary: ഇന്നത്തെ valuations, problems.txt
   4. ഇന്നത്തെ GitHub workflow റണ്ണുകളിൽ പരാജയം
+  5. Screener Summary (private) Actions minutes: 70% ഉപയോഗിച്ചാൽ / മാസാവസാനം 90% കടക്കുമെന്ന് കണ്ടാൽ
 പ്രശ്നം ഉണ്ടെങ്കിൽ മാത്രം Telegram + Email (.github/alert.py). എല്ലാം ശരിയാണെങ്കിൽ ഒന്നും അയക്കില്ല.
 ഒരേ പ്രശ്നം: ആദ്യ ദിവസം അയക്കും, പിന്നെ 3 ദിവസത്തിലൊരിക്കൽ മാത്രം (data/health_state.json). ശരിയായാൽ "✅ ശരിയായി" എന്ന് അടുത്ത സന്ദേശത്തിൽ.
 """
@@ -34,6 +35,24 @@ def get(url, token=None, raw=False):
 
 
 STATE = ROOT / "data" / "health_state.json"
+MINUTES_LIMIT = 2000  # GitHub Free: private repos-ന് മാസം 2,000 മിനിറ്റ് (Linux)
+
+
+def actions_minutes(repo, token, now):
+    """ഈ മാസത്തെ റണ്ണുകളുടെ ആകെ സമയം (മിനിറ്റ്, ഓരോ job-ഉം മുകളിലേക്ക് റൗണ്ട് ചെയ്ത് — GitHub ബിൽ ചെയ്യുന്ന രീതി)."""
+    start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).astimezone(timezone.utc).strftime("%Y-%m-%d")
+    total, page = 0.0, 1
+    while page <= 10:
+        runs = json.loads(get(f"https://api.github.com/repos/{repo}/actions/runs?created=%3E%3D{start}&per_page=100&page={page}", token))
+        for r in runs.get("workflow_runs", []):
+            if r.get("run_started_at") and r.get("updated_at"):
+                a = datetime.fromisoformat(r["run_started_at"].replace("Z", "+00:00"))
+                b = datetime.fromisoformat(r["updated_at"].replace("Z", "+00:00"))
+                total += max(1, -(-(b - a).total_seconds() // 60))
+        if len(runs.get("workflow_runs", [])) < 100:
+            break
+        page += 1
+    return total
 REMIND_DAYS = 3
 
 
@@ -156,6 +175,19 @@ def main():
                 issues.append(f"Screener Summary-ൽ {len(probs)} പ്രശ്നം: " + "; ".join(probs[:3])[:250])
         except Exception:  # noqa: BLE001  (404 = പ്രശ്നമില്ല)
             pass
+
+    # 3b. GitHub Actions minutes (private repo മാത്രം limit — മാസം 2,000 മിനിറ്റ് സൗജന്യം)
+    if token:
+        try:
+            used = actions_minutes(SCREENER, token, now)
+            day = now.day
+            proj = used / max(day, 1) * 30
+            print(f"Actions minutes ({SCREENER}): ഈ മാസം {used:.0f}, മാസാവസാനം ഏകദേശം {proj:.0f} / {MINUTES_LIMIT}")
+            if used >= 0.7 * MINUTES_LIMIT or (day >= 7 and proj >= 0.9 * MINUTES_LIMIT):
+                issues.append(f"GitHub Actions minutes: Screener Summary ഈ മാസം {used:.0f} മിനിറ്റ് ഉപയോഗിച്ചു, "
+                              f"മാസാവസാനം ഏകദേശം {proj:.0f} / {MINUTES_LIMIT} — limit അടുക്കുന്നു")
+        except Exception as e:  # noqa: BLE001
+            print(f"Actions minutes കണക്കാക്കാനായില്ല: {e}")
 
     # 4. ഇന്നത്തെ workflow റണ്ണുകൾ
     gh = os.environ.get("GITHUB_TOKEN")
