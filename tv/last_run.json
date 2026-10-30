@@ -1,7 +1,7 @@
 {
  "scans": {
-  "my_scan": 70,
-  "gm_universe": 135,
+  "my_scan": 65,
+  "gm_universe": 126,
   "holygrail": 28,
   "multibagger": 13,
   "eps_improving": 284
@@ -13,23 +13,23 @@
    "top": [
     [
      "CCAVENUE",
-     45.95
+     45.7
     ],
     [
      "PASHUPATI",
-     5.06
+     5.09
     ],
     [
      "DCMSRIND",
-     3.39
-    ],
-    [
-     "UYFINCORP",
-     2.99
+     3.31
     ],
     [
      "RAMBHAJO",
      2.94
+    ],
+    [
+     "UYFINCORP",
+     2.83
     ]
    ]
   },
@@ -39,23 +39,23 @@
    "top": [
     [
      "MARSONS",
-     19.51
+     20.0
     ],
     [
      "QUICKHEAL",
-     13.02
-    ],
-    [
-     "ATHERENERG",
-     6.58
-    ],
-    [
-     "TRENT",
-     6.13
+     10.98
     ],
     [
      "LAURUSLABS",
-     5.82
+     7.2
+    ],
+    [
+     "KRISHNADEF",
+     6.41
+    ],
+    [
+     "ATHERENERG",
+     5.59
     ]
    ]
   },
@@ -74,10 +74,10 @@
    "by": "Chartink order",
    "ok": true,
    "top": [
+    "NAVINFLUOR",
     "ACUTAAS",
     "COFORGE",
     "ATHERENERG",
-    "ALIVUS",
     "63MOONS"
    ]
   },
@@ -87,13 +87,13 @@
    "top": [
     "POWERINDIA",
     "SOLARINDS",
-    "CRAFTSMAN",
     "BAJAJ-AUTO",
+    "CRAFTSMAN",
     "NAVINFLUOR"
    ]
   }
  },
- "run": "2026-10-30 07:22",
+ "run": "2026-10-30 10:07",
  "issues": [],
  "tv_login": false
 }
