@@ -2,8 +2,8 @@ name: TradingView watchlists
 
 on:
   schedule:
-    # സമയം UTC-യിൽ. 13:37 UTC = വൈകിട്ട് 7:07 IST, തിങ്കൾ–വെള്ളി
-    - cron: "37 13 * * 1-5"
+    # സമയം UTC-യിൽ. 11:07 UTC = വൈകിട്ട് 4:37 IST, തിങ്കൾ–വെള്ളി (മാർക്കറ്റ് close-ന് ശേഷം Chartink ഡാറ്റ വന്നശേഷം)
+    - cron: "7 11 * * 1-5"
   workflow_dispatch:
 
 permissions:

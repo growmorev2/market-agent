@@ -1,6 +1,6 @@
 """
 Chartink scanner (multiple scans) -> sorted -> top N -> separate TradingView list per scan
-Run:  python tv/chartink_scan.py   (GitHub Actions: .github/workflows/tv-watchlist.yml, 7:07 PM IST തിങ്കൾ–വെള്ളി)
+Run:  python tv/chartink_scan.py   (GitHub Actions: .github/workflows/tv-watchlist.yml, 4:37 PM IST തിങ്കൾ–വെള്ളി)
 
 Env vars (GitHub Secrets):
   TV_SESSIONID, TV_SESSIONID_SIGN   -> TradingView login cookies (നിർബന്ധം)
