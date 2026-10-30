@@ -449,7 +449,8 @@ CONV_SCANS = {"gm-signal": "HOLYGRAIL", "copy-momentum-portfolio-original-scan-b
 
 
 def conviction(res, scans, top=10):
-    """Momentum / Value (buy=2, watch=1), PEAD (1, +1 SUE≥2 / ശക്തമായ വളർച്ച), HOLYGRAIL, MULTIBAGGER (1 വീതം).
+    """Momentum / Value (buy=2, watch=1), PEAD (1, +1 SUE≥2 / ശക്തമായ വളർച്ച), HOLYGRAIL, MULTIBAGGER,
+    ORDERS (30 ദിവസത്തിൽ വിൽപ്പനയുടെ 10%+ order) — 1 വീതം.
     കുറഞ്ഞത് 2 സ്രോതസ്സും സ്കോർ 3-ഉം വേണം."""
     if not res:
         return []
@@ -470,6 +471,14 @@ def conviction(res, scans, top=10):
     for e in (res.get("pead") or {}).get("active", []):
         strong = (e.get("sue") or 0) >= 2 or e.get("growth_tag") in ("ശരിക്കും വലിയ വളർച്ച", "ശക്തം")
         add(e["symbol"], "PEAD" + (" 🔥" if strong else ""), 2 if strong else 1, {"sector": e.get("sector")})
+    od = res.get("orders") or {}
+    if od.get("orders"):
+        from lib import orders as _orders
+        seen = set()
+        for o in _orders.recent_big(od["orders"], od.get("updated") or res["date"]):
+            if o["symbol"] not in seen:
+                seen.add(o["symbol"])
+                add(o["symbol"], "ORDERS" + (" 🔥" if o["pct_sales"] >= _orders.CFG["fire_pct"] else ""), 1, {"sector": o.get("sector")})
     for s in scans:
         lab = CONV_SCANS.get(s.get("slug"))
         if lab and not s.get("error"):
@@ -497,6 +506,13 @@ def action_text(res):
             L.append(f"🟢 {name} വാങ്ങുക: " + ", ".join(p["symbol"] for p in d["entries"]))
         if d["exits"]:
             L.append(f"🔴 {name} വിൽക്കുക: " + ", ".join(f"{p['symbol']} ({p.get('reason', '')})" for p in d["exits"]))
+    try:
+        from lib import orders as _orders
+        ol = _orders.telegram_line(res.get("orders"))
+        if ol:
+            L.append(ol)
+    except Exception:  # noqa: BLE001
+        pass
     conv = res.get("conviction") or []
     if conv:
         L.append("⭐ Top conviction: " + ", ".join(f"{d['symbol']} ({len(d['src'])})" for d in conv[:5]))

@@ -93,6 +93,15 @@ def main():
         except Exception as e:  # noqa: BLE001
             issues.append(f"Strategy പേജ് വായിക്കാനായില്ല: {str(e)[:100]}")
 
+    # 2a. Order inflow tracker
+    op = ROOT / "data" / "orders.json"
+    if op.exists():
+        try:
+            if json.loads(op.read_text(encoding="utf-8")).get("updated") != today:
+                issues.append("Order tracker: ഇന്ന് NSE announcements എടുക്കാനായില്ല")
+        except Exception as e:  # noqa: BLE001
+            issues.append(f"data/orders.json വായിക്കാനായില്ല: {str(e)[:80]}")
+
     # 2b. TradingView watchlists (GitHub)
     tvp = ROOT / "tv" / "last_run.json"
     if tvp.exists():

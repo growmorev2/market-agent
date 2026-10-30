@@ -20,7 +20,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from lib import ai, breadth, chartink, events, notify, pdf, report, sectors, site, tracker, weekly, strategy, pead
+from lib import ai, breadth, chartink, events, notify, pdf, report, sectors, site, tracker, weekly, strategy, pead, orders, orders_page
 
 ROOT = Path(__file__).parent
 HISTORY = ROOT / "data" / "history"
@@ -373,6 +373,7 @@ def run_daily(args, lang, today):
         print(f"  Strategy പരാജയം: {str(e)[:200]}")
     if strat is not None and not args.sample:
         strat["pead"] = run_pead(today, bdata, mapping)
+        strat["orders"] = run_orders(today, mapping)
     if strat is not None:
         strat["conviction"] = strategy.conviction(strat, scans)
 
@@ -468,6 +469,17 @@ def run_pead(now, bdata, mapping):
         return None
 
 
+def run_orders(now, mapping):
+    """📦 Order inflow (NSE announcements). പരാജയപ്പെട്ടാലും റിപ്പോർട്ട് തുടരും."""
+    try:
+        res = orders.run(now, mapping)
+        orders_page.build(ROOT / "docs", orders.load())
+        return res
+    except Exception as e:  # noqa: BLE001
+        print(f"  Orders പരാജയം: {str(e)[:200]}")
+        return None
+
+
 def run_strategy_only(today):
     """Telegram-ലേക്ക് ഒന്നും അയക്കാതെ strategy പേജ് മാത്രം പുതുക്കും (Actions → Run workflow → strategy-only)."""
     date_str = today.strftime("%Y-%m-%d")
@@ -486,6 +498,7 @@ def run_strategy_only(today):
     ms = breadth.market_status(bdata) if bdata else None
     strat = strategy.run(date_str, scans, results, bdata, ms)
     strat["pead"] = run_pead(today, bdata, sectors.load())
+    strat["orders"] = run_orders(today, sectors.load())
     strat["conviction"] = strategy.conviction(strat, scans)
     print("[3/3] പേജ്")
     site.build_strategy(ROOT / "docs", strat)

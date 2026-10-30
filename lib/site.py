@@ -260,6 +260,7 @@ def _write_index(out):
         "<h1>മാർക്കറ്റ് ഏജന്റ്</h1>"
         '<p class="muted">AI റിപ്പോർട്ടുകൾ · ഇത് സാമ്പത്തിക ഉപദേശമല്ല</p>'
         + ('<p><a href="strategy.html">📋 Stock selection strategy (Momentum / Value)</a></p>' if (out / "strategy.html").exists() else "")
+        + ('<p><a href="orders.html">📦 NSE order inflow tracker</a></p>' if (out / "orders.html").exists() else "")
         + ('<p><a href="performance.html">📈 സ്കാനർ പെർഫോമൻസ്</a></p>' if (out / "performance.html").exists() else "")
         + (f'<h2>ആഴ്ച റാപ്പപ്പ്</h2><ul class="reports">{w_items}</ul>' if w_items else "")
         + f'<h2>ദിവസേനയുള്ള റിപ്പോർട്ട്</h2><ul class="reports">{d_items}</ul>'
@@ -637,7 +638,7 @@ def _conviction_html(conv):
         for d in conv)
     return ('<div class="card conv"><style>.conv td{white-space:normal;vertical-align:top}.conv .chip{font-size:.75rem;margin:2px 3px 2px 0}</style><h2 style="margin:0 0 4px">⭐ Top conviction</h2>'
             '<p class="muted" style="margin:0 0 8px">പല strategy-കളിലും ഒരേ സമയം വരുന്ന സ്റ്റോക്കുകൾ — '
-            'Momentum/Value Buy = 2, Watch = 1, PEAD = 1 (🔥 = 2), HOLYGRAIL / MULTIBAGGER = 1. കുറഞ്ഞത് 2 സ്രോതസ്സ്.</p>'
+            'Momentum/Value Buy = 2, Watch = 1, PEAD = 1 (🔥 = 2), HOLYGRAIL / MULTIBAGGER = 1, ORDERS (30 ദിവസത്തിൽ വിൽപ്പനയുടെ 10%+ order) = 1. കുറഞ്ഞത് 2 സ്രോതസ്സ്.</p>'
             '<div style="overflow-x:auto"><table class="ptable"><thead><tr><th>Stock</th><th class="num">Score</th><th>എവിടെയെല്ലാം</th></tr></thead>'
             f'<tbody>{rows}</tbody></table></div></div>')
 
@@ -646,7 +647,7 @@ def build_strategy(out_dir, res):
     if not res:
         return
     out = Path(out_dir)
-    data = json.dumps(res, ensure_ascii=False, default=str).replace("</", "<\\/")
+    data = json.dumps({k: v for k, v in res.items() if k != "orders"}, ensure_ascii=False, default=str).replace("</", "<\\/")
     body = (
         '<p><a href="index.html">← എല്ലാ റിപ്പോർട്ടുകളും</a></p>'
         "<h1>📋 Stock selection strategy</h1>"
