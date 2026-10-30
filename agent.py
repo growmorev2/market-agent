@@ -444,6 +444,13 @@ def run_weekly(args, lang, today):
     if bdata:
         msg += report.e(breadth.message_line(breadth.signal(bdata))) + "\n\n"
     msg += report.md_to_telegram(text)
+    if today.day <= 7:  # മാസത്തിലെ ആദ്യ ശനി: PEAD "എന്താണ് ഫലിക്കുന്നത്"
+        try:
+            wt = pead.works_text(pead.what_works(pead.load_all()))
+            if wt:
+                msg += "\n\n" + report.e(wt)
+        except Exception as e:  # noqa: BLE001
+            print(f"  PEAD മാസ റിപ്പോർട്ട് പരാജയം: {e}")
     base = site_base()
     if base:
         msg += f'\n\n🔗 <a href="{base}/weekly/{end}.html">വിശദമായി</a> · 📄 PDF താഴെ'

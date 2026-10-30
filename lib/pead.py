@@ -278,6 +278,71 @@ def _series_from(d, dates):
     return out
 
 
+ALL = ROOT / "data" / "pead_all.json"   # എല്ലാ റിസൾട്ടുകളും (Excellent അല്ലാത്തവയും) — എന്താണ് ഫലിക്കുന്നത് എന്നറിയാൻ
+HORIZONS = (5, 20, 60)
+
+
+def load_all():
+    try:
+        return json.loads(ALL.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {"list": []}
+
+
+def _record(allr, sym, rd, base_date, series, ok, n, lab):
+    if any(r["s"] == sym and r["rd"] == rd for r in allr["list"]):
+        return
+    if base_date not in series:
+        return
+    allr["list"].append({"s": sym, "rd": rd, "bd": base_date, "b": series[base_date], "ex": bool(ok), "sc": n,
+                         "sue": lab.get("sue"), "gt": lab.get("growth_tag"), "ro": bool(lab.get("react_ok")),
+                         "c": {k: v for k, v in sorted(series.items()) if k > base_date}})
+
+
+def _ret(r, h):
+    c = list(r["c"].values())
+    return (c[h - 1] / r["b"] - 1) * 100 if len(c) >= h and r["b"] else None
+
+
+def what_works(allr):
+    """ഓരോ ഗ്രൂപ്പിന്റെയും ശരാശരി റിട്ടേൺ, ജയ ശതമാനം — D5 / D20 / D60."""
+    groups = [
+        ("എല്ലാ റിസൾട്ടും (ലാഭം കൂടിയവ)", lambda r: True),
+        ("⭐ Excellent (PEAD-ൽ ചേർത്തവ)", lambda r: r["ex"]),
+        ("Excellent അല്ലാത്തവ", lambda r: not r["ex"]),
+        ("🔥 SUE 2+", lambda r: (r.get("sue") or 0) >= 2),
+        ("SUE 2-ൽ താഴെ", lambda r: r.get("sue") is not None and r["sue"] < 2),
+        ("🚀 ശക്തമായ പ്രതികരണം", lambda r: r["ro"]),
+        ("🚀 ശരിക്കും വലിയ വളർച്ച", lambda r: r.get("gt") == "ശരിക്കും വലിയ വളർച്ച"),
+        ("💪 ശക്തം", lambda r: r.get("gt") == "ശക്തം"),
+        ("⚠️ വെറും തിരിച്ചുവരവ്", lambda r: r.get("gt") == "വെറും തിരിച്ചുവരവ്"),
+        ("Score 7/7", lambda r: r["sc"] == 7),
+    ]
+    out = []
+    for name, f in groups:
+        rs = [r for r in allr["list"] if f(r)]
+        row = {"g": name, "n": len(rs)}
+        for h in HORIZONS:
+            v = [x for x in (_ret(r, h) for r in rs) if x is not None]
+            row[f"d{h}"] = {"n": len(v), "avg": round(sum(v) / len(v), 1) if v else None,
+                            "win": round(100 * sum(1 for x in v if x > 0) / len(v)) if v else None}
+        out.append(row)
+    return out
+
+
+def works_text(works):
+    """മാസ റിപ്പോർട്ടിനുള്ള ചെറിയ ടെക്സ്റ്റ്."""
+    if not works:
+        return ""
+    L = ["📢 PEAD — എന്താണ് ഫലിക്കുന്നത് (ശരാശരി % · ജയം %)"]
+    for w in works:
+        bits = [f"D{h} {w[f'd{h}']['avg']:+.1f}% · {w[f'd{h}']['win']}% (n{w[f'd{h}']['n']})"
+                for h in HORIZONS if w[f"d{h}"]["avg"] is not None]
+        if bits:
+            L.append(f"{w['g']}: " + " | ".join(bits))
+    return "\n".join(L) if len(L) > 1 else ""
+
+
 def run(now, bdata, sectors=None, fetch_fn=fetch, save=True):
     """ട്രാക്കർ പുതുക്കും (now = IST datetime). പേജിനുള്ള dict തിരികെ."""
     today = now.date()
@@ -292,6 +357,10 @@ def run(now, bdata, sectors=None, fetch_fn=fetch, save=True):
         seen = json.loads(SEEN.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         seen = {}
+    from lib import chartink
+    allr = load_all()
+    for e in st["active"] + st["done"]:  # ആദ്യ തവണ: നിലവിലുള്ള Excellent എൻട്രികൾ
+        _record(allr, e["symbol"], e["res_date"], e["base_date"], {e["base_date"]: e["base"], **e["series"]}, True, e["score"], e)
     added = []
     first = dates[max(0, len(dates) - CFG["add_window"])]
     for sym, d in data.items():
@@ -309,11 +378,12 @@ def run(now, bdata, sectors=None, fetch_fn=fetch, save=True):
         elif rd >= today_s:
             continue  # മുൻ രേഖ ഇല്ല, റിസൾട്ട് ഇന്ന് — ഒരു ദിവസം കാത്തിരിക്കും
         ok, n, checks = score(d)
-        if not ok:
-            continue
         before = [x for x in dates if x < rd]
         series = _series_from(d, dates)
         if not before or before[-1] not in series:
+            continue
+        _record(allr, sym, rd, before[-1], series, ok, n, labels(d, dates, rd))
+        if not ok:
             continue
         e = {"symbol": sym, "name": d.get("name", ""), "sector": (sectors or {}).get(sym, ""), "res_date": rd,
              "base_date": before[-1], "base": series[before[-1]], "score": n,
@@ -322,7 +392,6 @@ def run(now, bdata, sectors=None, fetch_fn=fetch, save=True):
         active[sym] = e
         added.append(sym)
     # ദിവസേനയുള്ള വില ചേർക്കൽ
-    from lib import chartink
     done_now = []
     for sym, e in list(active.items()):
         d = data.get(sym)
@@ -337,6 +406,21 @@ def run(now, bdata, sectors=None, fetch_fn=fetch, save=True):
         e["series"] = dict(sorted(e["series"].items()))
         if len(e["series"]) >= CFG["track_days"]:
             done_now.append(sym)
+    # താരതമ്യ ഗ്രൂപ്പ്: എല്ലാ റിസൾട്ടുകളുടെയും വില (60 ദിവസം വരെ)
+    for r in allr["list"]:
+        if len(r["c"]) >= CFG["track_days"]:
+            continue
+        d = data.get(r["s"])
+        if d:
+            for k, v in _series_from(d, dates).items():
+                if k > r["bd"]:
+                    r["c"][k] = v
+        elif r["s"] in chartink.INDICATORS and chartink.INDICATORS[r["s"]].get("close") and today_s > r["bd"]:
+            r["c"][today_s] = chartink.INDICATORS[r["s"]]["close"]
+        r["c"] = dict(sorted(r["c"].items()))
+    allr["list"] = [r for r in allr["list"] if r["rd"] >= (today - timedelta(days=400)).isoformat()]
+    if save:
+        ALL.write_text(json.dumps(allr, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     # ഇന്നത്തെ profit രേഖപ്പെടുത്തൽ (മാറ്റം വന്നാൽ മാത്രം, അവസാന 4 എണ്ണം)
     for sym, d in data.items():
         if d.get("np0") is None:
@@ -354,7 +438,8 @@ def run(now, bdata, sectors=None, fetch_fn=fetch, save=True):
     if save:
         STATE.write_text(json.dumps(st, ensure_ascii=False, indent=0), encoding="utf-8")
     print(f"  PEAD: ട്രാക്കിൽ {len(st['active'])}, ഇന്ന് പുതിയത് {len(added)} ({', '.join(added[:10])})")
-    return {"date": today_s, "active": st["active"], "done": st["done"][-30:], "added": added, "cfg": CFG}
+    return {"date": today_s, "active": st["active"], "done": st["done"][-30:], "added": added, "cfg": CFG,
+            "works": what_works(allr)}
 
 
 def telegram_line(res):

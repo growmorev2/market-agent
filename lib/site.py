@@ -522,6 +522,13 @@ function renderPead() {
     tvButtons(act) + `<div class="table-wrap"><table class="ptable"><thead><tr>${head}</tr></thead><tbody>${rows.join('')}</tbody></table></div></div>`;
   if (P.done.length) h += `<div class="card"><h2>✅ 60 ദിവസം പൂർത്തിയായവ</h2>` + table('<th>Stock</th><th>Result</th><th class="num">അവസാനം</th><th class="num">Max</th>',
       P.done.slice().reverse().map(e => `<tr><td><b>${esc(e.symbol)}</b></td><td>${dmy(e.res_date)}</td><td class="num">${pct(now(e))}</td><td class="num">${pct(best(e))}</td></tr>`)) + `</div>`;
+  const W = (P.works || []).filter(w => w.n);
+  if (W.length) {
+    const cell = x => x && x.avg != null ? `<span class="${x.avg >= 0 ? 'up' : 'down'}">${x.avg >= 0 ? '+' : ''}${x.avg}%</span><br><small class="muted" title="ജയം % · എണ്ണം">${x.win}%·${x.n}</small>` : '<span class="muted">—</span>';
+    h += `<div class="card"><h2>🔬 എന്താണ് ഫലിക്കുന്നത്</h2><p class="muted">ലാഭം കൂടിയ എല്ലാ റിസൾട്ടുകളും (Excellent അല്ലാത്തവയും) രേഖപ്പെടുത്തി, റിസൾട്ടിന് ശേഷം 5 / 20 / 60 ട്രേഡിംഗ് ദിവസത്തിലെ ശരാശരി റിട്ടേൺ. താഴെ ചെറുതായി: ജയിച്ച % · എണ്ണം. ആഴ്ചകൾ കഴിയുമ്പോൾ ഡാറ്റ നിറയും. Excellent ഗ്രൂപ്പ് മറ്റുള്ളവയേക്കാൾ മുന്നിലാണോ എന്നതാണ് പ്രധാനം.</p>` +
+      table('<th>ഗ്രൂപ്പ്</th><th class="num ph-hide">എണ്ണം</th><th class="num">D5</th><th class="num">D20</th><th class="num">D60</th>',
+        W.map(w => `<tr><td>${esc(w.g)}</td><td class="num ph-hide">${w.n}</td><td class="num">${cell(w.d5)}</td><td class="num">${cell(w.d20)}</td><td class="num">${cell(w.d60)}</td></tr>`)) + `</div>`;
+  }
   document.getElementById('sbody').innerHTML = h;
   const setSort = (k, asc) => { try { localStorage.setItem('pead-sort', k); localStorage.setItem('pead-asc', asc ? '1' : '0'); } catch (e) {} renderPead(); };
   const sel = document.getElementById('psort');
