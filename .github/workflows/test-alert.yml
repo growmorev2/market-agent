@@ -12,4 +12,5 @@ jobs:
           MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
           ALERT_SUBJECT: "✅ Test alert (${{ github.repository }})"
-        run: python3 .github/alert.py "✅ Test alert — ${{ github.repository }}: Telegram + Email ശരിയായി സെറ്റ് ചെയ്തു. (ഇതിന് മറുപടി വേണ്ട)"
+        run: |
+          python3 .github/alert.py "✅ Test alert (${{ github.repository }}) — Telegram + Email ശരിയായി സെറ്റ് ചെയ്തു. ഇതിന് മറുപടി വേണ്ട."
