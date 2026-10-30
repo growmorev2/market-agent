@@ -6,21 +6,21 @@
     "sector": "Unknown",
     "entry_date": "2026-10-29",
     "entry": 404.0,
-    "last": 404.0
+    "last": 383.8
    },
    {
     "symbol": "PVRINOX",
     "sector": "Media Entertainment & Publication",
     "entry_date": "2026-10-29",
     "entry": 1490.3,
-    "last": 1490.3
+    "last": 1500.0
    },
    {
     "symbol": "WSTCSTPAPR",
     "sector": "Unknown",
     "entry_date": "2026-10-29",
     "entry": 839.85,
-    "last": 839.85
+    "last": 824.9
    }
   ],
   "closed": []
@@ -32,28 +32,35 @@
     "sector": "Unknown",
     "entry_date": "2026-10-29",
     "entry": 24.43,
-    "last": 24.43
+    "last": 24.22
    },
    {
     "symbol": "MAHLOG",
     "sector": "Unknown",
     "entry_date": "2026-10-29",
     "entry": 427.15,
-    "last": 427.15
+    "last": 423.9
    },
    {
     "symbol": "SHAREINDIA",
     "sector": "Financial Services",
     "entry_date": "2026-10-29",
     "entry": 177.93,
-    "last": 177.93
+    "last": 174.66
    },
    {
     "symbol": "MVGJL",
     "sector": "Unknown",
     "entry_date": "2026-10-29",
     "entry": 172.2,
-    "last": 172.2
+    "last": 163.59
+   },
+   {
+    "symbol": "HNDFDS",
+    "sector": "Unknown",
+    "entry_date": "2026-10-30",
+    "entry": 543.0,
+    "last": 543.0
    }
   ],
   "closed": []
