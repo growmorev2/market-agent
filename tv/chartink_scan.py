@@ -277,6 +277,10 @@ def main():
                 print("  No stocks, list left unchanged.")
                 continue
             df = sort_df(df, scan["sort_col"], scan["descending"])
+            STATUS.setdefault("sort", {})[scan["name"]] = {
+                "by": scan["sort_col"] or "Chartink order", "ok": scan["sort_col"] is None or scan["sort_col"] in df.columns,
+                "top": [[r["nsecode"], (round(float(r[scan["sort_col"]]), 2) if scan["sort_col"] in df.columns else None)]
+                        for _, r in df.head(5).iterrows()] if scan["sort_col"] else list(df["nsecode"].head(5))}
             df.to_csv(f"{OUT_DIR}/{today}_{scan['name']}.csv", index=False)
             symbols = list(dict.fromkeys(df["nsecode"].tolist()))[: scan["top_n"]]
             with open(f"{OUT_DIR}/{today}_{scan['name']}_tradingview.txt", "w") as f:
