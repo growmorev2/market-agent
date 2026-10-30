@@ -47,7 +47,7 @@ th.s{cursor:pointer}th.s:hover{color:var(--ink)}
 .empty{padding:26px;text-align:center;color:var(--mute)}
 svg text{fill:var(--mute);font-size:11px}
 td.t{max-width:340px;overflow:hidden;text-overflow:ellipsis}
-@media(max-width:640px){.ph{display:none}td.t{max-width:160px}}
+.po{display:none}@media(max-width:640px){.ph{display:none}.po{display:inline}td.t{max-width:160px}th,td{padding:7px 6px}}
 </style>
 </head>
 <body>
@@ -81,7 +81,17 @@ td.t{max-width:340px;overflow:hidden;text-overflow:ellipsis}
   <div class="panel"><h2>🔬 എന്താണ് ഫലിക്കുന്നത്</h2><p class="note" style="margin-bottom:8px">Order announcement-ന് മുമ്പുള്ള close-ൽ നിന്ന് 1 / 5 / 20 ട്രേഡിംഗ് ദിവസത്തെ ശരാശരി % (താഴെ: ജയം % · എണ്ണം). ആഴ്ചകൾ കഴിയുമ്പോൾ നിറയും.</p><div class="scroll" id="works"></div></div>
 </section>
 
-<section class="panel"><h2>Order log</h2><div class="scroll" id="tbl"></div></section>
+<section class="panel"><h2>Order log</h2>
+  <div class="row" style="margin-bottom:10px">
+    <label>ക്രമം<select id="osort">
+      <option value="date">തീയതി (പുതിയത് ആദ്യം)</option><option value="sales">% വിൽപ്പന (കൂടിയത് ആദ്യം)</option>
+      <option value="value">Order value</option><option value="mcap">% mcap</option>
+      <option value="d1">D1 %</option><option value="d5">D5 %</option><option value="d20">D20 %</option><option value="symbol">പേര് (A–Z)</option>
+    </select></label>
+    <button type="button" id="tv-copy">📋 Copy to TradingView</button><button type="button" id="tv-file">⬇️ .txt</button>
+  </div>
+  <p class="note" id="tv-msg" style="margin:0 0 8px">TradingView-ലേക്ക്: മുകളിലെ filters (Period, Industry, കുറഞ്ഞ % വിൽപ്പന) അനുസരിച്ചുള്ള ലിസ്റ്റ്, ഈ ക്രമത്തിൽ, ആവർത്തനം ഒഴിവാക്കി. ഉദാ: "കുറഞ്ഞ % വിൽപ്പന" 10 ആക്കിയാൽ വലിയ orders മാത്രം.</p>
+  <div class="scroll" id="tbl"></div></section>
 </main>
 <script type="application/json" id="odata">__DATA__</script>
 <script>
@@ -94,7 +104,8 @@ const pc = v => v == null ? '<span class="muted">–</span>' : `<span class="${v
 const dmy = s => { const [y, m, d] = s.split('-'); return `${d}/${m}/${y.slice(2)}`; };
 const sales = o => o.pct_sales == null ? '<span class="muted">–</span>' : `<span class="${o.pct_sales >= 25 ? 'fire' : o.pct_sales >= 10 ? 'up' : ''}">${o.pct_sales >= 25 ? '🔥 ' : ''}${o.pct_sales.toFixed(1)}%</span>`;
 const ret = (o, h) => { const c = Object.keys(o.series || {}).sort().map(k => o.series[k]); return o.base && c.length >= h ? (c[h - 1] / o.base - 1) * 100 : null; };
-let athr = 10, sortK = 'date', sortAsc = false;
+let athr = 10, sortK = 'date', sortAsc = false, tvSyms = [];
+const setSort = (k, asc) => { sortK = k; sortAsc = asc; try { localStorage.setItem('ord-sort', sortK); localStorage.setItem('ord-asc', sortAsc ? '1' : '0'); } catch (e) {} render(); };
 try { athr = +(localStorage.getItem('ord-alert-pct') || 10); sortK = localStorage.getItem('ord-sort') || 'date'; sortAsc = localStorage.getItem('ord-asc') === '1'; } catch (e) {}
 $('athr').value = athr;
 $('upd').textContent = D.updated ? `അവസാനം പുതുക്കിയത്: ${dmy(D.updated)}.` : '';
@@ -142,11 +153,12 @@ function render() {
                  d1: o => ret(o, 1) ?? -999, d5: o => ret(o, 5) ?? -999, d20: o => ret(o, 20) ?? -999 };
   if (!keys[sortK]) sortK = 'date';
   const rows = l.slice().sort((a, b) => { const x = keys[sortK](a), y = keys[sortK](b); const r = x < y ? 1 : x > y ? -1 : 0; return sortAsc ? -r : r; });
+  $('osort').value = sortK;
+  tvSyms = [...new Set(rows.filter(o => !o.dup).map(o => o.symbol))];
   const th = (k, t, cls = '') => `<th class="s ${cls}" data-k="${k}">${t}${sortK === k ? (sortAsc ? ' ▲' : ' ▼') : ''}</th>`;
-  $('tbl').innerHTML = rows.length ? `<table><thead><tr>${th('date', 'Date')}${th('symbol', 'Symbol')}<th class="ph">Industry</th><th class="ph">Order</th>${th('value', 'Value', 'n')}${th('sales', '% വിൽപ്പന', 'n')}${th('mcap', '% mcap', 'n ph')}${th('d1', 'D1', 'n')}${th('d5', 'D5', 'n ph')}${th('d20', 'D20', 'n ph')}<th></th></tr></thead><tbody>${rows.map(o => `<tr${o.dup ? ' class="muted"' : ''}><td>${dmy(o.date)}</td><td><b>${esc(o.symbol)}</b>${o.dup ? ' ↺' : ''}${o.cons ? ' <span class="tag">JV</span>' : ''}</td><td class="ph"><span class="tag">${esc(o.industry || '–')}</span></td><td class="t ph" title="${esc(o.title)}">${esc(o.title)}</td><td class="n">${o.value ? (o.note === 'range' ? '≥' : '') + cr(o.value) : '<span class="muted">value ഇല്ല</span>'}</td><td class="n">${sales(o)}</td><td class="n ph">${o.pct_mcap == null ? '–' : o.pct_mcap.toFixed(1) + '%'}</td><td class="n">${pc(ret(o, 1))}</td><td class="n ph">${pc(ret(o, 5))}</td><td class="n ph">${pc(ret(o, 20))}</td><td>${o.file ? `<a href="${esc(o.file)}" target="_blank" rel="noopener" aria-label="Filing">📄</a>` : ''}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">No orders match these filters.</div>';
+  $('tbl').innerHTML = rows.length ? `<table><thead><tr>${th('date', 'Date', 'ph')}${th('symbol', 'Symbol')}<th class="ph">Industry</th><th class="ph">Order</th>${th('value', 'Value', 'n')}${th('sales', '% വിൽപ്പന', 'n')}${th('mcap', '% mcap', 'n ph')}${th('d1', 'D1', 'n')}${th('d5', 'D5', 'n ph')}${th('d20', 'D20', 'n ph')}<th></th></tr></thead><tbody>${rows.map(o => `<tr${o.dup ? ' class="muted"' : ''}><td class="ph">${dmy(o.date)}</td><td><b>${esc(o.symbol)}</b><small class="po muted"><br>${dmy(o.date)}</small>${o.dup ? ' ↺' : ''}${o.cons ? ' <span class="tag">JV</span>' : ''}</td><td class="ph"><span class="tag">${esc(o.industry || '–')}</span></td><td class="t ph" title="${esc(o.title)}">${esc(o.title)}</td><td class="n">${o.value ? (o.note === 'range' ? '≥' : '') + cr(o.value) : '<span class="muted">value ഇല്ല</span>'}</td><td class="n">${sales(o)}</td><td class="n ph">${o.pct_mcap == null ? '–' : o.pct_mcap.toFixed(1) + '%'}</td><td class="n">${pc(ret(o, 1))}</td><td class="n ph">${pc(ret(o, 5))}</td><td class="n ph">${pc(ret(o, 20))}</td><td>${o.file ? `<a href="${esc(o.file)}" target="_blank" rel="noopener" aria-label="Filing">📄</a>` : ''}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">No orders match these filters.</div>';
   $('tbl').querySelectorAll('th.s').forEach(t => t.addEventListener('click', () => {
-    const k = t.dataset.k; sortAsc = sortK === k ? !sortAsc : k === 'symbol'; sortK = k;
-    try { localStorage.setItem('ord-sort', sortK); localStorage.setItem('ord-asc', sortAsc ? '1' : '0'); } catch (e) {} render();
+    const k = t.dataset.k; setSort(k, sortK === k ? !sortAsc : k === 'symbol');
   }));
   const W = (D.works || []).filter(w => w.n);
   const cell = x => x && x.avg != null ? `<span class="${x.avg >= 0 ? 'up' : 'down'}">${x.avg >= 0 ? '+' : ''}${x.avg}%</span><br><small class="muted">${x.win}%·${x.n}</small>` : '<span class="muted">—</span>';
@@ -158,6 +170,22 @@ $('csv').addEventListener('click', () => {
   const q = s => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
   const h = 'date,symbol,company,industry,value_cr,pct_sales,pct_mcap,duplicate,title,filing\n' + orders.map(o => [o.date, o.symbol, q(o.name), q(o.industry), o.value ?? '', o.pct_sales ?? '', o.pct_mcap ?? '', o.dup ? 1 : 0, q(o.title), o.file].join(',')).join('\n');
   const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(h); a.download = 'order-inflow.csv'; a.click();
+});
+$('osort').addEventListener('change', () => setSort($('osort').value, $('osort').value === 'symbol'));
+const tvText = () => tvSyms.map(s => 'NSE:' + s.replace(/[&-]/g, '_')).join(',');
+const tvMsg = t => $('tv-msg').textContent = t;
+$('tv-copy').addEventListener('click', async () => {
+  if (!tvSyms.length) return tvMsg('ലിസ്റ്റിൽ ഒന്നുമില്ല — filters മാറ്റുക');
+  const t = tvText();
+  try { await navigator.clipboard.writeText(t); }
+  catch (e) { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e2) {} ta.remove(); }
+  tvMsg(`✓ ${tvSyms.length} symbol കോപ്പി ചെയ്തു — TradingView watchlist-ൽ "Add symbol" ബോക്സിൽ paste ചെയ്യുക`);
+});
+$('tv-file').addEventListener('click', () => {
+  if (!tvSyms.length) return tvMsg('ലിസ്റ്റിൽ ഒന്നുമില്ല — filters മാറ്റുക');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([tvText()], { type: 'text/plain' }));
+  a.download = 'orders-' + (D.updated || 'list') + '.txt'; document.body.appendChild(a); a.click(); a.remove();
+  tvMsg('✓ ഫയൽ ഡൗൺലോഡ് ചെയ്തു — TradingView watchlist മെനു → Import list');
 });
 render();
 </script>
