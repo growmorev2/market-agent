@@ -2,9 +2,9 @@ name: Daily Market Agent
 
 on:
   schedule:
-    # സമയം UTC-യിലാണ്. 12:43 UTC = വൈകിട്ട് 6:13 IST, തിങ്കൾ–വെള്ളി
-    # (GM World 5:30 PM-ന് പുതുക്കിയ ശേഷം; NSE bhavcopy-യും ഈ സമയത്ത് വന്നിരിക്കും)
-    - cron: "43 12 * * 1-5"
+    # സമയം UTC-യിലാണ്. 11:47 UTC = വൈകിട്ട് 5:17 IST, തിങ്കൾ–വെള്ളി
+    # (GM World 4:47-നും Screener Summary 4:52-നും ശേഷം; 6 മണിക്ക് മുമ്പ് എല്ലാം തീരാൻ)
+    - cron: "47 11 * * 1-5"
   workflow_dispatch: # Actions ടാബിൽ നിന്ന് കൈകൊണ്ട് ഓടിക്കാൻ
     inputs:
       mode:
