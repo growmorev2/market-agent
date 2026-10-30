@@ -1,10 +1,10 @@
 {
  "scans": {
   "my_scan": 66,
-  "gm_universe": 126,
-  "holygrail": 27,
-  "multibagger": 13,
-  "eps_improving": 284
+  "gm_universe": 124,
+  "holygrail": 26,
+  "multibagger": 12,
+  "eps_improving": 288
  },
  "sort": {
   "my_scan": {
@@ -21,7 +21,7 @@
     ],
     [
      "DCMSRIND",
-     3.31
+     3.33
     ],
     [
      "RAMBHAJO",
@@ -29,7 +29,7 @@
     ],
     [
      "UYFINCORP",
-     2.83
+     2.9
     ]
    ]
   },
@@ -87,13 +87,18 @@
    "top": [
     "POWERINDIA",
     "SOLARINDS",
+    "TVSHLTD",
     "BAJAJ-AUTO",
-    "CRAFTSMAN",
-    "NAVINFLUOR"
+    "CRAFTSMAN"
    ]
   }
  },
- "run": "2026-10-30 11:35",
+ "tv": {
+  "350461598": 200,
+  "342469658": 200,
+  "352386514": 200
+ },
+ "run": "2026-10-30 13:22",
  "issues": [],
- "tv_login": false
+ "tv_login": true
 }
