@@ -13,14 +13,14 @@
     "sector": "Media Entertainment & Publication",
     "entry_date": "2026-10-29",
     "entry": 1490.3,
-    "last": 1500.0
+    "last": 1492.9
    },
    {
     "symbol": "WSTCSTPAPR",
     "sector": "Unknown",
     "entry_date": "2026-10-29",
     "entry": 839.85,
-    "last": 824.9
+    "last": 825.25
    }
   ],
   "closed": []
@@ -32,21 +32,21 @@
     "sector": "Unknown",
     "entry_date": "2026-10-29",
     "entry": 24.43,
-    "last": 24.22
+    "last": 24.53
    },
    {
     "symbol": "MAHLOG",
     "sector": "Unknown",
     "entry_date": "2026-10-29",
     "entry": 427.15,
-    "last": 423.9
+    "last": 417.95
    },
    {
     "symbol": "SHAREINDIA",
     "sector": "Financial Services",
     "entry_date": "2026-10-29",
     "entry": 177.93,
-    "last": 174.66
+    "last": 173.65
    },
    {
     "symbol": "MVGJL",
@@ -60,7 +60,7 @@
     "sector": "Unknown",
     "entry_date": "2026-10-30",
     "entry": 543.0,
-    "last": 543.0
+    "last": 541.9
    }
   ],
   "closed": []
