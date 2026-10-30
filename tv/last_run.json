@@ -1,12 +1,99 @@
 {
  "scans": {
-  "my_scan": 69,
+  "my_scan": 70,
   "gm_universe": 135,
-  "holygrail": 27,
+  "holygrail": 28,
   "multibagger": 13,
   "eps_improving": 284
  },
- "run": "2026-10-30 07:13",
+ "sort": {
+  "my_scan": {
+   "by": "scan-column-_3d483",
+   "ok": true,
+   "top": [
+    [
+     "CCAVENUE",
+     45.95
+    ],
+    [
+     "PASHUPATI",
+     5.06
+    ],
+    [
+     "DCMSRIND",
+     3.39
+    ],
+    [
+     "UYFINCORP",
+     2.99
+    ],
+    [
+     "RAMBHAJO",
+     2.94
+    ]
+   ]
+  },
+  "gm_universe": {
+   "by": "scan-column-default-percent-change",
+   "ok": true,
+   "top": [
+    [
+     "MARSONS",
+     19.51
+    ],
+    [
+     "QUICKHEAL",
+     13.02
+    ],
+    [
+     "ATHERENERG",
+     6.58
+    ],
+    [
+     "TRENT",
+     6.13
+    ],
+    [
+     "LAURUSLABS",
+     5.82
+    ]
+   ]
+  },
+  "holygrail": {
+   "by": "Chartink order",
+   "ok": true,
+   "top": [
+    "INFY",
+    "63MOONS",
+    "SONACOMS",
+    "INDHOTEL",
+    "GCSL"
+   ]
+  },
+  "multibagger": {
+   "by": "Chartink order",
+   "ok": true,
+   "top": [
+    "ACUTAAS",
+    "COFORGE",
+    "ATHERENERG",
+    "ALIVUS",
+    "63MOONS"
+   ]
+  },
+  "eps_improving": {
+   "by": "Chartink order",
+   "ok": true,
+   "top": [
+    "POWERINDIA",
+    "SOLARINDS",
+    "CRAFTSMAN",
+    "BAJAJ-AUTO",
+    "NAVINFLUOR"
+   ]
+  }
+ },
+ "run": "2026-10-30 07:22",
  "issues": [],
  "tv_login": false
 }
