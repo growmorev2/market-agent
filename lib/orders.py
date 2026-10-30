@@ -18,7 +18,7 @@ from pathlib import Path
 
 import requests
 
-from lib.orders_parse import CONSORTIUM, order_value
+from lib.orders_parse import CONSORTIUM, exec_months, order_value
 
 ROOT = Path(__file__).resolve().parent.parent
 FILE = ROOT / "data" / "orders.json"
@@ -143,6 +143,8 @@ def run(now, sectors=None, save=True, session=None, ck=None):
         o["ttm"] = round(c["ttm"]) if c.get("ttm") else None
         o["pct_sales"] = round(val / c["ttm"] * 100, 1) if val and c.get("ttm") and c["ttm"] > 0 else None
         o["pct_mcap"] = round(val / c["mcap"] * 100, 1) if val and c.get("mcap") else None
+        o["exec_m"] = exec_months(txt + " " + full, dt.date() if dt else today)
+        _derive(o)
         # ആവർത്തനം: 15 ദിവസത്തിനുള്ളിൽ ഒരേ കമ്പനി, ഏകദേശം ഒരേ തുക (L1 → LOA)
         lim = (datetime.fromisoformat(o["date"]) - timedelta(days=CFG["dup_days"])).date().isoformat()
         o["dup"] = bool(val) and any(p["symbol"] == sym and p.get("value") and p["date"] >= lim
@@ -159,6 +161,26 @@ def run(now, sectors=None, save=True, session=None, ck=None):
         st["orders"].append(o)
         have.add(oid)
         added.append(o)
+    # പഴയ രേഖകൾക്ക് execution കാലാവധി ഇല്ലെങ്കിൽ PDF വീണ്ടും വായിച്ച് ചേർക്കും (ഒറ്റ തവണ)
+    n_re = 0
+    for o in st["orders"]:
+        if "exec_m" in o:
+            continue
+        if n_re >= 600 or not o.get("file"):
+            o.setdefault("exec_m", None)
+            _derive(o)
+            continue
+        try:
+            o["exec_m"] = exec_months(pdf_text(s, o["file"]), datetime.fromisoformat(o["date"]).date())
+            n_re += 1
+            time.sleep(0.2)
+        except Exception:  # noqa: BLE001
+            o["exec_m"] = None
+        _derive(o)
+    if n_re:
+        print(f"  Orders: {n_re} പഴയ filing-ൽ നിന്ന് execution കാലാവധി ചേർത്തു")
+    for o in st["orders"]:
+        _derive(o)
     # ദിവസേനയുള്ള വില (20 ട്രേഡിംഗ് ദിവസം വരെ)
     if now.hour >= 16 and today.weekday() < 5:
         for o in st["orders"]:
@@ -181,8 +203,16 @@ def run(now, sectors=None, save=True, session=None, ck=None):
     return {"updated": today_s, "added": added, "big_today": big, "orders": st["orders"]}
 
 
+def _derive(o):
+    """% വിൽപ്പന / വർഷം: പല വർഷത്തെ order-നെ വർഷങ്ങൾ കൊണ്ട് ഭാഗിക്കും (ഒരു വർഷത്തിൽ താഴെയെങ്കിൽ മുഴുവൻ).
+    chk: ഉറപ്പാക്കേണ്ടത് — വിൽപ്പനയുടെ 100%+ അല്ലെങ്കിൽ market cap-ന്റെ 50%+."""
+    ps, em = o.get("pct_sales"), o.get("exec_m")
+    o["pct_year"] = round(ps / max(1.0, (em or 12) / 12), 1) if ps is not None else None
+    o["chk"] = bool((ps or 0) > 100 or (o.get("pct_mcap") or 0) > 50)
+
+
 def is_big(o):
-    return bool(o.get("pct_sales") and o["pct_sales"] >= CFG["big_pct"] and not o.get("dup")
+    return bool(o.get("pct_year") and o["pct_year"] >= CFG["big_pct"] and not o.get("dup")
                 and (o.get("mcap") or 0) >= CFG["min_mcap"])
 
 
@@ -199,9 +229,9 @@ def _ret(o, h):
 def what_works(orders):
     groups = [
         ("എല്ലാ orders-ഉം", lambda o: True),
-        ("🔥 വിൽപ്പനയുടെ 25%+", lambda o: (o.get("pct_sales") or 0) >= 25),
-        ("വിൽപ്പനയുടെ 10–25%", lambda o: 10 <= (o.get("pct_sales") or 0) < 25),
-        ("വിൽപ്പനയുടെ 10%-ൽ താഴെ", lambda o: o.get("pct_sales") is not None and o["pct_sales"] < 10),
+        ("🔥 വർഷ വിൽപ്പനയുടെ 25%+", lambda o: (o.get("pct_year") or 0) >= 25),
+        ("വർഷ വിൽപ്പനയുടെ 10–25%", lambda o: 10 <= (o.get("pct_year") or 0) < 25),
+        ("10%-ൽ താഴെ", lambda o: o.get("pct_year") is not None and o["pct_year"] < 10),
         ("Value ഇല്ലാത്തവ", lambda o: not o.get("value")),
     ]
     out = []
@@ -220,6 +250,7 @@ def telegram_line(res):
     """✅ ഇന്നത്തെ action-ൽ ചേർക്കാൻ: ഇന്നത്തെ വലിയ orders."""
     if not res or not res.get("big_today"):
         return ""
-    bits = [f"{o['symbol']} ₹{o['value']:,.0f} cr ({o['pct_sales']:.0f}% വിൽപ്പന{' 🔥' if o['pct_sales'] >= CFG['fire_pct'] else ''})"
-            for o in sorted(res["big_today"], key=lambda o: -o["pct_sales"])[:6]]
+    bits = [f"{o['symbol']} ₹{o['value']:,.0f} cr ({o['pct_year']:.0f}% വർഷ വിൽപ്പന{' 🔥' if o['pct_year'] >= CFG['fire_pct'] else ''}"
+            f"{' ⚠️' if o.get('chk') else ''})"
+            for o in sorted(res["big_today"], key=lambda o: -o["pct_year"])[:6]]
     return "🏗️ വലിയ orders: " + ", ".join(bits)

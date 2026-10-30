@@ -57,7 +57,7 @@ td.t{max-width:340px;overflow:hidden;text-overflow:ellipsis}
   <h1>NSE order inflow tracker</h1>
   <div class="row"><button id="csv">Export CSV</button></div>
 </header>
-<p class="note">NSE-ൽ കമ്പനികൾ പ്രഖ്യാപിക്കുന്ന പുതിയ orders ദിവസവും സ്വയം ചേർക്കും (Market Agent, വൈകിട്ട് 6:13). Values ₹ crore-ൽ; filing PDF-ൽ നിന്ന് കണ്ടെത്തിയത് — തെറ്റാകാം, 📄 തുറന്ന് ഉറപ്പാക്കുക. <b>% വിൽപ്പന</b> = order ÷ കഴിഞ്ഞ 4 ക്വാർട്ടറിലെ വിൽപ്പന: 10%+ ശ്രദ്ധിക്കേണ്ടത്, 🔥 25%+ വലുത്. ↺ = ഒരേ order വീണ്ടും (കണക്കിൽ കൂട്ടില്ല). JV = consortium / JV (കമ്പനിയുടെ പങ്ക് കുറവായിരിക്കാം). <span id="upd"></span></p>
+<p class="note">NSE-ൽ കമ്പനികൾ പ്രഖ്യാപിക്കുന്ന പുതിയ orders ദിവസവും സ്വയം ചേർക്കും (Market Agent, വൈകിട്ട് 6:13). Values ₹ crore-ൽ; filing PDF-ൽ നിന്ന് കണ്ടെത്തിയത് — തെറ്റാകാം, 📄 തുറന്ന് ഉറപ്പാക്കുക. <b>% വിൽപ്പന/വർഷം</b> = order ÷ കഴിഞ്ഞ 4 ക്വാർട്ടറിലെ വിൽപ്പന, പല വർഷത്തെ order ആണെങ്കിൽ വർഷങ്ങൾ കൊണ്ട് ഭാഗിച്ചത് (filing-ലെ execution കാലാവധി; കിട്ടിയില്ലെങ്കിൽ ഒരു വർഷം എന്ന് കണക്കാക്കും): 10%+ ശ്രദ്ധിക്കേണ്ടത്, 🔥 25%+ വലുത്. ⚠️ = വിൽപ്പനയുടെ 100%+ / mcap-ന്റെ 50%+ — തെറ്റായി വായിച്ചതാകാം, 📄 തുറന്ന് ഉറപ്പാക്കുക. ↺ = ഒരേ order വീണ്ടും (കണക്കിൽ കൂട്ടില്ല). JV = consortium / JV (കമ്പനിയുടെ പങ്ക് കുറവായിരിക്കാം). <span id="upd"></span></p>
 
 <div id="alert"></div>
 
@@ -65,7 +65,8 @@ td.t{max-width:340px;overflow:hidden;text-overflow:ellipsis}
   <label>Period<select id="fper"><option value="all">All time</option><option value="fy">This financial year</option><option value="90">Last 90 days</option><option value="30">Last 30 days</option></select></label>
   <label>Industry<select id="fsec"><option value="">All industries</option></select></label>
   <label>Company<input id="fq" placeholder="Search company or symbol"></label>
-  <label>കുറഞ്ഞ % വിൽപ്പന<input type="number" id="fmin" min="0" step="5" value="0"></label>
+  <label>കുറഞ്ഞ % വിൽപ്പന/വർഷം<input type="number" id="fmin" min="0" step="5" value="0"></label>
+  <label style="flex-direction:row;align-items:center;gap:6px;padding-top:16px"><input type="checkbox" id="fcap" checked> mcap ₹500 cr+ മാത്രം</label>
   <label>Alert: % വിൽപ്പന<input type="number" id="athr" min="0" step="5" value="10"></label>
 </section>
 
@@ -84,13 +85,13 @@ td.t{max-width:340px;overflow:hidden;text-overflow:ellipsis}
 <section class="panel"><h2>Order log</h2>
   <div class="row" style="margin-bottom:10px">
     <label>ക്രമം<select id="osort">
-      <option value="date">തീയതി (പുതിയത് ആദ്യം)</option><option value="sales">% വിൽപ്പന (കൂടിയത് ആദ്യം)</option>
+      <option value="date">തീയതി (പുതിയത് ആദ്യം)</option><option value="sales">% വിൽപ്പന/വർഷം (കൂടിയത് ആദ്യം)</option><option value="exec">കാലാവധി</option>
       <option value="value">Order value</option><option value="mcap">% mcap</option>
       <option value="d1">D1 %</option><option value="d5">D5 %</option><option value="d20">D20 %</option><option value="symbol">പേര് (A–Z)</option>
     </select></label>
     <button type="button" id="tv-copy">📋 Copy to TradingView</button><button type="button" id="tv-file">⬇️ .txt</button>
   </div>
-  <p class="note" id="tv-msg" style="margin:0 0 8px">TradingView-ലേക്ക്: മുകളിലെ filters (Period, Industry, കുറഞ്ഞ % വിൽപ്പന) അനുസരിച്ചുള്ള ലിസ്റ്റ്, ഈ ക്രമത്തിൽ, ആവർത്തനം ഒഴിവാക്കി. ഉദാ: "കുറഞ്ഞ % വിൽപ്പന" 10 ആക്കിയാൽ വലിയ orders മാത്രം.</p>
+  <p class="note" id="tv-msg" style="margin:0 0 8px">TradingView-ലേക്ക്: മുകളിലെ filters (Period, Industry, കുറഞ്ഞ %, mcap ₹500 cr+) അനുസരിച്ചുള്ള ലിസ്റ്റ്, ഈ ക്രമത്തിൽ, ആവർത്തനം ഒഴിവാക്കി. ഉദാ: "കുറഞ്ഞ % വിൽപ്പന/വർഷം" 10 ആക്കിയാൽ വലിയ orders മാത്രം.</p>
   <div class="scroll" id="tbl"></div></section>
 </main>
 <script type="application/json" id="odata">__DATA__</script>
@@ -102,7 +103,8 @@ const cr = n => n == null ? '–' : '₹' + Math.round(n).toLocaleString('en-IN'
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const pc = v => v == null ? '<span class="muted">–</span>' : `<span class="${v >= 0 ? 'up' : 'down'}">${v >= 0 ? '+' : ''}${v.toFixed(1)}%</span>`;
 const dmy = s => { const [y, m, d] = s.split('-'); return `${d}/${m}/${y.slice(2)}`; };
-const sales = o => o.pct_sales == null ? '<span class="muted">–</span>' : `<span class="${o.pct_sales >= 25 ? 'fire' : o.pct_sales >= 10 ? 'up' : ''}">${o.pct_sales >= 25 ? '🔥 ' : ''}${o.pct_sales.toFixed(1)}%</span>`;
+const sales = o => o.pct_year == null ? '<span class="muted">–</span>' : `<span class="${o.pct_year >= 25 ? 'fire' : o.pct_year >= 10 ? 'up' : ''}" title="ആകെ: വിൽപ്പനയുടെ ${o.pct_sales}%${o.exec_m ? ' · ' + o.exec_m + ' മാസം കൊണ്ട്' : ' · കാലാവധി കിട്ടിയില്ല'}">${o.pct_year >= 25 ? '🔥 ' : ''}${o.pct_year.toFixed(1)}%</span>${o.chk ? ' <span title="വിൽപ്പനയുടെ 100%+ / mcap-ന്റെ 50%+ — filing തുറന്ന് ഉറപ്പാക്കുക">⚠️</span>' : ''}`;
+const em = o => o.exec_m ? (o.exec_m >= 24 && o.exec_m % 12 === 0 ? o.exec_m / 12 + ' വർഷം' : o.exec_m + ' മാസം') : '–';
 const ret = (o, h) => { const c = Object.keys(o.series || {}).sort().map(k => o.series[k]); return o.base && c.length >= h ? (c[h - 1] / o.base - 1) * 100 : null; };
 let athr = 10, sortK = 'date', sortAsc = false, tvSyms = [];
 const setSort = (k, asc) => { sortK = k; sortAsc = asc; try { localStorage.setItem('ord-sort', sortK); localStorage.setItem('ord-asc', sortAsc ? '1' : '0'); } catch (e) {} render(); };
@@ -116,7 +118,8 @@ function filtered() {
   const now = new Date(), fy = new Date(now.getMonth() >= 3 ? now.getFullYear() : now.getFullYear() - 1, 3, 1).toISOString().slice(0, 10);
   const ago = d => new Date(Date.now() - d * 864e5).toISOString().slice(0, 10);
   return orders.filter(o => (per === 'all' || (per === 'fy' && o.date >= fy) || (+per && o.date >= ago(+per)))
-    && (!sec || o.industry === sec) && (!q || (o.name + o.symbol).toLowerCase().includes(q)) && (!mn || (o.pct_sales || 0) >= mn));
+    && (!sec || o.industry === sec) && (!q || (o.name + o.symbol).toLowerCase().includes(q)) && (!mn || (o.pct_year || 0) >= mn)
+    && (!$('fcap').checked || (o.mcap || 0) >= 500));
 }
 const counted = l => l.filter(o => !o.dup && o.value);
 function group(list, key) { const m = {}; counted(list).forEach(o => m[key(o)] = (m[key(o)] || 0) + o.value); return Object.entries(m).sort((a, b) => b[1] - a[1]); }
@@ -126,15 +129,15 @@ function bars(el, e, n) {
 }
 function alerts() {
   const lim = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
-  const big = orders.filter(o => !o.dup && o.date >= lim && (o.pct_sales || 0) >= athr && (o.mcap || 0) >= 500).sort((a, b) => b.pct_sales - a.pct_sales);
-  $('alert').innerHTML = big.length ? `<div class="alert" role="alert"><b>കഴിഞ്ഞ 7 ദിവസത്തിൽ ${big.length} വലിയ order</b> (വിൽപ്പനയുടെ ${athr}%+, mcap ₹500 cr+)<ul>${big.slice(0, 8).map(o => `<li><b>${esc(o.symbol)}</b> ${cr(o.value)} · ${sales(o)} വിൽപ്പന · ${dmy(o.date)}</li>`).join('')}</ul></div>` : '';
+  const big = orders.filter(o => !o.dup && o.date >= lim && (o.pct_year || 0) >= athr && (o.mcap || 0) >= 500).sort((a, b) => b.pct_year - a.pct_year);
+  $('alert').innerHTML = big.length ? `<div class="alert" role="alert"><b>കഴിഞ്ഞ 7 ദിവസത്തിൽ ${big.length} വലിയ order</b> (വിൽപ്പനയുടെ ${athr}%+, mcap ₹500 cr+)<ul>${big.slice(0, 8).map(o => `<li><b>${esc(o.symbol)}</b> ${cr(o.value)} · ${sales(o)} വർഷ വിൽപ്പന · ${dmy(o.date)}</li>`).join('')}</ul></div>` : '';
 }
 $('athr').addEventListener('input', () => { athr = +$('athr').value || 0; try { localStorage.setItem('ord-alert-pct', athr); } catch (e) {} alerts(); });
 
 function render() {
   const l = filtered(), c = counted(l), tot = c.reduce((a, o) => a + o.value, 0);
   const big = c.slice().sort((a, b) => b.value - a.value)[0], topSec = group(l, o => o.industry || 'Other')[0];
-  const sig = l.filter(o => !o.dup && (o.pct_sales || 0) >= 10).length;
+  const sig = l.filter(o => !o.dup && (o.pct_year || 0) >= 10).length;
   const k = [['Total order inflow', c.length ? cr(tot) : '–'], ['Orders announced', l.filter(o => !o.dup).length], ['Companies', new Set(l.map(o => o.symbol)).size],
              ['വിൽപ്പനയുടെ 10%+', sig], ['Largest order', big ? `${cr(big.value)} (${esc(big.symbol)})` : '–'], ['Top industry', topSec ? esc(topSec[0]) : '–'],
              ['Value ഇല്ലാത്തവ', l.filter(o => !o.value).length]];
@@ -149,14 +152,14 @@ function render() {
     $('monthly').innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Monthly order inflow">${grid}${b}</svg>`;
   }
   bars('bycomp', group(l, o => o.symbol), 8); bars('bysec', group(l, o => o.industry || 'Other'), 8);
-  const keys = { date: o => o.date + (o.time || ''), symbol: o => o.symbol, value: o => o.value ?? -1, sales: o => o.pct_sales ?? -1, mcap: o => o.pct_mcap ?? -1,
+  const keys = { date: o => o.date + (o.time || ''), symbol: o => o.symbol, value: o => o.value ?? -1, sales: o => o.pct_year ?? -1, exec: o => o.exec_m ?? -1, mcap: o => o.pct_mcap ?? -1,
                  d1: o => ret(o, 1) ?? -999, d5: o => ret(o, 5) ?? -999, d20: o => ret(o, 20) ?? -999 };
   if (!keys[sortK]) sortK = 'date';
   const rows = l.slice().sort((a, b) => { const x = keys[sortK](a), y = keys[sortK](b); const r = x < y ? 1 : x > y ? -1 : 0; return sortAsc ? -r : r; });
   $('osort').value = sortK;
   tvSyms = [...new Set(rows.filter(o => !o.dup).map(o => o.symbol))];
   const th = (k, t, cls = '') => `<th class="s ${cls}" data-k="${k}">${t}${sortK === k ? (sortAsc ? ' ▲' : ' ▼') : ''}</th>`;
-  $('tbl').innerHTML = rows.length ? `<table><thead><tr>${th('date', 'Date', 'ph')}${th('symbol', 'Symbol')}<th class="ph">Industry</th><th class="ph">Order</th>${th('value', 'Value', 'n')}${th('sales', '% വിൽപ്പന', 'n')}${th('mcap', '% mcap', 'n ph')}${th('d1', 'D1', 'n')}${th('d5', 'D5', 'n ph')}${th('d20', 'D20', 'n ph')}<th></th></tr></thead><tbody>${rows.map(o => `<tr${o.dup ? ' class="muted"' : ''}><td class="ph">${dmy(o.date)}</td><td><b>${esc(o.symbol)}</b><small class="po muted"><br>${dmy(o.date)}</small>${o.dup ? ' ↺' : ''}${o.cons ? ' <span class="tag">JV</span>' : ''}</td><td class="ph"><span class="tag">${esc(o.industry || '–')}</span></td><td class="t ph" title="${esc(o.title)}">${esc(o.title)}</td><td class="n">${o.value ? (o.note === 'range' ? '≥' : '') + cr(o.value) : '<span class="muted">value ഇല്ല</span>'}</td><td class="n">${sales(o)}</td><td class="n ph">${o.pct_mcap == null ? '–' : o.pct_mcap.toFixed(1) + '%'}</td><td class="n">${pc(ret(o, 1))}</td><td class="n ph">${pc(ret(o, 5))}</td><td class="n ph">${pc(ret(o, 20))}</td><td>${o.file ? `<a href="${esc(o.file)}" target="_blank" rel="noopener" aria-label="Filing">📄</a>` : ''}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">No orders match these filters.</div>';
+  $('tbl').innerHTML = rows.length ? `<table><thead><tr>${th('date', 'Date', 'ph')}${th('symbol', 'Symbol')}<th class="ph">Industry</th><th class="ph">Order</th>${th('value', 'Value', 'n')}${th('sales', '% വിൽപ്പന<br>/വർഷം', 'n')}${th('exec', 'കാലാവധി', 'n ph')}${th('mcap', '% mcap', 'n ph')}${th('d1', 'D1', 'n')}${th('d5', 'D5', 'n ph')}${th('d20', 'D20', 'n ph')}<th></th></tr></thead><tbody>${rows.map(o => `<tr${o.dup ? ' class="muted"' : ''}><td class="ph">${dmy(o.date)}</td><td><b>${esc(o.symbol)}</b><small class="po muted"><br>${dmy(o.date)}</small>${o.dup ? ' ↺' : ''}${o.cons ? ' <span class="tag">JV</span>' : ''}</td><td class="ph"><span class="tag">${esc(o.industry || '–')}</span></td><td class="t ph" title="${esc(o.title)}">${esc(o.title)}</td><td class="n">${o.value ? (o.note === 'range' ? '≥' : '') + cr(o.value) : '<span class="muted">value ഇല്ല</span>'}</td><td class="n">${sales(o)}</td><td class="n ph">${em(o)}</td><td class="n ph">${o.pct_mcap == null ? '–' : o.pct_mcap.toFixed(1) + '%'}</td><td class="n">${pc(ret(o, 1))}</td><td class="n ph">${pc(ret(o, 5))}</td><td class="n ph">${pc(ret(o, 20))}</td><td>${o.file ? `<a href="${esc(o.file)}" target="_blank" rel="noopener" aria-label="Filing">📄</a>` : ''}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">No orders match these filters.</div>';
   $('tbl').querySelectorAll('th.s').forEach(t => t.addEventListener('click', () => {
     const k = t.dataset.k; setSort(k, sortK === k ? !sortAsc : k === 'symbol');
   }));
@@ -165,10 +168,10 @@ function render() {
   $('works').innerHTML = W.length ? `<table><thead><tr><th>ഗ്രൂപ്പ്</th><th class="n">D1</th><th class="n">D5</th><th class="n">D20</th></tr></thead><tbody>${W.map(w => `<tr><td style="white-space:normal">${esc(w.g)} <small class="muted">(${w.n})</small></td><td class="n">${cell(w.d1)}</td><td class="n">${cell(w.d5)}</td><td class="n">${cell(w.d20)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">ഡാറ്റ ഇല്ല.</div>';
   alerts();
 }
-['fper', 'fsec'].forEach(i => $(i).addEventListener('change', render)); ['fq', 'fmin'].forEach(i => $(i).addEventListener('input', render));
+['fper', 'fsec'].forEach(i => $(i).addEventListener('change', render)); ['fq', 'fmin'].forEach(i => $(i).addEventListener('input', render)); $('fcap').addEventListener('change', render);
 $('csv').addEventListener('click', () => {
   const q = s => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
-  const h = 'date,symbol,company,industry,value_cr,pct_sales,pct_mcap,duplicate,title,filing\n' + orders.map(o => [o.date, o.symbol, q(o.name), q(o.industry), o.value ?? '', o.pct_sales ?? '', o.pct_mcap ?? '', o.dup ? 1 : 0, q(o.title), o.file].join(',')).join('\n');
+  const h = 'date,symbol,company,industry,value_cr,pct_sales,pct_sales_per_year,exec_months,pct_mcap,check,duplicate,title,filing\n' + orders.map(o => [o.date, o.symbol, q(o.name), q(o.industry), o.value ?? '', o.pct_sales ?? '', o.pct_year ?? '', o.exec_m ?? '', o.pct_mcap ?? '', o.chk ? 1 : 0, o.dup ? 1 : 0, q(o.title), o.file].join(',')).join('\n');
   const a = document.createElement('a'); a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(h); a.download = 'order-inflow.csv'; a.click();
 });
 $('osort').addEventListener('change', () => setSort($('osort').value, $('osort').value === 'symbol'));

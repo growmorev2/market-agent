@@ -478,7 +478,7 @@ def conviction(res, scans, top=10):
         for o in _orders.recent_big(od["orders"], od.get("updated") or res["date"]):
             if o["symbol"] not in seen:
                 seen.add(o["symbol"])
-                add(o["symbol"], "ORDERS" + (" 🔥" if o["pct_sales"] >= _orders.CFG["fire_pct"] else ""), 1, {"sector": o.get("sector")})
+                add(o["symbol"], "ORDERS" + (" 🔥" if o["pct_year"] >= _orders.CFG["fire_pct"] else ""), 1, {"sector": o.get("sector")})
     for s in scans:
         lab = CONV_SCANS.get(s.get("slug"))
         if lab and not s.get("error"):

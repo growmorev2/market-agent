@@ -90,3 +90,50 @@ def order_value(text, symbol=""):
 
 
 CONSORTIUM = re.compile(r"consortium|joint venture|\bJV\b|share of the company|company'?s share", re.I)
+
+
+_WORDNUM = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+            "eleven": 11, "twelve": 12, "eighteen": 18, "fifteen": 15, "twenty": 20, "twenty-four": 24, "thirty": 30, "thirty-six": 36}
+_EXEC_KEY = re.compile(r"execut|complet|period|duration|spans|tenure|within|over a|timeline", re.I)
+_DUR = re.compile(r"(\d+(?:\.\d+)?|" + "|".join(sorted(_WORDNUM, key=len, reverse=True)) + r")\s*(?:\([a-z\s\-]+\)\s*)?(years?|yrs?|months?|days)\b", re.I)
+_DATE = re.compile(r"\b(\d{1,2})[-./ ]([A-Za-z]{3}|\d{1,2})[-./ ](\d{2,4})\b")
+_MON = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+
+
+def _dur_months(m):
+    n = m.group(1).lower()
+    v = float(_WORDNUM[n]) if n in _WORDNUM else float(n)
+    u = m.group(2).lower()
+    return v * 12 if u.startswith("y") else v / 30 if u.startswith("d") else v
+
+
+def exec_months(text, ref=None):
+    """Order നടപ്പാക്കാനുള്ള കാലാവധി (മാസം). ആദ്യം "executed"-ന് തൊട്ടുശേഷമുള്ള കാലാവധി / തീയതി, പിന്നെ
+    "completion / period" എന്നിവയ്ക്ക് അടുത്തുള്ളത്. ref = announcement തീയതി (date). കിട്ടിയില്ലെങ്കിൽ None."""
+    t = _clean(text)
+    ok = lambda x: x if x is not None and 0.5 <= x <= 180 else None  # noqa: E731
+    keys = [k for pat in (r"to be executed", r"execution period|completion period|delivery period|be completed")
+            for k in re.finditer(pat, t, re.I)]  # "to be executed" (SEBI ഫോർമാറ്റ്) ആദ്യം
+    for k in keys:
+        w = t[k.end():k.end() + 150]
+        d, dt = _DUR.search(w), _DATE.search(w)
+        if d and (not dt or d.start() < dt.start()):
+            v = ok(_dur_months(d))
+            if v:
+                return max(1, round(v))
+        if dt and ref:
+            try:
+                mo = _MON.get(dt.group(2)[:3].lower()) or int(dt.group(2))
+                y = int(dt.group(3))
+                y = y + 2000 if y < 100 else y
+                v = ok((y - ref.year) * 12 + (mo - ref.month))
+                if v:
+                    return max(1, round(v))
+            except ValueError:
+                pass
+    for m in _DUR.finditer(t):
+        if _EXEC_KEY.search(t[max(0, m.start() - 160):m.start()]):
+            v = ok(_dur_months(m))
+            if v:
+                return max(1, round(v))
+    return None
