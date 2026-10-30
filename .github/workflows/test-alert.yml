@@ -13,4 +13,11 @@ jobs:
           MAIL_TO: ${{ secrets.MAIL_TO }}
           ALERT_SUBJECT: "✅ Test alert (${{ github.repository }})"
         run: |
-          python3 .github/alert.py "✅ Test alert (${{ github.repository }}) — Telegram + Email ശരിയായി സെറ്റ് ചെയ്തു. ഇതിന് മറുപടി വേണ്ട."
+          python3 - <<'PY'
+          import sys; sys.path.insert(0, ".github")
+          from alert import send
+          sent = send("✅ Test alert (${{ github.repository }}) — Telegram + Email ശരിയായി സെറ്റ് ചെയ്തു. ഇതിന് മറുപടി വേണ്ട.", "✅ Test alert (${{ github.repository }})")
+          print("SENT", sent)
+          if len(sent) < 2:
+              sys.exit("രണ്ടും (Telegram + Email) എത്തിയില്ല: " + str(sent))
+          PY
