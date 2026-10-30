@@ -1,8 +1,8 @@
 {
  "scans": {
-  "my_scan": 65,
+  "my_scan": 66,
   "gm_universe": 126,
-  "holygrail": 28,
+  "holygrail": 27,
   "multibagger": 13,
   "eps_improving": 284
  },
@@ -13,11 +13,11 @@
    "top": [
     [
      "CCAVENUE",
-     45.7
+     45.72
     ],
     [
      "PASHUPATI",
-     5.09
+     5.08
     ],
     [
      "DCMSRIND",
@@ -25,7 +25,7 @@
     ],
     [
      "RAMBHAJO",
-     2.94
+     2.98
     ],
     [
      "UYFINCORP",
@@ -39,23 +39,23 @@
    "top": [
     [
      "MARSONS",
-     20.0
+     19.81
     ],
     [
      "QUICKHEAL",
-     10.98
+     12.92
     ],
     [
      "LAURUSLABS",
      7.2
     ],
     [
-     "KRISHNADEF",
-     6.41
-    ],
-    [
      "ATHERENERG",
      5.59
+    ],
+    [
+     "KRISHNADEF",
+     5.5
     ]
    ]
   },
@@ -93,7 +93,7 @@
    ]
   }
  },
- "run": "2026-10-30 10:07",
+ "run": "2026-10-30 11:35",
  "issues": [],
  "tv_login": false
 }
