@@ -93,6 +93,22 @@ def main():
         except Exception as e:  # noqa: BLE001
             issues.append(f"Strategy പേജ് വായിക്കാനായില്ല: {str(e)[:100]}")
 
+    # 2b. TradingView watchlists (GitHub)
+    tvp = ROOT / "tv" / "last_run.json"
+    if tvp.exists():
+        try:
+            t = json.loads(tvp.read_text(encoding="utf-8"))
+            run_day = (datetime.strptime(t["run"], "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc).astimezone(IST)).date().isoformat()
+            if run_day != today:
+                issues.append(f"TradingView watchlists: ഇന്ന് ഓടിയില്ല (അവസാനം {run_day})")
+            elif not t.get("tv_login"):
+                issues.append("TradingView watchlists: GitHub Secrets-ൽ TV_SESSIONID / TV_SESSIONID_SIGN ഇല്ല")
+            bad = {k: v for k, v in (t.get("tv") or {}).items() if v != 200}
+            if bad:
+                issues.append(f"TradingView watchlists: list {', '.join(bad)} പുതുക്കാനായില്ല (login കാലഹരണപ്പെട്ടോ?)")
+        except Exception as e:  # noqa: BLE001
+            issues.append(f"tv/last_run.json വായിക്കാനായില്ല: {str(e)[:80]}")
+
     # 3. Screener Summary (private repo — SCREENER_TOKEN)
     token = (os.environ.get("SCREENER_TOKEN") or "").strip()
     if token:
