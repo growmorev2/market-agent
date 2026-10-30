@@ -1,0 +1,15 @@
+name: Test alert
+on: workflow_dispatch
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          ALERT_SUBJECT: "✅ Test alert (${{ github.repository }})"
+        run: python3 .github/alert.py "✅ Test alert — ${{ github.repository }}: Telegram + Email ശരിയായി സെറ്റ് ചെയ്തു. (ഇതിന് മറുപടി വേണ്ട)"
